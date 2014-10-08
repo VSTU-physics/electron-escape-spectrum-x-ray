@@ -1,4 +1,4 @@
-function electron_escape_spectrum_x_ray_02_L()
+function analytical()
 
     % X-ray photoemission electron
     % target is homogeneous, semiinfinite
@@ -271,7 +271,7 @@ function electron_escape_spectrum_x_ray_02_L()
 
 
 % --------------------------------------------------------------
-function [c,f,s] = pdefunction(x,t,u,DuDx)
+function [c,f,s] = pdefunction(x,t,~,DuDx)
     c = 1;
     f = a_coeff(t)*DuDx;
     s = source_function(x,t);
@@ -280,7 +280,7 @@ function u0 = icfunction(x)
     global prob_group
     u0 = prob_group(1)*eta(x);
 % --------------------------------------------------------------
-function [pl,ql,pr,qr] = bcfunction(xl,ul,xr,ur,t)
+function [pl,ql,pr,qr] = bcfunction(~,ul,~,ur,t)
     pl = ul*b_coeff(t);
     ql = -1/a_coeff(t);
     pr = ur;
