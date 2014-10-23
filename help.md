@@ -1,18 +1,17 @@
-Title: MultiMarkdown Math Example
-HTML header: 	<script type="text/javascript"
+п»їHTML header: 	<script type="text/javascript"
 				src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 				</script>
-**Функция spe**
+**Р¤СѓРЅРєС†РёСЏ spe**
 
 ***
 
-Будем численно решать уравнение диффузии неявным методом первого порядка.
-Уравнение:
+Р‘СѓРґРµРј С‡РёСЃР»РµРЅРЅРѕ СЂРµС€Р°С‚СЊ СѓСЂР°РІРЅРµРЅРёРµ РґРёС„С„СѓР·РёРё РЅРµСЏРІРЅС‹Рј РјРµС‚РѕРґРѕРј РїРµСЂРІРѕРіРѕ РїРѕСЂСЏРґРєР°.
+РЈСЂР°РІРЅРµРЅРёРµ:
 \\[
     \frac{\partial \Phi}{\partial t} =
     f(z, t) \frac{\partial^2 \Phi}{\partial z^2} + g(z, t)
 \\]
-Граничные условия:
+Р“СЂР°РЅРёС‡РЅС‹Рµ СѓСЃР»РѕРІРёСЏ:
 \\[
     \begin{aligned}
         & \left(\alpha_1 \Phi + \alpha_2 \frac{\partial \Phi}{\partial z}\right)_{0, t} = \gamma_1(t) \\
