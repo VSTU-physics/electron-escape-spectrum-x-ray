@@ -1,0 +1,11 @@
+#################
+# Object files and others
+*.o
+*.exe
+*.out
+*.log
+*.aux
+*.pdf
+*.synctex.gz(busy)
+*.synctex.gz
+[Oo]bj/
