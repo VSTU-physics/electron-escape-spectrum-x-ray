@@ -90,7 +90,7 @@
 	\item[--] $\vec{\Omega}$ -- единичный вектор;
 	\item[--] $F(\vec{r}, \vec{\Omega}, E)$ --  вероятность найти частицу в окрестности $dV$ вектора $\vec{r}$, движущуюся в телесном угле $d\Omega$ в направлении $\vec{\Omega}$, с энергией в диапазоне $E, E+dE$;
 	\item[--] $\bar{\eps}(E)$ -- средние потери на единице пути:
-	\begin{equation}
+	\begin{equation}\label{eq: sharp}
 		\bar{\eps}(E) = \int\limits_{0}^{E/2} \lambda_{in}^{-1}(E, \eps) \eps d\eps;
 	\end{equation} 
 	\item[--] $\lambda_{in}^{-1}(E, \eps)$ -- вероятность потерять на единице длины энергию $\eps$ (вероятность неупругого столкновения);
@@ -320,10 +320,94 @@ I_2 =
 	n\Bigg|_{z = l} = 0
 \end{gather}
 
-Начальные: \colorbox{yellow}{в программе это выглядит как ''Hello, Selestia''}
+Начальные: \colorbox{yellow}{в программе это выглядит как ''Hello, yellow house''}
 \begin{equation}
 	n = P_1 \eta (z)
 \end{equation}
 
+\section{Аналитический метод в программе}
 
+В этом случае $\lambda_{tr}^{-1}$ считается аналитически:
+\begin{equation}\label{eq: ltr}
+	\lambda_{tr}^{-1} = 
+	2 \pi \frac{\rho N_A}{M} \int\limits_{0}^{\pi}
+	\Dff{\sigma_{el}}{\Omega} (1 - \cos \theta) \sin \theta d \theta.  
+\end{equation}
+
+Модификация (кажется Бете) формулы для дифференциального сечения рассеяния (Резерфорда):
+\begin{equation}
+	\Dff{\sigma_{el}}{\Omega} =
+	\frac{(T+1)^2 r_e^2}{T^2(T+2)^2} \frac{Z(Z+1)}{(1 - \cos \theta + 2 \eta)^2},
+\end{equation}
+где
+\begin{itemize}
+	\item[--] $T$ -- кинетическая энергия электрона, отнесённая к энергии покоя:
+	\begin{equation}
+		T = \frac{E}{mc^2};
+	\end{equation} 
+	\item[--] $r_e$ -- классический радиус электрона:
+	\begin{equation}
+		r_e = \frac{e^2}{mc^2} (\text{В СГС}) = \frac{1}{4 \pi \eps_0}\frac{e^2}{mc^2} (\text{В СИ});
+	\end{equation}
+	\item[--] $\eta$ -- поправка:
+	\begin{equation}
+		\eta = \frac{1}{4}
+		\Big[
+			\frac{\alpha Z^{1/3}}{0{,}885}
+		\Big]^2
+		\frac{1}{T(T+2)} \left(1{,}13 + 3{,}76 \alpha^2 Z^2 \frac{(T+1)^2}{T(T+2)} \right);
+	\end{equation}
+	\item[--] $\alpha$ -- постоянная тонкой структуры:
+	\begin{equation}
+		\alpha = \frac{e^2}{\hbar c} (\text{В СГС}) = \frac{1}{4 \pi \eps_0} \frac{e^2}{\hbar c} (\text{В СИ});
+	\end{equation}
+	\item[--] $\rho$, $N_A$, $M$ -- плотность вещества, число Авогадро, молярная масса.
+\end{itemize}
+
+После интегрирования:
+\begin{equation}
+	\begin{gathered}
+		\lambda_{tr}^{-1} = 
+		2 \pi \frac{\rho N_AZ(Z+1)}{M} 
+		\frac{(T+1)^2 r_e^2}{T^2(T+2)^2}
+		\int\limits_{0}^{\pi}
+		\frac{1}{(1 - \cos \theta + 2 \eta)^2} (1 - \cos \theta) \sin \theta d \theta 
+		= \\ =
+		\left[
+			\int\limits_{0}^{2} \frac{1}{(x + 2 \eta)^2} x\, dx =
+			- \int\limits_{0}^{2}  x\, d\frac{1}{x + 2 \eta} =
+			-\frac{2}{2 + 2 \eta} + \int\limits_{0}^{2} \frac{1}{x + 2 \eta} dx =
+			-\frac{1}{1 + \eta} + \ln \frac{2 +  2 \eta}{2 \eta}
+		\right]	
+		= \\ =
+		2 \pi \frac{\rho N_AZ(Z+1)}{M} 
+		\frac{(T+1)^2 r_e^2}{T^2(T+2)^2}
+		\left(
+			\ln \left( \frac{1}{\eta} + 1 \right) - \frac{1}{\eta + 1}
+		\right).
+	\end{gathered}	
+\end{equation}
+
+$\bar{\eps}$ находится по формуле Бете:
+\begin{equation}
+	\bar{\eps} = 
+	2 \pi \frac{\rho N_AZ}{M} 
+	\frac{(T+1)^2 r_e^2}{T(T+2)}
+	\left(
+		2 \ln
+		\frac{1{,}166\,T}{J/mc^2}
+	\right),
+\end{equation}
+где 
+\begin{equation}
+	J [\text{эВ}] = 
+	\begin{cases}
+		13{,}6 Z & Z<10, \\
+		(9{,}76 + 58{,}8 Z^{-1{,}19}) Z & Z\geqslant 10.
+	\end{cases}
+\end{equation}
+
+\section{Табличный метод}
+
+Формулы \eqref{eq: sharp} и \eqref{eq: ltr}, данные из таблиц Иоффе.
 \end{document}
