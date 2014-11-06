@@ -1,9 +1,9 @@
 \documentclass[a4paper,12pt]{article} %размер бумаги устанавливаем А4, шрифт 12пунктов
 \usepackage[T2A]{fontenc}
-\usepackage[utf8]{inputenc}%включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в 
+\usepackage[utf8]{inputenc}%включаем свою кодировку: koi8-r или utf8 в UNIX, cp1251 в
 
 \usepackage[english,russian]{babel}%используем русский и английский языки с переносами
-\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float,bm} %подключаем 
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float,bm} %подключаем
 \usepackage[colorlinks=True,urlcolor=blue]{hyperref}
 %\usepackage{caption2} %Чтобы поменять двоеточие в названии таблицы на тире
 %\renewcommand{\rmdefault}{ftm}
@@ -79,76 +79,76 @@
 Требуется решить уравнение:
 \begin{equation}\label{eq: main}
 \begin{gathered}
-	\vec{\Omega}\cdot\nabla F(\vec{r}, \vec{\Omega}, E) = 
-	\df{E}[\bar{\eps}(E)F(\vec{r}, \vec{\Omega}, E)] + \\ +
-	\int\limits_{4\pi} \lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega}) \big[ F(\vec{r}, \vec{\Omega}', E) - F(\vec{r}, \vec{\Omega}, E) \big] d\Omega' +
-	Q(\vec{r}, \vec{\Omega}, E),
+    \vec{\Omega}\cdot\nabla F(\vec{r}, \vec{\Omega}, E) =
+    \df{E}[\bar{\eps}(E)F(\vec{r}, \vec{\Omega}, E)] + \\ +
+    \int\limits_{4\pi} \lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega}) \big[ F(\vec{r}, \vec{\Omega}', E) - F(\vec{r}, \vec{\Omega}, E) \big] d\Omega' +
+    Q(\vec{r}, \vec{\Omega}, E),
 \end{gathered}
 \end{equation}
-где 
+где
 \begin{itemize}
-	\item[--] $\vec{\Omega}$ -- единичный вектор;
-	\item[--] $F(\vec{r}, \vec{\Omega}, E)$ --  вероятность найти частицу в окрестности $dV$ вектора $\vec{r}$, движущуюся в телесном угле $d\Omega$ в направлении $\vec{\Omega}$, с энергией в диапазоне $E, E+dE$;
-	\item[--] $\bar{\eps}(E)$ -- средние потери на единице пути:
-	\begin{equation}\label{eq: sharp}
-		\bar{\eps}(E) = \int\limits_{0}^{E/2} \lambda_{in}^{-1}(E, \eps) \eps d\eps;
-	\end{equation} 
-	\item[--] $\lambda_{in}^{-1}(E, \eps)$ -- вероятность потерять на единице длины энергию $\eps$ (вероятность неупругого столкновения);
-	\item[--] $\lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega})$ -- вероятность изменения направления движения с $\vec{\Omega}'$ на $\vec{\Omega}$ на единице пути (вероятность упругого столкновения);
-	\item[--] $Q(\vec{r}, \vec{\Omega}, E)$ -- функция источника, для Оже-процессов имеет вид:
-	\begin{equation}
-		Q(\vec{r}, \vec{\Omega}, E) = \frac{1}{4\pi} \sum_{i} P_i\delta(E - E_i);
-	\end{equation}
-	\item[--] $P_i$ -- вероятность рождения Оже-электрона с энергией $E_i$. 
+    \item[--] $\vec{\Omega}$ -- единичный вектор;
+    \item[--] $F(\vec{r}, \vec{\Omega}, E)$ --  вероятность найти частицу в окрестности $dV$ вектора $\vec{r}$, движущуюся в телесном угле $d\Omega$ в направлении $\vec{\Omega}$, с энергией в диапазоне $E, E+dE$;
+    \item[--] $\bar{\eps}(E)$ -- средние потери на единице пути:
+    \begin{equation}\label{eq: sharp}
+        \bar{\eps}(E) = \int\limits_{0}^{E/2} \lambda_{in}^{-1}(E, \eps) \eps d\eps;
+    \end{equation}
+    \item[--] $\lambda_{in}^{-1}(E, \eps)$ -- вероятность потерять на единице длины энергию $\eps$ (вероятность неупругого столкновения);
+    \item[--] $\lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega})$ -- вероятность изменения направления движения с $\vec{\Omega}'$ на $\vec{\Omega}$ на единице пути (вероятность упругого столкновения);
+    \item[--] $Q(\vec{r}, \vec{\Omega}, E)$ -- функция источника, для Оже-процессов имеет вид:
+    \begin{equation}
+        Q(\vec{r}, \vec{\Omega}, E) = \frac{1}{4\pi} \sum_{i} P_i\delta(E - E_i);
+    \end{equation}
+    \item[--] $P_i$ -- вероятность рождения Оже-электрона с энергией $E_i$.
 \end{itemize}
 
 $P_1$ приближение:
 \begin{gather}\label{eq: P1}
-	F(\vec{r}, \vec{\Omega}, E) = \frac{1}{4\pi} [ F_0(\vec{r}, E) + 3 \vec{\Omega}\cdot\vec{F_1}(\vec{r}, E) ].
+    F(\vec{r}, \vec{\Omega}, E) = \frac{1}{4\pi} [ F_0(\vec{r}, E) + 3 \vec{\Omega}\cdot\vec{F_1}(\vec{r}, E) ].
 \end{gather}
 
 Здесь:
 \begin{align}
-	& F_0(\vec{r}, E) = \int\limits_{4\pi} F(\vec{r}, \vec{\Omega}, E) d\Omega, \\
-	& \vec{F}_1(\vec{r}, E) = \int\limits_{4\pi} \vec{\Omega} F(\vec{r}, \vec{\Omega}, E) d\Omega.
+    & F_0(\vec{r}, E) = \int\limits_{4\pi} F(\vec{r}, \vec{\Omega}, E) d\Omega, \\
+    & \vec{F}_1(\vec{r}, E) = \int\limits_{4\pi} \vec{\Omega} F(\vec{r}, \vec{\Omega}, E) d\Omega.
 \end{align}
 
 Подставим \eqref{eq: P1} в \eqref{eq: main}, получим:
 \begin{equation}\label{eq: P1is}
 \begin{gathered}
-	\vec{\Omega}\cdot\nabla [ F_0(\vec{r}, E) + 3 \vec{\Omega}\cdot\vec{F_1}(\vec{r}, E) ] = 
-	\df{E}[\bar{\eps}(E)[ F_0(\vec{r}, E) + 3 \vec{\Omega}\cdot\vec{F_1}(\vec{r}, E) ]] + \\ +
-	\int\limits_{4\pi} \lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega}) 3 \big[ \vec{\Omega}' - \vec{\Omega}\big] \cdot \vec{F}_1 (\vec{r}, E) d\Omega' +
-	\sum_{i} P_i\delta(E - E_i).
+    \vec{\Omega}\cdot\nabla [ F_0(\vec{r}, E) + 3 \vec{\Omega}\cdot\vec{F_1}(\vec{r}, E) ] =
+    \df{E}[\bar{\eps}(E)[ F_0(\vec{r}, E) + 3 \vec{\Omega}\cdot\vec{F_1}(\vec{r}, E) ]] + \\ +
+    \int\limits_{4\pi} \lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega}) 3 \big[ \vec{\Omega}' - \vec{\Omega}\big] \cdot \vec{F}_1 (\vec{r}, E) d\Omega' +
+    \sum_{i} P_i\delta(E - E_i).
 \end{gathered}
 \end{equation}
 
 Для упругого столкновения $\lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega})$ зависит только от угла между $\vec{\Omega}'$, $\vec{\Omega}$ -- $\theta$. Рассмотрим детально интеграл:
 \begin{equation}
 \begin{gathered}
-	\int\limits_{4\pi} \lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega}) 3 \big[ \vec{\Omega}' - \vec{\Omega}\big] d\Omega' = 
-	\int\limits_{4\pi} \lambda^{-1}_{el}(E, \theta) 3 \big[ \vec{\Omega}'_{\perp} + \vec{\Omega} \cos \theta - \vec{\Omega}\big] \sin d\theta d\phi = \\ 
-	= [\text{ интеграл от } \vec{\Omega}'_{\perp} \text{ по } \phi ~ = 0] = 
-	6\pi\int\limits_{0}^\pi \lambda^{-1}_{el}(E, \theta) \big[ \cos \theta - 1\big] \sin \theta d\theta \vec{\Omega} = \\ =
-	- 3 \lambda^{-1}_{tr} \vec{\Omega},
+    \int\limits_{4\pi} \lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega}) 3 \big[ \vec{\Omega}' - \vec{\Omega}\big] d\Omega' =
+    \int\limits_{4\pi} \lambda^{-1}_{el}(E, \theta) 3 \big[ \vec{\Omega}'_{\perp} + \vec{\Omega} \cos \theta - \vec{\Omega}\big] \sin d\theta d\phi = \\
+    = [\text{ интеграл от } \vec{\Omega}'_{\perp} \text{ по } \phi ~ = 0] =
+    6\pi\int\limits_{0}^\pi \lambda^{-1}_{el}(E, \theta) \big[ \cos \theta - 1\big] \sin \theta d\theta \vec{\Omega} = \\ =
+    - 3 \lambda^{-1}_{tr} \vec{\Omega},
 \end{gathered}
 \end{equation}
 где обозначено:
 \begin{equation}
-	\lambda^{-1}_{tr}(E) = 2\pi\int\limits_{0}^\pi \lambda^{-1}_{el}(E, \theta) \big[ 1 -\cos \theta \big] \sin \theta d\theta.
+    \lambda^{-1}_{tr}(E) = 2\pi\int\limits_{0}^\pi \lambda^{-1}_{el}(E, \theta) \big[ 1 -\cos \theta \big] \sin \theta d\theta.
 \end{equation}
 $\lambda_{tr}$ носит название транспортной длины.
 
 Далее рассмотрим выражение
 \begin{equation}
 \begin{gathered}
-	\vec{\Omega}\cdot\nabla [\vec{\Omega}\cdot\vec{F_1}] = 
-	\vec{\Omega}\cdot[
-	\vec{\Omega} \times \rot \vec{F_1} +
-	(\vec{\Omega}\cdot\nabla) \vec{F_1} + 0
-	] = \vec{\Omega}(\vec{\Omega}\cdot\nabla)\cdot \vec{F_1} = \\ 
-	= (\vec{\Omega}\times(\vec{\Omega}\times\nabla) + \nabla (\vec{\Omega}\cdot\vec{\Omega}))\cdot\vec{F_1} =
-	(\vec{\Omega}\times(\vec{\Omega}\times\nabla) + \nabla)\cdot\vec{F_1}   
+    \vec{\Omega}\cdot\nabla [\vec{\Omega}\cdot\vec{F_1}] =
+    \vec{\Omega}\cdot[
+    \vec{\Omega} \times \rot \vec{F_1} +
+    (\vec{\Omega}\cdot\nabla) \vec{F_1} + 0
+    ] = \vec{\Omega}(\vec{\Omega}\cdot\nabla)\cdot \vec{F_1} = \\
+    = (\vec{\Omega}\times(\vec{\Omega}\times\nabla) + \nabla (\vec{\Omega}\cdot\vec{\Omega}))\cdot\vec{F_1} =
+    (\vec{\Omega}\times(\vec{\Omega}\times\nabla) + \nabla)\cdot\vec{F_1}
 \end{gathered}
 \end{equation}
 
@@ -156,13 +156,13 @@ $\lambda_{tr}$ носит название транспортной длины.
 
 Направление $\vec{\Omega}$ произвольно, поэтому из линейной независимости в \eqref{eq: P1is} следует:
 \begin{align}
-	& \vec{F}_1 = -\frac{\lambda_{tr}}{3}\nabla F_0 + \lambda_{tr} \dff{\bar{\eps} \vec{F_1}}{E}, \label{eq: P1-1}\\
-	& \nabla\cdot\vec{F}_1 = \dff{\bar{\eps}F_0}{E} + \sum_{i} P_i\delta(E - E_i). \label{eq: P1-2}
-\end{align} 
+    & \vec{F}_1 = -\frac{\lambda_{tr}}{3}\nabla F_0 + \lambda_{tr} \dff{\bar{\eps} \vec{F_1}}{E}, \label{eq: P1-1}\\
+    & \nabla\cdot\vec{F}_1 = \dff{\bar{\eps}F_0}{E} + \sum_{i} P_i\delta(E - E_i). \label{eq: P1-2}
+\end{align}
 
 В диффузионном приближении пренебрегают последним слагаемым в \eqref{eq: P1-1}, тогда из [\ref{eq: P1-1}-\ref{eq: P1-2}] следует:
 \begin{equation}
-	\dff{(\bar{\eps}F_0)}{E} + \sum_{i} P_i\delta(E - E_i) = -\frac{\lambda_{tr}}{3}\Delta F_0
+    \dff{(\bar{\eps}F_0)}{E} + \sum_{i} P_i\delta(E - E_i) = -\frac{\lambda_{tr}}{3}\Delta F_0
 \end{equation}
 
 \clearpage
@@ -171,126 +171,127 @@ $\lambda_{tr}$ носит название транспортной длины.
 
 Физический смысл $\vec{F}_1$ -- поток. В результате поток через границу в точке с нормалью $\vec{n}_\Gamma$ и коэффициентом пропускания $k_D$ будет равен:
 \begin{equation}
-	\vec{n}_\Gamma \cdot \vec{F}_1 =
-	\int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}) \vec{n}_\Gamma \cdot \vec{\Omega} F(\vec{r}, \vec{\Omega}, E) d\Omega = \frac{1}{4\pi} \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}, \vec{n}_\Gamma) \vec{n}_\Gamma \cdot \vec{\Omega} [F_0(\vec{r}, E) + 3\vec{\Omega}\cdot\vec{F}_1(\vec{r}, E)]d\Omega
+    \vec{n}_\Gamma \cdot \vec{F}_1 =
+    \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}) \vec{n}_\Gamma \cdot \vec{\Omega} F(\vec{r}, \vec{\Omega}, E) d\Omega = \frac{1}{4\pi} \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}, \vec{n}_\Gamma) \vec{n}_\Gamma \cdot \vec{\Omega} [F_0(\vec{r}, E) + 3\vec{\Omega}\cdot\vec{F}_1(\vec{r}, E)]d\Omega
 \end{equation}
 
 $k_D$ зависит только от угла между векторами $\vec{\Omega}$, $\vec{n}_\Gamma$. Пусть этот угол -- $\theta$, тогда
 \begin{equation}
-	k_D(\theta, E) = 
-	\begin{cases}
-		0,  & \arcsin\sqrt{1 - U_0/E} \leqslant \theta \leqslant \pi/2; \\
-		1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2, & 0 \leqslant \theta < \arcsin\sqrt{1 - U_0/E}
-	\end{cases}
+    k_D(\theta, E) =
+    \begin{cases}
+        0,  & \arcsin\sqrt{1 - U_0/E} \leqslant \theta \leqslant \pi/2; \\
+        1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2, & 0 \leqslant \theta < \arcsin\sqrt{1 - U_0/E}
+    \end{cases}
 \end{equation}
 
 \begin{equation}
 \begin{gathered}
-	\frac{1}{4\pi} \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}, \vec{n}_\Gamma) \vec{n}_\Gamma \cdot \vec{\Omega} [F_0(\vec{r}, E) + 3\vec{\Omega}\cdot\vec{F}_1(\vec{r}, E)]d\Omega = \\
-	=
-	\frac{1}{4\pi} 
-	\int\limits_{0}^{2\pi}
-	\int\limits_{0}^{\pi/2}
-	 k_D(\theta, E) \cos \theta [F_0(\vec{r}, E) + 3(\cos \theta \vec{n}_\Gamma + \vec{\Omega}_\perp)\cdot \vec{F}_1(\vec{r}, E)]
-	 \sin \theta d\theta d\phi = \\ 
-	 =
-	 [\text{интеграл по }\phi~=~0] =
-	 \frac{1}{2}
-	 \int\limits_{0}^{\pi/2}
-	 k_D(\theta, E) \cos \theta [F_0(\vec{r}, E) + 3 \cos \theta \vec{n}_\Gamma \cdot \vec{F}_1(\vec{r}, E)]
-	 \sin \theta d\theta
+    \frac{1}{4\pi} \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}, \vec{n}_\Gamma) \vec{n}_\Gamma \cdot \vec{\Omega} [F_0(\vec{r}, E) + 3\vec{\Omega}\cdot\vec{F}_1(\vec{r}, E)]d\Omega = \\
+    =
+    \frac{1}{4\pi}
+    \int\limits_{0}^{2\pi}
+    \int\limits_{0}^{\pi/2}
+     k_D(\theta, E) \cos \theta [F_0(\vec{r}, E) + 3(\cos \theta \vec{n}_\Gamma + \vec{\Omega}_\perp)\cdot \vec{F}_1(\vec{r}, E)]
+     \sin \theta d\theta d\phi = \\
+     =
+     [\text{интеграл по }\phi~=~2\pi] =
+     \frac{1}{2}
+     \int\limits_{0}^{\pi/2}
+     k_D(\theta, E) \cos \theta [F_0(\vec{r}, E) + 3 \cos \theta \vec{n}_\Gamma \cdot \vec{F}_1(\vec{r}, E)]
+     \sin \theta d\theta
 \end{gathered}
 \end{equation}
 
 Найдём интегралы:
 \begin{equation}
 \begin{gathered}
-	I_1 = 
-	\int\limits_{0}^{\theta_{max}}
-	\left(1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2\right) \cos \theta \sin \theta d\theta = \\
-	= [U_0/E = \eps = \cos \theta_{max}] =
-	\int\limits_{0}^{\theta_{max}}
-	\left(1 - \Bigg(\cfrac{(1 - \sqrt{1 - \eps/\cos^2 \theta})^2}{\eps/ \cos^2 \theta}\Bigg)^2\right) \cos \theta \sin \theta d\theta = \\
-	= [x = \cos \theta] =
-	- \int\limits_{1}^{\eps}
-	\left(1 - \Bigg(\cfrac{(x - \sqrt{x^2 - \eps})^2}{\eps}\Bigg)^2\right) x dx = \\
-	=
-	\int\limits_{\eps}^{1}
-	\left(1 - \Bigg(\cfrac{2 x^2 - \eps - 2 x \sqrt{x^2 - \eps} }{\eps}\Bigg)^2\right) x dx = \\
-	=
-	\int\limits_{\eps}^{1}
-	\left(1 - \cfrac{(2 x^2 - \eps)^2 - 4 x (2 x^2 - \eps) \sqrt{x^2 - \eps} + 4x^2(x^2 - \eps) }{\eps^2}\right) x dx = \\
-	=
-	\int\limits_{\eps}^{1}
-	-\left(\cfrac{8x^4 - 8 x^2 \eps - 4 x (2 x^2 - \eps) \sqrt{x^2 - \eps}}{\eps^2}\right) x dx
-	= \\ =
-	- \frac{8}{6} \frac{1 - \eps^6}{\eps^2} 
-	+ \frac{8}{4} \frac{1 - \eps^4}{\eps}
-	+ \int\limits_{\eps}^{1}
-	\left(\cfrac{2 (2 x^2 - \eps) \sqrt{(x^2)^2 - \eps x^2}}{\eps^2}\right) dx^2 = \\ =
-	- \frac{8}{6} \frac{1 - \eps^6}{\eps^2} 
-	+ \frac{8}{4} \frac{1 - \eps^4}{\eps}
-	+ 2 \int\limits_{\eps}^{1}
-	\cfrac{\sqrt{(x^2)^2 - \eps x^2}}{\eps^2} d((x^2)^2 - \eps x^2) = \\ =
-	- \frac{8}{6} \frac{1 - \eps^6}{\eps^2} 
-	+ \frac{8}{4} \frac{1 - \eps^4}{\eps}
-	+ \cfrac{4 (1 - \eps)^{3/2}}{ 3 \eps^2}
-	- \cfrac{4 (\eps^2- \eps)^{3/2}}{ 3 \eps}
+    I_1 =
+    \int\limits_{0}^{\theta_{max}}
+    \left(1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2\right) \cos \theta \sin \theta d\theta = \\
+    = [U_0/E = \eps = \cos \theta_{max}] =
+    \int\limits_{0}^{\theta_{max}}
+    \left(1 - \Bigg(\cfrac{(1 - \sqrt{1 - \eps/\cos^2 \theta})^2}{\eps/ \cos^2 \theta}\Bigg)^2\right) \cos \theta \sin \theta d\theta = \\
+    = [x = \cos \theta] =
+    - \int\limits_{1}^{\eps}
+    \left(1 - \Bigg(\cfrac{(x - \sqrt{x^2 - \eps})^2}{\eps}\Bigg)^2\right) x dx = \\
+    =
+    \int\limits_{\eps}^{1}
+    \left(1 - \Bigg(\cfrac{2 x^2 - \eps - 2 x \sqrt{x^2 - \eps} }{\eps}\Bigg)^2\right) x dx = \\
+    =
+    \int\limits_{\eps}^{1}
+    \left(1 - \cfrac{(2 x^2 - \eps)^2 - 4 x (2 x^2 - \eps) \sqrt{x^2 - \eps} + 4x^2(x^2 - \eps) }{\eps^2}\right) x dx = \\
+    =
+    \int\limits_{\eps}^{1}
+    -\left(\cfrac{8x^4 - 8 x^2 \eps - 4 x (2 x^2 - \eps) \sqrt{x^2 - \eps}}{\eps^2}\right) x dx
+    = \\ =
+    - \frac{8}{6} \frac{1 - \eps^6}{\eps^2}
+    + \frac{8}{4} \frac{1 - \eps^4}{\eps}
+    + \int\limits_{\eps}^{1}
+    \left(\cfrac{2 (2 x^2 - \eps) \sqrt{(x^2)^2 - \eps x^2}}{\eps^2}\right) dx^2 = \\ =
+    - \frac{8}{6} \frac{1 - \eps^6}{\eps^2}
+    + \frac{8}{4} \frac{1 - \eps^4}{\eps}
+    + 2 \int\limits_{\eps}^{1}
+    \cfrac{\sqrt{(x^2)^2 - \eps x^2}}{\eps^2} d((x^2)^2 - \eps x^2) = \\ =
+    - \frac{8}{6} \frac{1 - \eps^6}{\eps^2}
+    + \frac{8}{4} \frac{1 - \eps^4}{\eps}
+    + \cfrac{4 (1 - \eps)^{3/2}}{ 3 \eps^2}
+    - \cfrac{4 (\eps^2- \eps)^{3/2}}{ 3 \eps}
 \end{gathered}
 \end{equation}
 
 \begin{equation}
 \begin{gathered}
-	I_2 = 
-	\int\limits_{0}^{\theta_{max}}
-	\left(1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2\right) \cos^2 \theta \sin \theta d\theta = \\
-	= [U_0/E = \eps = \cos \theta_{max}, x = \cos \theta] =
-	-\int\limits_{\eps}^{1}\left(\cfrac{8x^4 - 8 x^2 \eps - 4 x (2 x^2 - \eps) \sqrt{x^2 - \eps}}{\eps^2}\right) x^2 dx
-	= \\ =
-	- \frac{8}{7} \frac{1 - \eps^7}{\eps^2} 
-	+ \frac{8}{5} \frac{1 - \eps^5}{\eps}
-	+ 2 \int\limits_{\eps}^{1}
-	\cfrac{(2 x^2 - \eps) \sqrt{x^2 - \eps}}{\eps^2} x^2 dx^2 = \\ =
-	[t = \sqrt{x^2 - \eps}] =
-	- \frac{8}{7} \frac{1 - \eps^7}{\eps^2} 
-	+ \frac{8}{5} \frac{1 - \eps^5}{\eps}
-	+ 2 \int\limits_{..}^{..}
-	\cfrac{(2 t^2 + \eps) t}{\eps^2} (t^2 + \eps) dt^2 = \\ =
-	- \frac{8}{7} \frac{1 - \eps^7}{\eps^2} 
-	+ \frac{8}{5} \frac{1 - \eps^5}{\eps}
-	+ 4 \int\limits_{..}^{..}
-	\cfrac{(2 t^6 + 3 \eps t^4 + \eps^2 t^2)}{\eps^2}  dt= \\ =
-	- \frac{8}{7} \frac{1 - \eps^7}{\eps^2} 
-	+ \frac{8}{5} \frac{1 - \eps^5}{\eps}
-	+ \frac{8}{7} \frac{(1 - \eps)^{7/2} - (\eps^2 - \eps)^{7/2}}{\eps^2}
-	+ \frac{12}{5} \frac{(1 - \eps)^{5/2} - (\eps^2 - \eps)^{5/2}}{\eps}
-	+ \frac{8}{3} ((1 - \eps)^{3/2} - (\eps^2 - \eps)^{3/2})
+    I_2 =
+    \int\limits_{0}^{\theta_{max}}
+    \left(1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2\right) \cos^2 \theta \sin \theta d\theta = \\
+    = [U_0/E = \eps = \cos \theta_{max}, x = \cos \theta] =
+    -\int\limits_{\eps}^{1}\left(\cfrac{8x^4 - 8 x^2 \eps - 4 x (2 x^2 - \eps) \sqrt{x^2 - \eps}}{\eps^2}\right) x^2 dx
+    = \\ =
+    - \frac{8}{7} \frac{1 - \eps^7}{\eps^2}
+    + \frac{8}{5} \frac{1 - \eps^5}{\eps}
+    + 2 \int\limits_{\eps}^{1}
+    \cfrac{(2 x^2 - \eps) \sqrt{x^2 - \eps}}{\eps^2} x^2 dx^2 = \\ =
+    [t = \sqrt{x^2 - \eps}] =
+    - \frac{8}{7} \frac{1 - \eps^7}{\eps^2}
+    + \frac{8}{5} \frac{1 - \eps^5}{\eps}
+    + 2 \int\limits_{..}^{..}
+    \cfrac{(2 t^2 + \eps) t}{\eps^2} (t^2 + \eps) dt^2 = \\ =
+    - \frac{8}{7} \frac{1 - \eps^7}{\eps^2}
+    + \frac{8}{5} \frac{1 - \eps^5}{\eps}
+    + 4 \int\limits_{..}^{..}
+    \cfrac{(2 t^6 + 3 \eps t^4 + \eps^2 t^2)}{\eps^2}  dt= \\ =
+    - \frac{8}{7} \frac{1 - \eps^7}{\eps^2}
+    + \frac{8}{5} \frac{1 - \eps^5}{\eps}
+    + \frac{8}{7} \frac{(1 - \eps)^{7/2} - (\eps^2 - \eps)^{7/2}}{\eps^2}
+    + \frac{12}{5} \frac{(1 - \eps)^{5/2} - (\eps^2 - \eps)^{5/2}}{\eps}
+    + \frac{8}{3} ((1 - \eps)^{3/2} - (\eps^2 - \eps)^{3/2})
 \end{gathered}
 \end{equation}
 
 \colorbox{yellow}{Сравним с тем, что в программе}
 \begin{gather*}
-I_1 = 
+I_1 =
 \frac{1}{2} (\eps + 1/\eps) - 1 +
 \frac{1}{4} (1 - 2/\eps)\sqrt{1 - \eps} -
 \frac{\eps}{8} \ln \frac{\eps}{2 - \eps + 2 \sqrt{1 - \eps}}
 \end{gather*}
 \begin{gather*}
-I_2 = 
-\frac{2}{3} (1 -\eps^{3/2}) 
+I_2 =
+\frac{2}{3} (1 -\eps^{3/2})
 + \frac{2}{3} (1 -\eps)^{3/2}
-- \frac{2}{5 \eps} (1 -\eps^{5/2}) 
+- \frac{2}{5 \eps} (1 -\eps^{5/2})
 + \frac{2}{5 \eps} (1 -\eps)^{5/2}
 \end{gather*}
 
 Тогда граничное условие:
 \begin{equation}
-	\vec{n}_\Gamma \cdot \vec{F}_1 \left(1 - \frac{3}{2} I_2 \right) = \frac{1}{2} I_1 F_0
+    \vec{n}_\Gamma \cdot \vec{F}_1 \left(1 - \frac{3}{2} I_2 \right) = \frac{1}{2} I_1 F_0
 \end{equation}
 
 В диффузионном приближении:
 \begin{equation}
-	\frac{1}{2} \frac{I_1}{1 - 3 I_2/2} F_0 = -\frac{\lambda_{tr}}{3} \nabla F_0
+    \frac{1}{2} \frac{I_1}{1 - 3 I_2/2} F_0 = -\frac{\lambda_{tr}}{3}
+    (\vec{n}_\Gamma \cdot \nabla) F_0
 \end{equation}
 
 \colorbox{yellow}{Странно, знак не совпал.}
@@ -300,111 +301,111 @@ I_2 =
 
 Уравнение записывается относительно плотности:
 \begin{equation}
-	n = \bar{\eps} F_0
+    n = \bar{\eps} F_0
 \end{equation}
 
 Вместо энергии выступает:
 \begin{equation}
-	t = \frac{E_{max} - E}{E_{max}},
+    t = \frac{E_{max} - E}{E_{max}},
 \end{equation}
 где $E_{max}$ -- максимальная энергия Оже-электронов.
 
 Уравнение:
 \begin{equation}
-	\dff{n}{t} = E_{max}\frac{\lambda_{tr}}{3\bar{\eps}}\dfn{2}{n}{z} + \sum_{i} P_i\delta(1 - t - E_i/E_{max}), \quad t\in[0, 1].
+    \dff{n}{t} = E_{max}\frac{\lambda_{tr}}{3\bar{\eps}}\dfn{2}{n}{z} + \sum_{i} P_i\delta(1 - t - E_i/E_{max}), \quad t\in[0, 1].
 \end{equation}
 
 Граничные:
 \begin{gather}
-	\frac{1}{2} \frac{I_1}{1 - 3 I_2/2} n + \frac{\lambda_{tr}}{3} \dff{n}{z} \Bigg|_{z = 0} = 0 \\
-	n\Bigg|_{z = l} = 0
+    \frac{1}{2} \frac{I_1}{1 - 3 I_2/2} n + \frac{\lambda_{tr}}{3} \dff{n}{z} \Bigg|_{z = 0} = 0 \\
+    n\Bigg|_{z = l} = 0
 \end{gather}
 
 Начальные: \colorbox{yellow}{в программе это выглядит как ''Hello, yellow house''}
 \begin{equation}
-	n = P_1 \eta (z)
+    n = P_1 \eta (z)
 \end{equation}
 
 \section{Аналитический метод в программе}
 
 В этом случае $\lambda_{tr}^{-1}$ считается аналитически:
 \begin{equation}\label{eq: ltr}
-	\lambda_{tr}^{-1} = 
-	2 \pi \frac{\rho N_A}{M} \int\limits_{0}^{\pi}
-	\Dff{\sigma_{el}}{\Omega} (1 - \cos \theta) \sin \theta d \theta.  
+    \lambda_{tr}^{-1} =
+    2 \pi \frac{\rho N_A}{M} \int\limits_{0}^{\pi}
+    \Dff{\sigma_{el}}{\Omega} (1 - \cos \theta) \sin \theta d \theta.
 \end{equation}
 
 Модификация (кажется Бете) формулы для дифференциального сечения рассеяния (Резерфорда):
 \begin{equation}
-	\Dff{\sigma_{el}}{\Omega} =
-	\frac{(T+1)^2 r_e^2}{T^2(T+2)^2} \frac{Z(Z+1)}{(1 - \cos \theta + 2 \eta)^2},
+    \Dff{\sigma_{el}}{\Omega} =
+    \frac{(T+1)^2 r_e^2}{T^2(T+2)^2} \frac{Z(Z+1)}{(1 - \cos \theta + 2 \eta)^2},
 \end{equation}
 где
 \begin{itemize}
-	\item[--] $T$ -- кинетическая энергия электрона, отнесённая к энергии покоя:
-	\begin{equation}
-		T = \frac{E}{mc^2};
-	\end{equation} 
-	\item[--] $r_e$ -- классический радиус электрона:
-	\begin{equation}
-		r_e = \frac{e^2}{mc^2} (\text{В СГС}) = \frac{1}{4 \pi \eps_0}\frac{e^2}{mc^2} (\text{В СИ});
-	\end{equation}
-	\item[--] $\eta$ -- поправка:
-	\begin{equation}
-		\eta = \frac{1}{4}
-		\Big[
-			\frac{\alpha Z^{1/3}}{0{,}885}
-		\Big]^2
-		\frac{1}{T(T+2)} \left(1{,}13 + 3{,}76 \alpha^2 Z^2 \frac{(T+1)^2}{T(T+2)} \right);
-	\end{equation}
-	\item[--] $\alpha$ -- постоянная тонкой структуры:
-	\begin{equation}
-		\alpha = \frac{e^2}{\hbar c} (\text{В СГС}) = \frac{1}{4 \pi \eps_0} \frac{e^2}{\hbar c} (\text{В СИ});
-	\end{equation}
-	\item[--] $\rho$, $N_A$, $M$ -- плотность вещества, число Авогадро, молярная масса.
+    \item[--] $T$ -- кинетическая энергия электрона, отнесённая к энергии покоя:
+    \begin{equation}
+        T = \frac{E}{mc^2};
+    \end{equation}
+    \item[--] $r_e$ -- классический радиус электрона:
+    \begin{equation}
+        r_e = \frac{e^2}{mc^2} (\text{В СГС}) = \frac{1}{4 \pi \eps_0}\frac{e^2}{mc^2} (\text{В СИ});
+    \end{equation}
+    \item[--] $\eta$ -- поправка:
+    \begin{equation}
+        \eta = \frac{1}{4}
+        \Big[
+            \frac{\alpha Z^{1/3}}{0{,}885}
+        \Big]^2
+        \frac{1}{T(T+2)} \left(1{,}13 + 3{,}76 \alpha^2 Z^2 \frac{(T+1)^2}{T(T+2)} \right);
+    \end{equation}
+    \item[--] $\alpha$ -- постоянная тонкой структуры:
+    \begin{equation}
+        \alpha = \frac{e^2}{\hbar c} (\text{В СГС}) = \frac{1}{4 \pi \eps_0} \frac{e^2}{\hbar c} (\text{В СИ});
+    \end{equation}
+    \item[--] $\rho$, $N_A$, $M$ -- плотность вещества, число Авогадро, молярная масса.
 \end{itemize}
 
 После интегрирования:
 \begin{equation}
-	\begin{gathered}
-		\lambda_{tr}^{-1} = 
-		2 \pi \frac{\rho N_AZ(Z+1)}{M} 
-		\frac{(T+1)^2 r_e^2}{T^2(T+2)^2}
-		\int\limits_{0}^{\pi}
-		\frac{1}{(1 - \cos \theta + 2 \eta)^2} (1 - \cos \theta) \sin \theta d \theta 
-		= \\ =
-		\left[
-			\int\limits_{0}^{2} \frac{1}{(x + 2 \eta)^2} x\, dx =
-			- \int\limits_{0}^{2}  x\, d\frac{1}{x + 2 \eta} =
-			-\frac{2}{2 + 2 \eta} + \int\limits_{0}^{2} \frac{1}{x + 2 \eta} dx =
-			-\frac{1}{1 + \eta} + \ln \frac{2 +  2 \eta}{2 \eta}
-		\right]	
-		= \\ =
-		2 \pi \frac{\rho N_AZ(Z+1)}{M} 
-		\frac{(T+1)^2 r_e^2}{T^2(T+2)^2}
-		\left(
-			\ln \left( \frac{1}{\eta} + 1 \right) - \frac{1}{\eta + 1}
-		\right).
-	\end{gathered}	
+    \begin{gathered}
+        \lambda_{tr}^{-1} =
+        2 \pi \frac{\rho N_AZ(Z+1)}{M}
+        \frac{(T+1)^2 r_e^2}{T^2(T+2)^2}
+        \int\limits_{0}^{\pi}
+        \frac{1}{(1 - \cos \theta + 2 \eta)^2} (1 - \cos \theta) \sin \theta d \theta
+        = \\ =
+        \left[
+            \int\limits_{0}^{2} \frac{1}{(x + 2 \eta)^2} x\, dx =
+            - \int\limits_{0}^{2}  x\, d\frac{1}{x + 2 \eta} =
+            -\frac{2}{2 + 2 \eta} + \int\limits_{0}^{2} \frac{1}{x + 2 \eta} dx =
+            -\frac{1}{1 + \eta} + \ln \frac{2 +  2 \eta}{2 \eta}
+        \right]
+        = \\ =
+        2 \pi \frac{\rho N_AZ(Z+1)}{M}
+        \frac{(T+1)^2 r_e^2}{T^2(T+2)^2}
+        \left(
+            \ln \left( \frac{1}{\eta} + 1 \right) - \frac{1}{\eta + 1}
+        \right).
+    \end{gathered}
 \end{equation}
 
 $\bar{\eps}$ находится по формуле Бете:
 \begin{equation}
-	\bar{\eps} = 
-	2 \pi \frac{\rho N_AZ}{M} 
-	\frac{(T+1)^2 r_e^2}{T(T+2)}
-	\left(
-		2 \ln
-		\frac{1{,}166\,T}{J/mc^2}
-	\right),
+    \bar{\eps} =
+    2 \pi \frac{\rho N_AZ}{M}
+    \frac{(T+1)^2 r_e^2}{T(T+2)}
+    \left(
+        2 \ln
+        \frac{1{,}166\,T}{J/mc^2}
+    \right),
 \end{equation}
-где 
+где
 \begin{equation}
-	J [\text{эВ}] = 
-	\begin{cases}
-		13{,}6 Z & Z<10, \\
-		(9{,}76 + 58{,}8 Z^{-1{,}19}) Z & Z\geqslant 10.
-	\end{cases}
+    J [\text{эВ}] =
+    \begin{cases}
+        13{,}6 Z & Z<10, \\
+        (9{,}76 + 58{,}8 Z^{-1{,}19}) Z & Z\geqslant 10.
+    \end{cases}
 \end{equation}
 
 \section{Табличный метод}
