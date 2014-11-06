@@ -14,7 +14,7 @@
 	\[
 		\beta_1 f + \beta_2 \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = \gamma_2(t),
 	\]
-	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали 
+	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали
 	матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
 */
 double p(double z, double t){
@@ -54,13 +54,13 @@ void spe(double *f, double *f_prev, double *z, int N, double t, double dt, doubl
 	}
 	f[N-1] = D[N-1]/B[N-1];
 	for (int i = N-2; i>=0; i--){
-		f[i] = (D[i] - C[i] * f[i+1])/B[i]; 
+		f[i] = (D[i] - C[i] * f[i+1])/B[i];
 	}
 }
 
 /*
 	eval_cubic_spline заносит значения в точках xs[j] в массив ys[j], j = 0, 1, 2, ..., M-1 функции заданной кубиче-
-	скими сплайнами для таблицы (x[i], y[i]), i = 0, 1, 2, ... , N-1. int_cubic_spline ищет интегралы, cubic_spline 
+	скими сплайнами для таблицы (x[i], y[i]), i = 0, 1, 2, ... , N-1. int_cubic_spline ищет интегралы, cubic_spline
 	ищет коэффициенты сплайна:
 	\[
 		S_i(x) = a_i + b_i (x - x_i) + \frac{1}{2} c_i (x - x_i)^2 + \frac{1}{6} d_i (x - x_i)^3
@@ -90,7 +90,7 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	}
 	c[N-2] = D[N-3]/B[N-3];
 	for (int i = N-4; i>=0; i--){
-		c[i+1] = (D[i] - C[i] * c[i+2])/B[i]; 
+		c[i+1] = (D[i] - C[i] * c[i+2])/B[i];
 	}
 	for (int i = 0; i<N-1; i++){
 		a[i] = y[i];
@@ -143,7 +143,7 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N){
 	} else {
 		return NAN;
 	}
-}   
+}
 
 
 void test_spe(){

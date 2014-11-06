@@ -5,9 +5,13 @@
 *.out
 *.log
 *.aux
+*.fdb_latexmk
+*.fls
+*.toc
 *.pdf
 *.synctex.gz(busy)
 *.synctex.gz
 *.txt
 *.gp
+main
 [Oo]bj/
