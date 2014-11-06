@@ -79,10 +79,10 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	for (int i = 0; i<(N-2); i++){
 		dx[i+1] = x[i+2] - x[i+1];
 		dydx[i+1] = (y[i+2] - y[i+1])/dx[i+1];
-		A[i] = h1;
-		B[i] = 2*(h1 + h2);
-		C[i] = h2;
-		D[i] = 6*(y2 - y1);
+		A[i+1] = dx[i];
+		B[i] = 2*(dx[i] + dx[i+1]);
+		C[i] = dx[i];
+		D[i] = 6*(dydx[i+1] - dydx[i]);
 	}
 	for (int i = 1; i<N-2; i++){
 		B[i] -= A[i]/B[i-1]*C[i];
@@ -138,7 +138,7 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N){
 		}
 		return result;
 	} else {
-		return NaN;
+		return NAN;
 	}
 }   
     

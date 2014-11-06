@@ -8,4 +8,5 @@
 *.pdf
 *.synctex.gz(busy)
 *.synctex.gz
+*.txt
 [Oo]bj/
