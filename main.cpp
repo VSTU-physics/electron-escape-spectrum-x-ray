@@ -1,6 +1,22 @@
 #include <stdio.h>
 #include <math.h>
 
+/*
+	spe решает уравнение:
+	\[
+		\frac{\partial f}{\partial t} =
+		p(z, t) \frac{\partial^2 f}{\partial z^2} + g(z, t),
+	\]
+	при граничных условиях:
+	\[
+		\alpha_1 f + \alpha_2 \frac{\partial f}{\partial z} \Bigg|_{z = z_1} = \gamma_1(t),
+	\]
+	\[
+		\beta_1 f + \beta_2 \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = \gamma_2(t),
+	\]
+	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали 
+	матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
+*/
 double p(double z, double t){
 	return 1;
 };
@@ -42,6 +58,90 @@ void spe(double *f, double *f_prev, double *z, int N, double t, double dt, doubl
 	}
 }
 
+/*
+	eval_cubic_spline заносит значения в точках xs[j] в массив ys[j], j = 0, 1, 2, ..., M-1 функции заданной кубиче-
+	скими сплайнами для таблицы (x[i], y[i]), i = 0, 1, 2, ... , N-1. int_cubic_spline ищет интегралы, cubic_spline 
+	ищет коэффициенты сплайна:
+	\[
+		S_i(x) = a_i + b_i (x - x_i) + \frac{1}{2} c_i (x - x_i)^2 + \frac{1}{6} d_i (x - x_i)^3
+		\quad x\in[x_i, x_{i+1}].
+	\]
+*/
+
+void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, double *d){
+	//double a[N], b[N], c[N], d[N];
+	double A[N-2], B[N-2], C[N-2], D[N-2];
+	double dx[N-1], dydx[N-1];
+	c[0] = 0;
+	c[N-1] = 0;
+	dx[0] = x[1] - x[0];
+	dydx[0] = (y[1] - y[0])/dx[0];
+	for (int i = 0; i<(N-2); i++){
+		dx[i+1] = x[i+2] - x[i+1];
+		dydx[i+1] = (y[i+2] - y[i+1])/dx[i+1];
+		A[i] = h1;
+		B[i] = 2*(h1 + h2);
+		C[i] = h2;
+		D[i] = 6*(y2 - y1);
+	}
+	for (int i = 1; i<N-2; i++){
+		B[i] -= A[i]/B[i-1]*C[i];
+		D[i] -= A[i]/B[i-1]*D[i-1];
+	}
+	c[N-2] = D[N-3]/B[N-3];
+	for (int i = N-4; i>=0; i--){
+		c[i+1] = (D[i] - C[i] * c[i+2])/B[i]; 
+	}
+	for (int i = 0; i<N; i++){
+		a[i] = y[i];
+		b[i] = dydx[i] - c[i]*dx[i]/3 - c[i+1]*dx[i+1]/6;
+		d[i] = (c[i+1] - c[i])/dx[i];
+	}
+}
+
+void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N){
+	double a[N], b[N], c[N], d[N];
+	cubic_spline(x, y, N, a, b, c, d);
+	//Пусть xs и x сортированы по возрастанию
+	int j = 0;
+	double h;
+	for (int i = 0; i<M; i++){
+		if ((xs[i]>=x[0])&&(xs[i]<x[N-1])){
+			while (!((xs[i]<x[j+1])&&(xs[i]>=x[j]))&&(j<N)){
+				j++;
+			}
+			h = xs[i] - x[j];
+			ys[i] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;
+		}
+	}
+}
+
+double int_cubic_spline(double la, double lb, double *x, double *y, int N){
+	//Пусть x сортирован по возрастанию, la<lb
+	if ((la>=x[0])&&(la<=x[N-1])&&(lb>=x[0])&&(lb<=x[N-1])){
+		double a[N], b[N], c[N], d[N], h;
+		cubic_spline(x, y, N, a, b, c, d);
+		double result = 0.;
+		for (int j = 1; j<N; j++){
+			if ((la<=x[j])&&(lb>=x[j+1])) {
+				h = x[j+1] - x[j];
+				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
+			}
+			if ((la>x[j])&&(la<x[j+1])) {
+				h = x[j+1] - la;
+				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
+			}
+			if ((lb>x[j])&&(lb<x[j+1])) {
+				h = lb - x[j];
+				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
+			}
+		}
+		return result;
+	} else {
+		return NaN;
+	}
+}   
+    
 
 int main(){
 	int N = 1000, M = 100;
