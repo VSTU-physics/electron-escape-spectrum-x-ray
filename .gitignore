@@ -9,4 +9,5 @@
 *.synctex.gz(busy)
 *.synctex.gz
 *.txt
+*.gp
 [Oo]bj/

@@ -92,11 +92,14 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	for (int i = N-4; i>=0; i--){
 		c[i+1] = (D[i] - C[i] * c[i+2])/B[i]; 
 	}
-	for (int i = 0; i<N; i++){
+	for (int i = 0; i<N-1; i++){
 		a[i] = y[i];
-		b[i] = dydx[i] - c[i]*dx[i]/3 - c[i+1]*dx[i+1]/6;
+		b[i] = dydx[i] - c[i]*dx[i]/3 - c[i+1]*dx[i]/6;
 		d[i] = (c[i+1] - c[i])/dx[i];
 	}
+	d[N-1] = 0;
+	b[N-1] = 0;
+	a[N-1] = y[N-1];
 }
 
 void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N){
@@ -122,7 +125,7 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N){
 		double a[N], b[N], c[N], d[N], h;
 		cubic_spline(x, y, N, a, b, c, d);
 		double result = 0.;
-		for (int j = 1; j<N; j++){
+		for (int j = 1; j<N-1; j++){
 			if ((la<=x[j])&&(lb>=x[j+1])) {
 				h = x[j+1] - x[j];
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
@@ -141,9 +144,9 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N){
 		return NAN;
 	}
 }   
-    
 
-int main(){
+
+void test_spe(){
 	int N = 1000, M = 100;
 	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
 	double dz = zmax/(N-1), z[N];
@@ -162,5 +165,30 @@ int main(){
 		fprintf(file, "%f %f %f %f\n", z[i], phi[i], *(phi+N*50+i), *(phi+N*(M-1)+i));
 	}
 	fclose(file);
+}
+
+void test_spline(){
+	int N = 1000, M = 30;
+	double x[N], xx[M], y[N], yy[M], x_min = 0, x_max = 10;
+	for (int i = 0; i<M; i++){
+		xx[i] = (x_max - x_min)/(M - 1)*i + x_min;
+		yy[i] = sin(xx[i]);
+	}
+	FILE *file;
+	file = fopen("results.txt", "w");
+	for (int i = 0; i<N; i++){
+		x[i] = (x_max - x_min)/(N - 1)*i + x_min;
+	}
+	double pi = 3.14169;
+	eval_cubic_spline(x, y, N, xx, yy, M);
+	for (int i = 0; i<N; i++){
+		fprintf(file, "%f %f %f\n", x[i], y[i], sin(x[i]));
+	}
+	fclose(file);
+	printf("%f", int_cubic_spline(pi/2, 2*pi, xx, yy, M));
+}
+
+int main(){
+	test_spline();
 	return 0;
 }
