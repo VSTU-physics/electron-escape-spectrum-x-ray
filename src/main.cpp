@@ -1,6 +1,36 @@
 #include <stdio.h>
 #include <math.h>
+#define Ee 511003.4 // эВ
+#define re 2.8179403267e-15 // м
+#define Na 6.0221413e23 // моль^-1
+#define alpha 0.00729735256
 
+typedef struct subst {int Z; double rho; double M;} subst_t; // для описания свойств материала
+
+double eta(subst_t s, double E)
+{
+    double T = E / Ee;
+    return .25 * pow(alpha * pow(s.Z, 1./3) / 0.885, 2) / T / (T + 2) *
+        (1.13 + 3.76 * pow(s.Z * alpha * (T + 1), 2) / T / (T + 2));
+}
+
+double l_tr(subst_t s, double E)
+{
+    double T = E / Ee;
+    return 2 * M_PI * s.rho / s.M * Na * s.Z * (s.Z + 1) * 
+        pow((T+1)*re/T/(T+2), 2) *
+        (log(1 + 1 / eta(s, E)) - 1 / (eta(s, E) + 1));
+}
+
+double I1(double t)
+{
+    return 0; // заглушка
+}
+
+double I2(double t)
+{
+    return 0; // заглушка
+}
 /*
 	spe решает уравнение:
 	\[
@@ -9,10 +39,10 @@
 	\]
 	при граничных условиях:
 	\[
-		\alpha_1 f + \alpha_2 \frac{\partial f}{\partial z} \Bigg|_{z = z_1} = \gamma_1(t),
+		\a_1(t) f + \b_1(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_1} = \c_1(t),
 	\]
 	\[
-		\beta_1 f + \beta_2 \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = \gamma_2(t),
+		\a_2(t) f + \b_2(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = \c_2(t),
 	\]
 	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали
 	матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
@@ -23,19 +53,32 @@ double p(double z, double t){
 double g(double z, double t){
 	return 0;
 };
-double gamma_1(double z, double t){
-	return 0;
-};
-double gamma_2(double z, double t){
-	return 0;
-};
 
-void spe(double *f, double *f_prev, double *z, int N, double t, double dt, double alpha_1, double alpha_2, double beta_1, double beta_2){
+double a_1(double t){
+	return I1(t) / (2 - 3 * I2(t));
+};
+double b_1(double t){
+	return l_tr(t) / 3;
+};
+double c_1(double t){
+	return 0;
+};
+// на расстоянии l
+double a_2(double t){
+	return 1;
+};
+double b_2(double t){
+	return 0;
+};
+double c_2(double t){
+	return 0;
+};
+void spe(double *f, double *f_prev, double *z, int N, double t, double dt){
 	double A[N], B[N], C[N], D[N], dz, dq;
 	A[0] = 0;
-	B[0] = alpha_1 - alpha_2/(z[1] - z[0]);
-	C[0] = alpha_2/(z[1] - z[0]);
-	D[0] = gamma_1(z[0], t);
+	B[0] = a_1(t) - b_1(t)/(z[1] - z[0]);
+	C[0] = b_1(t)/(z[1] - z[0]);
+	D[0] = c_1(t);
 	for (int i = 1; i<N-1; i++){
 		dz = z[i+1] - z[i];
 		dq = dt/dz/dz;
@@ -44,10 +87,10 @@ void spe(double *f, double *f_prev, double *z, int N, double t, double dt, doubl
 		C[i] = p(z[i], t)*dq;
 		D[i] = - g(z[i], t)*dt - f_prev[i];
 	}
-	A[N-1] = beta_2/(z[N-1] - z[N-2]);
-	B[N-1] = beta_1 - beta_2/(z[N-1] - z[N-2]);
+	A[N-1] = b_2(t)/(z[N-1] - z[N-2]);
+	B[N-1] = a_2(t) - b_2(t)/(z[N-1] - z[N-2]);
 	C[N-1] = 0;
-	D[N-1] = gamma_2(z[N-1], t);
+	D[N-1] = c_2(t);
 	for (int i = 1; i<N; i++){
 		B[i] -= A[i]/B[i-1]*C[i];
 		D[i] -= A[i]/B[i-1]*D[i-1];
@@ -157,7 +200,7 @@ void test_spe(){
 	}
 	for (int i = 1; i<M; i++){
 		t+=dt;
-		spe(phi+i*N, phi+(i-1)*N, z, N, t, dt, 1, 0, 1, 0);
+		spe(phi+i*N, phi+(i-1)*N, z, N, t, dt);
 	}
 	FILE *file;
 	file = fopen("results.txt", "w");
