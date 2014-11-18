@@ -66,65 +66,70 @@ double I2(double eps)
 	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали
 	матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
 */
-double p(double z, double t)
+
+double a_1(subst_t s, double t)
 {
-	return 1;
+	return I1(s, t) / (2 - 3 * I2(s, t));
 };
 
-double g(double z, double t)
+double b_1(subst_t s, double t)
 {
-	return 0;
+	return l_tr(s, t) / 3;
 };
 
-double a_1(double t)
-{
-	return I1(t) / (2 - 3 * I2(t));
-};
-
-double b_1(double t)
-{
-	return l_tr(t) / 3;
-};
-
-double c_1(double t){
+double c_1(subst_t s, double t){
 	return 0;
 };
 
 // на расстоянии l
-double a_2(double t)
+double a_2(subst_t s, double t)
 {
 	return 1;
 };
 
-double b_2(double t)
+double b_2(subst_t s, double t)
 {
 	return 0;
 };
 
-double c_2(double t)
+double c_2(subst_t s, double t)
 {
 	return 0;
 };
 
-void spe(double *f, double *f_prev, double *z, int N, double t, double dt)
+void spe(double *f,
+         double *f_prev,
+         double *z,
+         int N,
+         double dt,
+         double pt,
+         double gt,
+         double a_1t,
+         double b_1t,
+         double c_1t,
+         double a_2t,
+         double b_2t,
+         double c_2t)
 {
-	double A[N], B[N], C[N], D[N], dz, dq;
+	double A[N], B[N], C[N], D[N], dz1, dz2, dza, dq;
+	dz1 = z[1] - z[0];
 	A[0] = 0;
-	B[0] = a_1(t) - b_1(t)/(z[1] - z[0]);
-	C[0] = b_1(t)/(z[1] - z[0]);
-	D[0] = c_1(t);
+	B[0] = a_1t - b_1t/dz1;
+	C[0] = b_1t/dz1;
+	D[0] = c_1t;
 	for (int i = 1; i<N-1; i++){
-		dz = z[i+1] - z[i];
-		dq = dt/dz/dz;
-		A[i] = p(z[i], t)*dq;
-		B[i] = -1 - 2*p(z[i], t)*dq;
-		C[i] = p(z[i], t)*dq;
-		D[i] = - g(z[i], t)*dt - f_prev[i];
+        dz2 = dz1;
+		dz1 = z[i+1] - z[i];
+        dza = (dz1 + dz2)*0.5;
+		A[i] = dt*pt/dz2/dza;
+		B[i] = -1 - 2*pt/dz1/dz2*dt;
+		C[i] = dt*pt/dz1/dza;
+		D[i] = - gt*dt - f_prev[i];
 	}
-	A[N-1] = b_2(t)/(z[N-1] - z[N-2]);
-	B[N-1] = a_2(t) - b_2(t)/(z[N-1] - z[N-2]);
+	A[N-1] = b_2t/(z[N-1] - z[N-2]);
+	B[N-1] = a_2t - b_2t/(z[N-1] - z[N-2]);
 	C[N-1] = 0;
-	D[N-1] = c_2(t);
+	D[N-1] = c_2t;
 	for (int i = 1; i<N; i++){
 		B[i] -= A[i]/B[i-1]*C[i];
 		D[i] -= A[i]/B[i-1]*D[i-1];
@@ -228,24 +233,24 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N)
 
 void test_spe()
 {
-	int N = 1000, M = 100;
-	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
-	double dz = zmax/(N-1), z[N];
-	phi = new double[N*M];
-	for (int i = 0; i<N; i++){
-		z[i] = (i==0) ? 0 : z[i-1]+dz;
-		phi[i] = sin(z[i]);
-	}
-	for (int i = 1; i<M; i++){
-		t+=dt;
-		spe(phi+i*N, phi+(i-1)*N, z, N, t, dt);
-	}
-	FILE *file;
-	file = fopen("results.txt", "w");
-	for (int i = 0; i<N; i++){
-		fprintf(file, "%f %f %f %f\n", z[i], phi[i], *(phi+N*50+i), *(phi+N*(M-1)+i));
-	}
-	fclose(file);
+//	int N = 1000, M = 100;
+//	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
+//	double dz = zmax/(N-1), z[N];
+//	phi = new double[N*M];
+//	for (int i = 0; i<N; i++){
+//		z[i] = (i==0) ? 0 : z[i-1]+dz;
+//		phi[i] = sin(z[i]);
+//	}
+//	for (int i = 1; i<M; i++){
+//		t+=dt;
+//		spe(phi+i*N, phi+(i-1)*N, z, N, t, dt);
+//	}
+//	FILE *file;
+//	file = fopen("results.txt", "w");
+//	for (int i = 0; i<N; i++){
+//		fprintf(file, "%f %f %f %f\n", z[i], phi[i], *(phi+N*50+i), *(phi+N*(M-1)+i));
+//	}
+//	fclose(file);
 }
 
 void test_spline()
