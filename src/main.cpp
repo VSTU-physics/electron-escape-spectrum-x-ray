@@ -19,7 +19,7 @@ double eps(subst_t s, double E)
 {
     double T = E / Ee;
     return 4 * M_PI * s.rho / s.M * Na * s.Z * pow((T+1)*re, 2) /
-        T / (T + 2) * log(1.66 * E / J(s.Z));
+        T / (T + 2) * log(1.166 * E / J(s.Z));
 }
 
 double eta(subst_t s, double E)
@@ -48,7 +48,7 @@ double I2(double eps)
     double e = eps * eps;
     double i = 1 - e;
     return 4. / e / e * pow(i, 1.5) * (1. / 3 - i / 15 - i * i / 21) -
-        8. / e / e * (1 - pow(eps, 7)) + 8. / e * (1 - pow(eps, 5));
+        8. / e / e * (1 - pow(eps, 7)) / 7. + 8. / e * (1 - pow(eps, 5)) / 5.;
 }
 /*
 	spe решает уравнение:
@@ -66,33 +66,48 @@ double I2(double eps)
 	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали
 	матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
 */
-double p(double z, double t){
+double p(double z, double t)
+{
 	return 1;
 };
-double g(double z, double t){
+
+double g(double z, double t)
+{
 	return 0;
 };
 
-double a_1(double t){
+double a_1(double t)
+{
 	return I1(t) / (2 - 3 * I2(t));
 };
-double b_1(double t){
+
+double b_1(double t)
+{
 	return l_tr(t) / 3;
 };
+
 double c_1(double t){
 	return 0;
 };
+
 // на расстоянии l
-double a_2(double t){
+double a_2(double t)
+{
 	return 1;
 };
-double b_2(double t){
+
+double b_2(double t)
+{
 	return 0;
 };
-double c_2(double t){
+
+double c_2(double t)
+{
 	return 0;
 };
-void spe(double *f, double *f_prev, double *z, int N, double t, double dt){
+
+void spe(double *f, double *f_prev, double *z, int N, double t, double dt)
+{
 	double A[N], B[N], C[N], D[N], dz, dq;
 	A[0] = 0;
 	B[0] = a_1(t) - b_1(t)/(z[1] - z[0]);
@@ -130,7 +145,8 @@ void spe(double *f, double *f_prev, double *z, int N, double t, double dt){
 	\]
 */
 
-void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, double *d){
+void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, double *d)
+{
 	//double a[N], b[N], c[N], d[N];
 	double A[N-2], B[N-2], C[N-2], D[N-2];
 	double dx[N-1], dydx[N-1];
@@ -164,7 +180,8 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	a[N-1] = y[N-1];
 }
 
-void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N){
+void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N)
+{
 	double a[N], b[N], c[N], d[N];
 	cubic_spline(x, y, N, a, b, c, d);
 	//Пусть xs и x сортированы по возрастанию
@@ -181,7 +198,8 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 	}
 }
 
-double int_cubic_spline(double la, double lb, double *x, double *y, int N){
+double int_cubic_spline(double la, double lb, double *x, double *y, int N)
+{
 	//Пусть x сортирован по возрастанию, la<lb
 	if ((la>=x[0])&&(la<=x[N-1])&&(lb>=x[0])&&(lb<=x[N-1])){
 		double a[N], b[N], c[N], d[N], h;
@@ -208,7 +226,8 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N){
 }
 
 
-void test_spe(){
+void test_spe()
+{
 	int N = 1000, M = 100;
 	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
 	double dz = zmax/(N-1), z[N];
@@ -229,7 +248,8 @@ void test_spe(){
 	fclose(file);
 }
 
-void test_spline(){
+void test_spline()
+{
 	int N = 1000, M = 30;
 	double x[N], xx[M], y[N], yy[M], x_min = 0, x_max = 10;
 	for (int i = 0; i<M; i++){
@@ -250,7 +270,8 @@ void test_spline(){
 	printf("%f", int_cubic_spline(pi/2, 2*pi, xx, yy, M));
 }
 
-int main(){
+int main()
+{
 	test_spline();
 	return 0;
 }
