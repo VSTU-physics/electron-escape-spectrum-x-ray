@@ -24,7 +24,7 @@ void load(int Z, const char* ch, auger_t &aug)
 			fscanf(fd, "%lf", &aug.P[i]);
 		}
 		fscanf(fd, "%s%s\n", aug.atom, aug.shell);
-		if (feof(fd)!=0) {
+		if ((feof(fd)!=0)&&(z!=Z)) {
 			printf("Ёлемент отсутствует в списке\n", ch);
 			return;
 		}
@@ -34,7 +34,7 @@ void load(int Z, const char* ch, auger_t &aug)
 
 void test_parse(){
 	auger_t aug;
-	int Z = 32;
+	int Z = 14;
 	load(Z, "data/aug.pl", aug);
 	printf("%d \n[", aug.N);
 	for (int i = 0; i<aug.N; i++){
