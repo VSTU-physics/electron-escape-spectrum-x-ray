@@ -3,9 +3,10 @@
 
 #include "physics.h"
 #include "calculations.h"
+#include "parse.h"
 
 int main()
 {
-	test_spline();
+	test_parse();
 	return 0;
 }

@@ -10,8 +10,17 @@ typedef struct subst
     double rho;  // плотность
     double M;    // молярная масса
     double Emax; // макс. энергия Оже-электронов
-    double U0;   // раота выхода
+    double U0;   // работа выхода
 } subst_t; // для описания свойств материала
+
+typedef struct auger
+{
+	int N;          // число Оже электронов
+	double *E;      // энергии
+	double *P;      // вероятности
+	char atom[30];  // строка для обозначения атома
+	char shell[30]; // оболочки с которых летят Оже-электроны
+} auger_t; // Оже?!
 
 double l_tr(subst_t s, double E);
 double eps(subst_t s, double E);

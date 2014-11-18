@@ -13,5 +13,6 @@
 *.synctex.gz
 *.txt
 *.gp
+*.d
 main
 [Oo]bj/
