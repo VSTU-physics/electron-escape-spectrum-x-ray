@@ -15,14 +15,18 @@ void load(int Z, const char* ch, auger_t &aug)
 		fscanf(fd, "%d", &aug.N);
 		aug.E = new double[aug.N];
 		aug.P = new double[aug.N];
+		fscanf(fd, " [");
 		for (int i = 0; i<aug.N; i++)
 		{
 			fscanf(fd, "%lf", &aug.E[i]);
 		}
+		fscanf(fd, "]");
+		fscanf(fd, " [");
 		for (int i = 0; i<aug.N; i++)
 		{
 			fscanf(fd, "%lf", &aug.P[i]);
 		}
+		fscanf(fd, "]");
 		fscanf(fd, "%s%s\n", aug.atom, aug.shell);
 		if ((feof(fd)!=0)&&(z!=Z)) {
 			printf("Ёлемент отсутствует в списке\n", ch);
