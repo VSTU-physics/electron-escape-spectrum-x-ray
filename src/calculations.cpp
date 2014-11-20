@@ -115,6 +115,7 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 	int j = 0;
 	double h;
 	for (int i = 0; i<M; i++){
+		//printf("%e %e %e\n", xs[i], x[0], x[N-1]);
 		if ((xs[i]>=x[0])&&(xs[i]<x[N-1])){
 			while (!((xs[i]<x[j+1])&&(xs[i]>=x[j]))&&(j<N)){
 				j++;

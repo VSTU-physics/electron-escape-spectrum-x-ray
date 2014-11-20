@@ -1,4 +1,5 @@
 #include "parse.h"
+#include <math.h>
 
 void load_auger(int Z, const char* ch, auger_t &aug)
 {
@@ -36,7 +37,7 @@ void load_auger(int Z, const char* ch, auger_t &aug)
 		fscanf(fd, "%s%s\n", aug.atom, aug.shell);
 		if ((feof(fd)!=0)&&(z!=Z)) 
 		{
-			printf("Element is absent at list\n", ch);
+			printf("Element is absent at list\n");
 			return;
 		}
 	} while (z!=Z);
@@ -57,7 +58,7 @@ void load_subst(int Z, const char* ch, subst_t &subs){
         fscanf(fd, "%d %lf %lf %lf %s\n", &subs.Z, &subs.M, &subs.rho, &subs.U0, chrm);
 		if ((feof(fd)!=0)&&(subs.Z!=Z)) 
 		{
-			printf("Element is absent at list\n", ch);
+			printf("Element is absent at list\n");
 			return;
 		}
 	} while (subs.Z!=Z);
@@ -135,21 +136,23 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 			fscanf(fd, "%lE", &dW_points[j]);
 			fscanf(fd, "%c", &chr);
 			j++;
-			if (chr!='\n') printf("%e\n", dW_points[j]);
 		} while (chr!='\n');
 		jmax = j;
-		e_sharp[i] = 0;
+		e_sharp[i] = 0.;
+		
 		for (int l = 1; l<jmax; l++)
 		{
+			//printf("%e %e %e\n", e_sharp[i], Q_points[l], dW_points[l]);
 			e_sharp[i] += 0.5*(Q_points[l] - Q_points[l-1])*(Q_points[l]*dW_points[l] + Q_points[l-1]*dW_points[l-1]);
 		}
+		//printf("%e\n", e_sharp[i]);
 		i++;
-	} while ((feof(fd)==0)||(chr=='#'));	
+	} while (feof(fd)==0);	
 	fclose(fd);
-	imax = i;
+	imax = i - 1;
 	eval_cubic_spline(E, esharp, N, E_points, e_sharp, imax);
 };
-
+ 
 void test_parse()
 {
 	auger_t aug;
@@ -176,7 +179,7 @@ void test_parse()
 	load_esharp(esharp, E, N, "data/", s);
 	for (int i = 0; i<N; i++)
 	{
-		printf("%e %e\n", E[i], ltr[i], s);
+		printf("%e %e %e\n", E[i], ltr[i], esharp[i]);
 	}
 	
 };
