@@ -88,10 +88,13 @@
 где
 \begin{itemize}
     \item[--] $\vec{\Omega}$ -- единичный вектор;
-    \item[--] $F(\vec{r}, \vec{\Omega}, E)$ --  вероятность найти частицу в окрестности $dV$ вектора $\vec{r}$, движущуюся в телесном угле $d\Omega$ в направлении $\vec{\Omega}$, с энергией в диапазоне $E, E+dE$;
+    \item[--] $F(\vec{r}, \vec{\Omega}, E)$ --  плотность потока частиц в
+        окрестности вектора $\vec{r}$, движущуюся в телесном угле $d\Omega$ в
+        направлении $\vec{\Omega}$, с энергией в диапазоне $[E, E+dE]$;
     \item[--] $\bar{\eps}(E)$ -- средние потери на единице пути:
     \begin{equation}\label{eq: sharp}
-        \bar{\eps}(E) = \int\limits_{0}^{E/2} \lambda_{in}^{-1}(E, \eps) \eps d\eps;
+        \bar{\eps}(E) = \int\limits_{0}^{E/2} \eps \dff{\lambda_{in}^{-1}(E,
+        \eps)}{\eps} d\eps;
     \end{equation}
     \item[--] $\lambda_{in}^{-1}(E, \eps)$ -- вероятность потерять на единице длины энергию $\eps$ (вероятность неупругого столкновения);
     \item[--] $\lambda^{-1}_{el}(E, \vec{\Omega}', \vec{\Omega})$ -- вероятность изменения направления движения с $\vec{\Omega}'$ на $\vec{\Omega}$ на единице пути (вероятность упругого столкновения);
@@ -333,7 +336,7 @@ I_2 =
 
 Граничные:
 \begin{gather}
-    \frac{1}{2} \frac{I_1}{1 - 3 I_2/2} n + \frac{\lambda_{tr}}{3} \dff{n}{z} \Bigg|_{z = 0} = 0 \\
+    \frac{1}{2} \frac{I_1}{1 - 3 I_2/2} n - \frac{\lambda_{tr}}{3} \dff{n}{z} \Bigg|_{z = 0} = 0 \\
     n\Bigg|_{z = l} = 0
 \end{gather}
 
