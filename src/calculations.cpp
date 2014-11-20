@@ -122,6 +122,9 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 			h = xs[i] - x[j];
 			ys[i] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;
 		}
+		if (xs[i] == x[N-1]){
+			ys[i] = y[N-1];
+		}
 	}
 }
 

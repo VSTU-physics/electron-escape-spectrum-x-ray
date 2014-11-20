@@ -62,7 +62,7 @@ void load_subst(int Z, const char* ch, subst_t &subs){
 
 void load_ltr(double *ltr, double *E, int N, const char* ch, int Z)
 {
-	char chr, chrm[50], filename[50];
+	char chr, chrm[500], filename[50];
 	sprintf(filename, "%s%d_el.pl", ch, Z);
 	FILE *fd;
 	if ((fd = fopen(filename, "r")) == NULL)
@@ -73,29 +73,39 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, int Z)
 	int theta_l, e_l;
 	fscanf(fd, "%d %s\n", &theta_l, chrm);
 	fscanf(fd, "%d %s\n", &e_l, chrm);
-	printf("%d %d", theta_l, e_l);
 	double theta[theta_l], dltr[theta_l], E_points[e_l], ltr_points[e_l];
 	for (int j = 0; j<theta_l; j++)
 	{
-		fscanf(fd, "%lf", &theta[j]);
-		printf("%f ", theta[j]);
+		fscanf(fd, "%lE", &theta[j]);
+		theta[j]*=M_PI/180;
 	}
-	printf("\n");
-	//fscanf(fd, "%s\n", chrm);
-	fscanf(fd, "%164c\n", chr);
+	fscanf(fd, "%s\n", chrm);
 	for (int i = 0; i<e_l; i++)
 	{
-		fscanf(fd, "%lf", &E_points[i]);
-		printf("%f ", E_points[i]);
+		fscanf(fd, "%lE", &E_points[e_l - 1 - i]);
 		for (int j = 0; j<theta_l; j++)
 		{
-			fscanf(fd, "%lf", &dltr[j]);
-			printf("%f ", dltr[j]);
+			fscanf(fd, "%lE", &dltr[j]);
+			dltr[j]*=(1 - cos(theta[j]))*sin(theta[j]);
 		}
 		fscanf(fd, "%s\n", chrm);
-		printf("\n");
+		ltr_points[e_l - 1 - i] = 2*M_PI*int_cubic_spline(theta[0], theta[theta_l-1], theta, dltr, theta_l);
 	}
-	
+	FILE *ftest;
+	ftest = fopen("test.gp", "w");
+	fprintf(ftest, "plot '-' with lines\n");
+	for (int i = 0; i<e_l; i++)
+	{
+		fprintf(ftest, "%e %e\n", E_points[i], ltr_points[i]);
+	}
+	fclose(ftest);
+	ftest = popen("test.gp", "w");
+	pclose(ftest);
+	for (int i = 0; i<N; i++)
+	{
+			E[i] = E_points[0] + (E_points[e_l - 1] - E_points[0])/(N-1)*i;
+	}
+	eval_cubic_spline(E, ltr, N, E_points, ltr_points, e_l);
 }
 
 void test_parse(){
@@ -118,5 +128,9 @@ void test_parse(){
 	int N = 10;
 	double ltr[N], E[N];
 	load_ltr(ltr, E, N, "data/", 32);
+	for (int i = 0; i<N; i++)
+	{
+		printf("%e %e\n", E[i], ltr[i]);
+	}
 	
 }
