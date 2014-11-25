@@ -1,6 +1,6 @@
 CXXFLAGS := -Wall -g -std=c++11
 CXXLIBS := -lm
-SOURCE := main.cpp physics.cpp calculations.cpp
+SOURCE := main.cpp physics.cpp calculations.cpp parse.cpp
 
 OBJS := $(patsubst %.cpp, %.o, $(SOURCE))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
