@@ -1,6 +1,6 @@
 #pragma once
 #define Ee 511003.4 // эВ
-#define re 2.8179403267e-15 // м
+#define re 2.8179403267e-13 // cм
 #define Na 6.0221413e23 // моль^-1
 #define alpha 0.00729735256
 

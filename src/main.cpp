@@ -13,10 +13,9 @@ double delta(double x, double dx)
 int main()
 {
 	int Z = 32;
-	//test_parse();
 	double *u, *z, *up;
 	double l = 1;
-	int N = 100; // число точек
+	int N = 200; // число точек
 	subst_t s;
 	auger_t a;
 
@@ -26,7 +25,7 @@ int main()
 	for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
 
 	double *E, source, *tmp, *f;
-	int M = 100; // число точек в спектре
+	int M = 500; // число точек в спектре
 	//ltr = new double[M];
 	//eps = new double[M];
 	E = new double[M];
@@ -63,7 +62,6 @@ int main()
 	for (int i = 0; i<M; i++)
     {
         E[i] = i * dE;
-        u[i] = a.P[0];
     }
 
     for (int i = M - 1; i>=0; i--)
@@ -73,7 +71,7 @@ int main()
         up = tmp;
 
         source = 0;
-        for (int k = 1; k<a.N; k++)
+        for (int k = 0; k<a.N; k++)
         {
             source += a.P[k]*delta(E[i] - a.E[k], dE);
         }
@@ -91,13 +89,29 @@ int main()
     }
     fclose(fd);
     fd = fopen("data.gp", "w");
-    fprintf(fd, "plot '-' with lines\n");
+    fprintf(fd, "set multiplot layout 2,2\n");
+    fprintf(fd, "set size square\n");
+    fprintf(fd, "plot '-' with lines title 'l_tr(E)' \n");
+    for (int i = M - 1; i>=0; i--)
+    {
+        fprintf(fd, "%e %e\n", E[i], l_tr(s, E[i]));
+    }
+    fprintf(fd, "end\n");
+    fprintf(fd, "plot '-' with lines title 'eps(E)'\n");
+    for (int i = M - 1; i>=0; i--)
+    {
+        fprintf(fd, "%e %e\n", E[i], eps(s, E[i]));
+    }
+    fprintf(fd, "end\n");
+    fprintf(fd, "plot '-' with lines title 'spectrum'\n");
     for (int i = M - 1; i>=0; i--)
     {
         fprintf(fd, "%e %e\n", E[i], f[i]);
     }
+    fprintf(fd, "end\n");
+    fprintf(fd, "unset multiplot\n");
 	fclose(fd);
-	//fd = popen("gnuplot -p data.gp", "w");
-	//pclose(fd);
+    fd = popen("gnuplot -p data.gp", "w");
+    pclose(fd);
 	return 0;
 }
