@@ -3,7 +3,7 @@
 
 void load_auger(int Z, const char* ch, auger_t &aug)
 {
-	char chr, chrm[50];
+	char chrm[50];
 	int z;
 	FILE *fd;
 	if ((fd = fopen(ch, "r")) == NULL)
@@ -45,7 +45,7 @@ void load_auger(int Z, const char* ch, auger_t &aug)
 }
 
 void load_subst(int Z, const char* ch, subst_t &subs){
-	char chr, chrm[50];
+	char chrm[50];
 	FILE *fd;
 	if ((fd = fopen(ch, "r")) == NULL)
 	{
@@ -67,7 +67,7 @@ void load_subst(int Z, const char* ch, subst_t &subs){
 
 void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 {
-	char chr, chrm[500], filename[50];
+	char chrm[500], filename[50];
 	sprintf(filename, "%s%d_el.pl", ch, s.Z);
 	FILE *fd;
 	if ((fd = fopen(filename, "r")) == NULL)
@@ -114,7 +114,6 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
         printf("Can't open file %s. Check that file exists\n", filename);
         return;
     };
-	int e_l;
 	fscanf(fd, "%s\n", chrm);
 	fscanf(fd, "%s\n", chrm);
 	fscanf(fd, "%s\n", chrm);

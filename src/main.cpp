@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <math.h>
+#ifdef __WIN32__
+    #include <windows.h>
+#endif // __WIN32__
 
 #include "physics.h"
 #include "calculations.h"
@@ -9,9 +12,12 @@ double delta(double x, double dx)
 {
 	return (fabs(x)<dx/2) ? 1./dx : 0.;
 }
-
+ 
 int main()
 {
+    #ifdef __WIN32__
+        system("chcp 65001");
+    #endif // __WIN32__
 	int Z = 32;
 	double *u, *z, *up;
 	double l = 1;

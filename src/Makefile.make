@@ -10,10 +10,10 @@ release: $(OBJS) $(DEPS)
 	$(CXX) $(OBJS) -o main.exe $(CXXLIBS)
 
 %.o: %.cpp %.d
-	$(CXX) -c -MD $< -o $@ $(CXXFLAGS)
+	$(CXX) -D __WIN32__ -c -MD $< -o $@ $(CXXFLAGS)
 
 %.d: %.cpp
-	$(CXX) -c -MD $<
+	$(CXX) -D __WIN32__ -c -MD $<
 
 clean:
 	$(RM) $(OBJS) $(DEPS)
