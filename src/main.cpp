@@ -24,7 +24,7 @@ int main()
 	z = new double[N];
 	for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
 
-	double *E, source, *tmp, *f;
+	double *E, *tmp, *f;
 	int M = 500; // число точек в спектре
 	//ltr = new double[M];
 	//eps = new double[M];
@@ -70,7 +70,7 @@ int main()
         u = up;
         up = tmp;
 
-        source = 0;
+        double source = 0;
         for (int k = 0; k<a.N; k++)
         {
             source += a.P[k]*delta(E[i] - a.E[k], dE);
@@ -113,5 +113,7 @@ int main()
 	fclose(fd);
     fd = popen("gnuplot -p data.gp", "w");
     pclose(fd);
+    delete[] E;
+    delete[] f;
 	return 0;
 }

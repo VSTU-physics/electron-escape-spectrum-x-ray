@@ -33,31 +33,34 @@ void spe(double *f,
          double b_2t,
          double c_2t)
 {
-	double A[N], B[N], C[N], D[N], dz1, dz2, dza, dq;
-	dz1 = z[1] - z[0];
+	double A[N], B[N], C[N], D[N];
 	A[0] = 0;
-	B[0] = a_1t - b_1t/dz1;
-	C[0] = b_1t/dz1;
+	B[0] = a_1t - b_1t/(z[1] - z[0]);
+	C[0] = b_1t/(z[1] - z[0]);
 	D[0] = c_1t;
-	for (int i = 1; i<N-1; i++){
-        dz2 = dz1;
-		dz1 = z[i+1] - z[i];
+	for (int i = 1; i< N - 1; i++)
+    {
+        double dz1, dz2, dza;
+        dz1 = z[i] - z[i-1];
+		dz2 = z[i+1] - z[i];
         dza = (dz1 + dz2)*0.5;
-		A[i] = dt*pt/dz2/dza;
+		A[i] = dt*pt/dz1/dza;
 		B[i] = -1 - 2*pt/dz1/dz2*dt;
-		C[i] = dt*pt/dz1/dza;
+		C[i] = dt*pt/dz2/dza;
 		D[i] = - gt*dt - f_prev[i];
 	}
 	A[N-1] = b_2t/(z[N-1] - z[N-2]);
 	B[N-1] = a_2t - b_2t/(z[N-1] - z[N-2]);
 	C[N-1] = 0;
 	D[N-1] = c_2t;
-	for (int i = 1; i<N; i++){
+	for (int i = 1; i<N; i++)
+    {
 		B[i] -= A[i]/B[i-1]*C[i];
 		D[i] -= A[i]/B[i-1]*D[i-1];
 	}
 	f[N-1] = D[N-1]/B[N-1];
-	for (int i = N-2; i>=0; i--){
+	for (int i = N-2; i>=0; i--)
+    {
 		f[i] = (D[i] - C[i] * f[i+1])/B[i];
 	}
 }
