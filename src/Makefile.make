@@ -2,6 +2,7 @@
 CXXFLAGS = -Wall -g -std=c++11
 CXXLIBS = 
 SOURCE = main.cpp physics.cpp calculations.cpp parse.cpp
+DFLAGS = -D__WIN__
 
 OBJS = $(SOURCE:.cpp=.o)
 DEPS = $(SOURCE:.cpp=.d)
@@ -10,10 +11,10 @@ release: $(OBJS) $(DEPS)
 	$(CXX) $(OBJS) -o main.exe $(CXXLIBS)
 
 %.o: %.cpp %.d
-	$(CXX) -D __WIN32__ -c -MD $< -o $@ $(CXXFLAGS)
+	$(CXX) $(DFLAGS) -c -MD $< -o $@ $(CXXFLAGS)
 
 %.d: %.cpp
-	$(CXX) -D __WIN32__ -c -MD $<
+	$(CXX) $(DFLAGS) -c -MD $<
 
 clean:
 	$(RM) $(OBJS) $(DEPS)

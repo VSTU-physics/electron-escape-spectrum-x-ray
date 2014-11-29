@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#ifdef __WIN32__
+#ifdef __WIN__
     #include <windows.h>
 #endif // __WIN32__
 
@@ -12,16 +12,16 @@ double delta(double x, double dx)
 {
 	return (fabs(x)<dx/2) ? 1./dx : 0.;
 }
- 
+
 int main()
 {
-    #ifdef __WIN32__
+    #ifdef __WIN__
         system("chcp 65001");
-    #endif // __WIN32__
+    #endif // __WIN__
 	int Z = 32;
 	double *u, *z, *up;
 	double l = 1;
-	int N = 200; // число точек
+	int N = 500; // число точек
 	subst_t s;
 	auger_t a;
 
@@ -77,7 +77,7 @@ int main()
         up = tmp;
 
         double source = 0;
-        for (int k = 0; k<a.N; k++)
+        for (int k = 1; k<a.N; k++)
         {
             source += a.P[k]*delta(E[i] - a.E[k], dE);
         }
@@ -92,6 +92,7 @@ int main()
             0.
             );
         f[i] = l_tr(s, E[i])*3*I1(s, E[i])/(2 - 3 * I2(s, E[i]))*u[0];
+        printf("%e %e %e\n", I1(s, E[i]), I2(s, E[i]), I1(s, E[i])/(2 - 3 * I2(s, E[i])));
     }
     fclose(fd);
     fd = fopen("data.gp", "w");
@@ -113,6 +114,12 @@ int main()
     for (int i = M - 1; i>=0; i--)
     {
         fprintf(fd, "%e %e\n", E[i], f[i]);
+    }
+    fprintf(fd, "end\n");
+    fprintf(fd, "plot '-' with lines title 'spectrum'\n");
+    for (int i = 0; i<N; i++)
+    {
+        fprintf(fd, "%e %e\n", u[i], up[i]);
     }
     fprintf(fd, "end\n");
     fprintf(fd, "unset multiplot\n");

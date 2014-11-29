@@ -162,24 +162,27 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N)
 
 void test_spe()
 {
-//	int N = 1000, M = 100;
-//	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
-//	double dz = zmax/(N-1), z[N];
-//	phi = new double[N*M];
-//	for (int i = 0; i<N; i++){
-//		z[i] = (i==0) ? 0 : z[i-1]+dz;
-//		phi[i] = sin(z[i]);
-//	}
-//	for (int i = 1; i<M; i++){
-//		t+=dt;
-//		spe(phi+i*N, phi+(i-1)*N, z, N, t, dt);
-//	}
-//	FILE *file;
-//	file = fopen("results.txt", "w");
-//	for (int i = 0; i<N; i++){
-//		fprintf(file, "%f %f %f %f\n", z[i], phi[i], *(phi+N*50+i), *(phi+N*(M-1)+i));
-//	}
-//	fclose(file);
+	int N = 1000, M = 100;
+	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
+	double dz = zmax/(N-1), z[N];
+	phi = new double[N*M];
+	for (int i = 0; i<N; i++){
+		z[i] = (i==0) ? 0 : z[i-1]+dz;
+		phi[i] = sin(z[i]);
+	}
+	for (int i = 1; i<M; i++){
+		t+=dt;
+		spe(phi + i*N, phi + (i - 1)*N, z, N, dt, 1., 0., 1., 0., 0., 1., 0., 0.);
+	}
+	FILE *file;
+	file = fopen("results.txt", "w");
+	for (int i = 0; i<N; i++){
+		fprintf(file, "%f %f %f %f\n", z[i], phi[i], *(phi+N*50+i), *(phi+N*(M-1)+i));
+	}
+	fclose(file);
+	file = popen("gnuplot", "w");
+	fprintf(file, "plot 'results.txt' using 1:2 with lines, '' using 1:3 with lines, '' using 1:4 with lines\n");
+    pclose(file);
 }
 
 void test_spline()
