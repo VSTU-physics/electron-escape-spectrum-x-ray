@@ -26,9 +26,10 @@ double eta(subst_t s, double E)
 double l_tr(subst_t s, double E)
 {
     double T = (s.U0 + E) / Ee;
-    return 2 * M_PI * s.rho / s.M * Na * s.Z * (s.Z + 1) *
+    double inv_l_tr = 2 * M_PI * s.rho / s.M * Na * s.Z * (s.Z + 1) *
         pow((T+1)*re/T/(T+2), 2) *
         (log1p(1 / eta(s, E)) - 1 / (eta(s, E) + 1));
+    return 1 / inv_l_tr;
 }
 
 double I1(subst_t s, double E)
