@@ -84,7 +84,8 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	c[N-1] = 0;
 	dx[0] = x[1] - x[0];
 	dydx[0] = (y[1] - y[0])/dx[0];
-	for (int i = 0; i<(N-2); i++){
+	for (int i = 0; i<(N-2); i++)
+    {
 		dx[i+1] = x[i+2] - x[i+1];
 		dydx[i+1] = (y[i+2] - y[i+1])/dx[i+1];
 		A[i+1] = dx[i];
@@ -92,15 +93,18 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 		C[i] = dx[i];
 		D[i] = 6*(dydx[i+1] - dydx[i]);
 	}
-	for (int i = 1; i<N-2; i++){
+	for (int i = 1; i<N-2; i++)
+    {
 		B[i] -= A[i]/B[i-1]*C[i];
 		D[i] -= A[i]/B[i-1]*D[i-1];
 	}
 	c[N-2] = D[N-3]/B[N-3];
-	for (int i = N-4; i>=0; i--){
+	for (int i = N-4; i>=0; i--)
+    {
 		c[i+1] = (D[i] - C[i] * c[i+2])/B[i];
 	}
-	for (int i = 0; i<N-1; i++){
+	for (int i = 0; i<N-1; i++)
+    {
 		a[i] = y[i];
 		b[i] = dydx[i] - c[i]*dx[i]/3 - c[i+1]*dx[i]/6;
 		d[i] = (c[i+1] - c[i])/dx[i];
@@ -117,16 +121,30 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 	//Пусть xs и x сортированы по возрастанию
 	int j = 0;
 	double h;
-	for (int i = 0; i<M; i++){
+	for (int i = 0; i<M; i++)
+    {
 		//printf("%e %e %e\n", xs[i], x[0], x[N-1]);
-		if ((xs[i]>=x[0])&&(xs[i]<x[N-1])){
-			while (!((xs[i]<x[j+1])&&(xs[i]>=x[j]))&&(j<N)){
+        if (xs[i]<x[0])
+        {
+            h = xs[i] - x[0];
+			ys[i] = a[0] + b[0]*h + c[0]*h*h/2 + d[0]*h*h*h/6;
+        }
+        if (xs[i]>x[N-1])
+        {
+            h = xs[i] - x[N-1];
+			ys[i] = a[N-1] + b[N-1]*h + c[N-1]*h*h/2 + d[N-1]*h*h*h/6;
+        }
+		if ((xs[i]>=x[0])&&(xs[i]<x[N-1]))
+        {
+			while (!((xs[i]<x[j+1])&&(xs[i]>=x[j]))&&(j<N))
+            {
 				j++;
 			}
 			h = xs[i] - x[j];
 			ys[i] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;
 		}
-		if (xs[i] == x[N-1]){
+		if (xs[i] == x[N-1])
+        {
 			ys[i] = y[N-1];
 		}
 	}
@@ -135,20 +153,35 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 double int_cubic_spline(double la, double lb, double *x, double *y, int N)
 {
 	//Пусть x сортирован по возрастанию, la<lb
-	if ((la>=x[0])&&(la<=x[N-1])&&(lb>=x[0])&&(lb<=x[N-1])){
+	if ((la>=x[0])&&(la<=x[N-1])&&(lb>=x[0])&&(lb<=x[N-1]))
+    {
 		double a[N], b[N], c[N], d[N], h;
 		cubic_spline(x, y, N, a, b, c, d);
 		double result = 0.;
-		for (int j = 1; j<N-1; j++){
-			if ((la<=x[j])&&(lb>=x[j+1])) {
+		for (int j = 1; j<N-1; j++)
+        {
+            if (la<x[0])
+            {
+                h = x[0] - la;
+                result+=a[0]*h + b[0]*h*h/2 + c[0]*h*h*h/6 + d[0]*h*h*h*h/24;
+            }
+            if (lb>x[N-1])
+            {
+                h = lb - x[N-1];
+                result+=a[N-1]*h + b[N-1]*h*h/2 + c[N-1]*h*h*h/6 + d[N-1]*h*h*h*h/24;
+            }
+			if ((la<=x[j])&&(lb>=x[j+1])) 
+            {
 				h = x[j+1] - x[j];
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
 			}
-			if ((la>x[j])&&(la<x[j+1])) {
+			if ((la>x[j])&&(la<x[j+1])) 
+            {
 				h = x[j+1] - la;
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
 			}
-			if ((lb>x[j])&&(lb<x[j+1])) {
+			if ((lb>x[j])&&(lb<x[j+1])) 
+            {
 				h = lb - x[j];
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
 			}

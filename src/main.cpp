@@ -37,12 +37,156 @@ double delta(double x, double dx)
     return (fabs(x)<dx/2) ? 1./dx : 0.;
 }
 
-int main()
+void test_all()
 {
-    #ifdef __WIN__
-        system("chcp 65001");
-    #endif // __WIN__
-    char type = 'A'; // A - аналитический расчёт коэффициентов,
+    int Z = 32;
+    double *u, *z, *up;
+    double l = 1;
+    int N = 500; // число точек
+    subst_t s;
+    auger_t a;
+
+    u = new double[N];
+    up = new double[N];
+    z = new double[N];
+    for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
+
+    double *E, *tmp, *f, *f2, *ltrs, *epss, *I1s, *I2s, *ltrs2, *epss2;
+    int M = 500; // число точек в спектре
+    ltrs = new double[M];
+    epss = new double[M];
+    ltrs2 = new double[M];
+    epss2 = new double[M];
+    I1s = new double[M];
+    I2s = new double[M];
+    E = new double[M];
+    f = new double[M];
+    f2 = new double[M];
+
+    load_subst(Z, "data/subst.pl", s);
+    load_auger(Z, "data/aug.pl", a);
+    check_data(Z, s, a);
+
+    double dE = a.E[0] / (M - 1);
+    for (int i = 0; i<M; i++)
+    {
+        E[i] = i * dE;
+    }
+    for (int i = 0; i<M; i++)
+    {
+        ltrs[i] = l_tr(s, E[i]);
+        epss[i] = eps(s, E[i]);
+        I1s[i] = I1(s, E[i]);
+        I2s[i] = I2(s, E[i]);
+    }
+
+    for (int i = M - 1; i>=0; i--)
+    {
+        tmp = u;
+        u = up;
+        up = tmp;
+
+        double source = 0;
+        for (int k = 0; k<a.N; k++)
+        {
+            source += a.P[k]*delta(E[i] - a.E[k], dE);
+        }
+        spe(u, up, z, N, dE,
+            - 1./3 * ltrs[i] / epss[i],
+            source,
+            I1s[i]/(2 - 3 * I2s[i]),
+            - ltrs[i] / 3,
+            0,
+            1.,
+            0.,
+            0.
+            );
+        f[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
+    }
+    load_ltr(ltrs2, E, M, "data/", s );
+    load_esharp(epss2, E, M, "data/", s);
+
+    for (int i = M - 1; i>=0; i--)
+    {
+        tmp = u;
+        u = up;
+        up = tmp;
+
+        double source = 0;
+        for (int k = 0; k<a.N; k++)
+        {
+            source += a.P[k]*delta(E[i] - a.E[k], dE);
+        }
+        spe(u, up, z, N, dE,
+            - 1./3 * ltrs2[i] / epss2[i],
+            source,
+            I1s[i]/(2 - 3 * I2s[i]),
+            - ltrs2[i] / 3,
+            0,
+            1.,
+            0.,
+            0.
+            );
+        f2[i] = 3 / ltrs2[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
+    }
+    
+    FILE *fd;
+    fd = fopen("ltr.dat", "w");
+    for (int i = M - 1; i>=0; i--)
+    {
+        fprintf(fd, "%e %e %e\n", E[i], ltrs[i], ltrs2[i]);
+    }
+    fclose(fd);
+    fd = fopen("ltr.gp", "w");
+    fprintf(fd, "set size square\n");
+    fprintf(fd, "plot 'ltr.dat' using 1:2 with lines title 'l_tr_A(E)',\\ \n");
+    fprintf(fd, "'ltr.dat' using 1:3 with lines title 'l_tr_T(E)' \n");
+    fclose(fd);
+    
+    fd = fopen("eps.dat", "w");
+    for (int i = M - 1; i>=0; i--)
+    {
+        fprintf(fd, "%e %e %e\n", E[i], epss[i], epss2[i]);
+    }
+    fclose(fd);
+    fd = fopen("eps.gp", "w");
+    fprintf(fd, "set size square\n");
+    fprintf(fd, "plot 'eps.dat' using 1:2 with lines title 'eps_A(E)' ,\\ \n");
+    fprintf(fd, "'eps.dat' using 1:3 with lines title 'eps_T(E)' \n");
+    fclose(fd);
+    
+    fd = fopen("spectrum.dat", "w");
+    for (int i = M - 1; i>=0; i--)
+    {
+        fprintf(fd, "%e %e %e\n", E[i], f[i], f2[i]);
+    }
+    fclose(fd);
+    fd = fopen("spectrum.gp", "w");
+    fprintf(fd, "set size square\n");
+    fprintf(fd, "plot 'spectrum.dat' using 1:2 with lines title 'A' ,\\ \n");
+    fprintf(fd, "'spectrum.dat' using 1:3 with lines title 'T' \n");
+    fclose(fd);
+    
+    fd = popen("gnuplot -p ltr.gp", "w");
+    pclose(fd);
+    fd = popen("gnuplot -p eps.gp", "w");
+    pclose(fd);
+    fd = popen("gnuplot -p spectrum.gp", "w");
+    pclose(fd);
+    delete[] E;
+    delete[] f;
+    delete[] ltrs;
+    delete[] epss;
+    delete[] f2;
+    delete[] ltrs2;
+    delete[] epss2;
+    delete[] I1s;
+    delete[] I2s;
+}
+
+void old_test()
+{
+        char type = 'A'; // A - аналитический расчёт коэффициентов,
                      // T - табличные значения
     int Z = 32;
     double *u, *z, *up;
@@ -156,5 +300,13 @@ int main()
     delete[] epss;
     delete[] I1s;
     delete[] I2s;
+}
+
+int main()
+{
+    #ifdef __WIN__
+        system("chcp 65001");
+    #endif // __WIN__
+    test_all();
     return 0;
 }

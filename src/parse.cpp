@@ -26,6 +26,7 @@ void load_auger(int Z, const char* ch, auger_t &aug)
 		for (int i = 0; i<aug.N; i++)
 		{
 			fscanf(fd, "%lf", &aug.E[i]);
+            aug.E[i] *= 1000;
 		}
 		fscanf(fd, "]");
 		fscanf(fd, " [");
@@ -94,11 +95,7 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 			dltr[j]*=s.rho*Na/s.M*(1 - cos(theta[j]))*sin(theta[j]);
 		}
 		fscanf(fd, "%s\n", chrm);
-		ltr_points[e_l - 1 - i] = 2*M_PI*int_cubic_spline(theta[0], theta[theta_l-1], theta, dltr, theta_l);
-	}
-	for (int i = 0; i<N; i++)
-	{
-			E[i] = E_points[0] + (E_points[e_l - 1] - E_points[0])/(N-1)*i;
+		ltr_points[e_l - 1 - i] = 1./(2*M_PI*int_cubic_spline(theta[0], theta[theta_l-1], theta, dltr, theta_l));
 	}
 	eval_cubic_spline(E, ltr, N, E_points, ltr_points, e_l);
 	fclose(fd);
@@ -136,7 +133,7 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 			fscanf(fd, "%c", &chr);
 			j++;
 		} while (chr!='\n');
-		jmax = j;
+		jmax = j - 1;
 		e_sharp[i] = 0.;
 		
 		for (int l = 1; l<jmax; l++)

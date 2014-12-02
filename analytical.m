@@ -961,6 +961,7 @@ function compute_parameters_out = input_data(atom_name, E0_eV, data_type)
         for j = 1 : nE
             for i = 1 : n(j)-1  
                 dEdS_eV_sm(j) = dEdS_eV_sm(j) + 0.5*(Q(i+1,j)-Q(i,j))*(Q(i+1,j)*dW(i+1,j)+Q(i,j)*dW(i,j));
+                disp(dEdS_eV_sm(j));
             end
         end
 

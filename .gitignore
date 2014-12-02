@@ -14,5 +14,6 @@
 *.txt
 *.gp
 *.d
+*.dat
 main
 [Oo]bj/
