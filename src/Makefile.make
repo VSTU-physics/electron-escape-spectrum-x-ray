@@ -1,5 +1,5 @@
 # для сборки под Windows с mingw32-make
-CXXFLAGS = -Wall -g -std=c++11
+CXXFLAGS = -Wall -g -std=c++11 -lm
 CXXLIBS = 
 SOURCE = main.cpp physics.cpp calculations.cpp parse.cpp
 DFLAGS = -D__WIN__

@@ -2,7 +2,7 @@
 #include <math.h>
 #ifdef __WIN__
     #include <windows.h>
-#endif // __WIN32__
+#endif // __WIN__
 
 #include "physics.h"
 #include "calculations.h"
@@ -53,6 +53,7 @@ void test_all()
 
     double *E, *tmp, *f, *f2, *ltrs, *epss, *I1s, *I2s, *ltrs2, *epss2;
     int M = 500; // число точек в спектре
+    double Emax = 10000, Emin;
     ltrs = new double[M];
     epss = new double[M];
     ltrs2 = new double[M];
@@ -66,11 +67,12 @@ void test_all()
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
     check_data(Z, s, a);
-
-    double dE = a.E[0] / (M - 1);
+    
+    Emin = J(Z);
+    double dE = (Emax - Emin) / (M - 1);
     for (int i = 0; i<M; i++)
     {
-        E[i] = i * dE;
+        E[i] = Emin + i * dE;
     }
     for (int i = 0; i<M; i++)
     {
@@ -102,6 +104,13 @@ void test_all()
             0.
             );
         f[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
+    }
+    
+    Emin = 0.;
+    dE = (Emax - Emin) / (M - 1);
+    for (int i = 0; i<M; i++)
+    {
+        E[i] = Emin + i * dE;
     }
     load_ltr(ltrs2, E, M, "data/", s );
     load_esharp(epss2, E, M, "data/", s);
@@ -139,7 +148,7 @@ void test_all()
     fclose(fd);
     fd = fopen("ltr.gp", "w");
     fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'ltr.dat' using 1:2 with lines title 'l_tr_A(E)',\\ \n");
+    fprintf(fd, "plot 'ltr.dat' using 1:2 with lines title 'l_tr_A(E)',\\\n");
     fprintf(fd, "'ltr.dat' using 1:3 with lines title 'l_tr_T(E)' \n");
     fclose(fd);
     
@@ -151,7 +160,7 @@ void test_all()
     fclose(fd);
     fd = fopen("eps.gp", "w");
     fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'eps.dat' using 1:2 with lines title 'eps_A(E)' ,\\ \n");
+    fprintf(fd, "plot 'eps.dat' using 1:2 with lines title 'eps_A(E)',\\\n");
     fprintf(fd, "'eps.dat' using 1:3 with lines title 'eps_T(E)' \n");
     fclose(fd);
     
@@ -163,7 +172,7 @@ void test_all()
     fclose(fd);
     fd = fopen("spectrum.gp", "w");
     fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'spectrum.dat' using 1:2 with lines title 'A' ,\\ \n");
+    fprintf(fd, "plot 'spectrum.dat' using 1:2 with lines title 'A',\\\n");
     fprintf(fd, "'spectrum.dat' using 1:3 with lines title 'T' \n");
     fclose(fd);
     

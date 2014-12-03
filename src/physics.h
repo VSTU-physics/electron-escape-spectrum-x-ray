@@ -26,4 +26,5 @@ double l_tr(subst_t s, double E);
 double eps(subst_t s, double E);
 double I1(subst_t s, double E);
 double I2(subst_t s, double E);
+double J(int Z);
 
