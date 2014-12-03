@@ -136,138 +136,137 @@ function analytical()
 
 
     %% refinement grid over t
-    E_dense_point_eV = 50;
-    t_by_dense_point = 1 - E_dense_point_eV/E0_eV;
-    if t_by_dense_point < t_max
-        mesh_density = nt/(t_max - t_min);
-        k_density = 20;
-        high_mesh_density = k_density*mesh_density;
-        nt_add = round( (t_max - t_by_dense_point)*high_mesh_density );
-        t_add = linspace(t_by_dense_point, t_max, nt_add);
-
-        idx_t_by_dense_point = 0;
-        for i = nt:-1:1
-            if t_by_dense_point <= t(i)
-                idx_t_by_dense_point = i;
-            end
-        end
-
-        t(idx_t_by_dense_point:end) = [];
-        t = [t t_add];
-        nt = length(t);
-    end
-
-
-    %% drawing coefficient in the boundary condition
-    fig_no = fig_no + 1;
-    figure(fig_no), plot(t,b_coeff(t)), xlabel('t'), ylabel('boundary coefficient'),...
-        axis([0 1 0 1.04*max(b_coeff(t))]);
-    set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Boundary coefficient'), drawnow;
-    pause(figure_pause_time);
-
-
-    %% решение уравнения диффузии
-    ode_options = odeset('RelTol',5e-5,'MaxStep',dt);
-    sol = pdepe(0, @pdefunction, @icfunction, @bcfunction, x, t, ode_options);
-    u = sol(:,:,1);
-
-
-    %% прорисовка поверхности Ф0(x,t)
-    fig_no = fig_no + 1;
-    umax = max(max(u));
-    colormap('cool');
-    figure(fig_no), surf(x,t,u), xlabel('x'), ylabel('t'), zlabel('\Phi_0(x,t)'),...
-    axis([x_min x_max t_min t_max 0 umax]);
-    set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Surface \Phi_0(x,t)'), drawnow;
-    pause(figure_pause_time);
-
-
-    %% drawing profiles \Phi_0(x,t=const)
-    fig_no = fig_no + 1;
-    figure(fig_no);
-    set(figure(fig_no), 'NumberTitle', 'off', 'Name', '\Phi_0(x,t=0)');
-    for i=1:nt
-        if (animation_enabled)||(i==nt)
-            figure(fig_no), plot(x,u(i,:)), axis([x_min x_max 0 umax]), drawnow;
-            pause(animation_pause_time);
-        end
-    end
-    figure(fig_no), xlabel('x'), ylabel('\Phi_0(x,t=0)'), axis([x_min x_max 0 umax]);
-    pause(figure_pause_time);
-    grid on;
-    drawnow;
-    pause(figure_pause_time);
-
-
-    %% error control
-    N_absorbed = zeros(1,nt);
-    N_escaped = zeros(1,nt);
-    N_summ = zeros(1,nt);
-    N_summ_true = zeros(1,nt);
-    dbde = (1/2) * quantum_coeff(t) .* u(:,  1)' ./deds(t);
-
-    for j=1:nt
-        for i=1:nx-1
-            N_absorbed(j) = N_absorbed(j) + 0.5*(u(j,i+1) + u(j,i))*(x(i+1)-x(i));
-        end
-        if j < nt
-            N_escaped(j+1) = N_escaped(j) + 0.5*(dbde(j+1) + dbde(j))*(t(j+1)-t(j));
-        end
-        N_summ(j) = N_absorbed(j) + N_escaped(j);
-
-        k_group = t0_group <= t(j);
-        N_summ_true(j) = xq * sum( prob_group.*k_group );
-    end
-
-
-    %% the resulting coefficients
-    num_digits = 6;
-    escaped_coeff = cut_digits(N_escaped(end), num_digits);
-    absorbed_coeff = cut_digits(N_absorbed(end), num_digits);
-    summ_coeff = cut_digits(N_summ(end), num_digits);
-    summ_true_coeff = cut_digits(N_summ_true(end), num_digits);
-    error_coeff_percent = cut_digits( 100*abs((summ_coeff - summ_true_coeff)/summ_true_coeff) , 2);
-
-    disp(' ');
-    disp('Output parameters:');
-    disp('escaped  absorbed  summ    error(%)  (summ_true)');
-    str_output_parameters = [num2str(escaped_coeff) '   ' num2str(absorbed_coeff) '    ' num2str(summ_coeff) '   ' num2str(error_coeff_percent) '       (' num2str(summ_true_coeff) ')'];
-    disp(str_output_parameters);
-
-    if error_coeff_percent > 5
-        uiwait(msgbox('Warning! Error in calculate is too large','Program message'));
-    end
-
-
-    %% прорисовка коэффициентов
-    max_N = max( [max(N_summ) max(N_summ_true)] );
-    fig_no = fig_no + 1;
-    figure(fig_no), hold on,...
-        plot(t, N_summ_true, 'k--', 'LineWidth', 2),...
-        plot(t, N_absorbed, 'b'),...
-        plot(t, N_escaped, 'r'),...
-        plot(t, N_summ, 'g', 'LineWidth', 2),...
-        axis([0 1 0 1.04*max_N]), xlabel('t'), ylabel('absorbed, escaped, summ'), grid on;
-    legend_matrix = {'true_summ', 'absorbed', 'escaped', 'summ of absorbed and escaped'};
-    legend_handle = legend('show');
-    set(legend_handle,...
-        'Box', 'on',...
-        'String', legend_matrix,...
-        'Location', 'NorthWest');
-    set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Control Calculating');
-    drawnow;
-    pause(figure_pause_time);
-
-
-    %% drawing spectrum
-    e = 1 - t;
-    e_quantum_limit = 1 - t_quantum_limit;
-    e = e - e_quantum_limit; %%% reduction of energy consist of particles on the potential barrier height
-    fig_no = fig_no + 1;
-    figure(fig_no),...
-        plot(e*E0_eV, dbde/E0_eV), axis([0 E0_eV 0 1.04*max(dbde/E0_eV)]), xlabel('E, eV'), ylabel('db/dE, 1/eV');
-    set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Spectrum'), drawnow;
-    pause(figure_pause_time);
+%     E_dense_point_eV = 50;
+%     t_by_dense_point = 1 - E_dense_point_eV/E0_eV;
+%     if t_by_dense_point < t_max
+%         mesh_density = nt/(t_max - t_min);
+%         k_density = 20;
+%         high_mesh_density = k_density*mesh_density;
+%         nt_add = round( (t_max - t_by_dense_point)*high_mesh_density );
+%         t_add = linspace(t_by_dense_point, t_max, nt_add);
+% 
+%         idx_t_by_dense_point = 0;
+%         for i = nt:-1:1
+%             if t_by_dense_point <= t(i)
+%                 idx_t_by_dense_point = i;
+%             end
+%         end
+% 
+%         t(idx_t_by_dense_point:end) = [];
+%         t = [t t_add];
+%         nt = length(t);
+%     end
+% 
+% 
+%     %% drawing coefficient in the boundary condition
+%     fig_no = fig_no + 1;
+%     figure(fig_no), plot(t,b_coeff(t)), xlabel('t'), ylabel('boundary coefficient'),...
+%         axis([0 1 0 1.04*max(b_coeff(t))]);
+%     set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Boundary coefficient'), drawnow;
+%     pause(figure_pause_time);
+% 
+% 
+%     %% решение уравнения диффузии
+%     ode_options = odeset('RelTol',5e-5,'MaxStep',dt);
+%     sol = pdepe(0, @pdefunction, @icfunction, @bcfunction, x, t, ode_options);
+%     u = sol(:,:,1);
+% 
+% 
+%     %% прорисовка поверхности Ф0(x,t)
+%     fig_no = fig_no + 1;
+%     umax = max(max(u));
+%     colormap('cool');
+%     figure(fig_no), surf(x,t,u), xlabel('x'), ylabel('t'), zlabel('\Phi_0(x,t)'),...
+%     axis([x_min x_max t_min t_max 0 umax]);
+%     set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Surface \Phi_0(x,t)'), drawnow;
+% 
+% 
+%     %% drawing profiles \Phi_0(x,t=const)
+%     fig_no = fig_no + 1;
+%     figure(fig_no);
+%     set(figure(fig_no), 'NumberTitle', 'off', 'Name', '\Phi_0(x,t=0)');
+%     for i=1:nt
+%         if (animation_enabled)||(i==nt)
+%             figure(fig_no), plot(x,u(i,:)), axis([x_min x_max 0 umax]), drawnow;
+%             pause(animation_pause_time);
+%         end
+%     end
+%     figure(fig_no), xlabel('x'), ylabel('\Phi_0(x,t=0)'), axis([x_min x_max 0 umax]);
+%     pause(figure_pause_time);
+%     grid on;
+%     drawnow;
+%     pause(figure_pause_time);
+% 
+% 
+%     %% error control
+%     N_absorbed = zeros(1,nt);
+%     N_escaped = zeros(1,nt);
+%     N_summ = zeros(1,nt);
+%     N_summ_true = zeros(1,nt);
+%     dbde = (1/2) * quantum_coeff(t) .* u(:,  1)' ./deds(t);
+% 
+%     for j=1:nt
+%         for i=1:nx-1
+%             N_absorbed(j) = N_absorbed(j) + 0.5*(u(j,i+1) + u(j,i))*(x(i+1)-x(i));
+%         end
+%         if j < nt
+%             N_escaped(j+1) = N_escaped(j) + 0.5*(dbde(j+1) + dbde(j))*(t(j+1)-t(j));
+%         end
+%         N_summ(j) = N_absorbed(j) + N_escaped(j);
+% 
+%         k_group = t0_group <= t(j);
+%         N_summ_true(j) = xq * sum( prob_group.*k_group );
+%     end
+% 
+% 
+%     %% the resulting coefficients
+%     num_digits = 6;
+%     escaped_coeff = cut_digits(N_escaped(end), num_digits);
+%     absorbed_coeff = cut_digits(N_absorbed(end), num_digits);
+%     summ_coeff = cut_digits(N_summ(end), num_digits);
+%     summ_true_coeff = cut_digits(N_summ_true(end), num_digits);
+%     error_coeff_percent = cut_digits( 100*abs((summ_coeff - summ_true_coeff)/summ_true_coeff) , 2);
+% 
+%     disp(' ');
+%     disp('Output parameters:');
+%     disp('escaped  absorbed  summ    error(%)  (summ_true)');
+%     str_output_parameters = [num2str(escaped_coeff) '   ' num2str(absorbed_coeff) '    ' num2str(summ_coeff) '   ' num2str(error_coeff_percent) '       (' num2str(summ_true_coeff) ')'];
+%     disp(str_output_parameters);
+% 
+%     if error_coeff_percent > 5
+%         uiwait(msgbox('Warning! Error in calculate is too large','Program message'));
+%     end
+% 
+% 
+%     %% прорисовка коэффициентов
+%     max_N = max( [max(N_summ) max(N_summ_true)] );
+%     fig_no = fig_no + 1;
+%     figure(fig_no), hold on,...
+%         plot(t, N_summ_true, 'k--', 'LineWidth', 2),...
+%         plot(t, N_absorbed, 'b'),...
+%         plot(t, N_escaped, 'r'),...
+%         plot(t, N_summ, 'g', 'LineWidth', 2),...
+%         axis([0 1 0 1.04*max_N]), xlabel('t'), ylabel('absorbed, escaped, summ'), grid on;
+%     legend_matrix = {'true_summ', 'absorbed', 'escaped', 'summ of absorbed and escaped'};
+%     legend_handle = legend('show');
+%     set(legend_handle,...
+%         'Box', 'on',...
+%         'String', legend_matrix,...
+%         'Location', 'NorthWest');
+%     set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Control Calculating');
+%     drawnow;
+%     pause(figure_pause_time);
+% 
+% 
+%     %% drawing spectrum
+%     e = 1 - t;
+%     e_quantum_limit = 1 - t_quantum_limit;
+%     e = e - e_quantum_limit; %%% reduction of energy consist of particles on the potential barrier height
+%     fig_no = fig_no + 1;
+%     figure(fig_no),...
+%         plot(e*E0_eV, dbde/E0_eV), axis([0 E0_eV 0 1.04*max(dbde/E0_eV)]), xlabel('E, eV'), ylabel('db/dE, 1/eV');
+%     set(figure(fig_no), 'NumberTitle', 'off', 'Name', 'Spectrum'), drawnow;
+%     pause(figure_pause_time);
 
 
 % --------------------------------------------------------------
@@ -560,6 +559,7 @@ function compute_parameters_out = input_data(atom_name, E0_eV, data_type)
 
 
         dEdS_point = 1./dSdE(E_point, mc2_eV, factor1, factor2); % eV/cm
+        disp(dEdS_point(1));
 
         deds_point = dEdS_point*(R0_cm/E0_eV); 
         e_point = E_point/E0_eV;
@@ -961,8 +961,8 @@ function compute_parameters_out = input_data(atom_name, E0_eV, data_type)
         for j = 1 : nE
             for i = 1 : n(j)-1  
                 dEdS_eV_sm(j) = dEdS_eV_sm(j) + 0.5*(Q(i+1,j)-Q(i,j))*(Q(i+1,j)*dW(i+1,j)+Q(i,j)*dW(i,j));
-                disp(dEdS_eV_sm(j));
             end
+            disp(dEdS_eV_sm(j));
         end
 
         dEdS_eV_nm = (1e-7) * dEdS_eV_sm;

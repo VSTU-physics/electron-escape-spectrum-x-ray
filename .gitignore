@@ -15,5 +15,6 @@
 *.gp
 *.d
 *.dat
+*.asv
 main
 [Oo]bj/

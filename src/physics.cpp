@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include "physics.h"
 
 double J(int Z)
@@ -12,7 +13,7 @@ double J(int Z)
 double eps(subst_t s, double E)
 {
     double T = (s.U0 + E) / Ee;
-    return 4 * M_PI * s.rho / s.M * Na * s.Z * pow((T+1)*re, 2) /
+    return Ee*4 * M_PI * s.rho / s.M * Na * s.Z * pow((T+1)*re, 2) /
         T / (T + 2) * log(1.166 * E / J(s.Z));
 }
 
