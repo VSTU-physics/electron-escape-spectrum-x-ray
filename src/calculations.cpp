@@ -238,6 +238,8 @@ void test_spline()
 	}
 	fclose(file);
 	printf("%f", int_cubic_spline(pi/2, 2*pi, xx, yy, M));
+    printf("%f", int_cubic_spline(pi/2, 3*pi, xx, yy, M));
+    printf("%f", int_cubic_spline(pi/2, 3*pi/2, xx, yy, M));
 }
 
 

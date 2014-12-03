@@ -52,7 +52,7 @@ void test_all()
     for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
 
     double *E, *tmp, *f, *f2, *ltrs, *epss, *I1s, *I2s, *ltrs2, *epss2;
-    int M = 500; // число точек в спектре
+    int M =  5000; // число точек в спектре
     double Emax = 10000, Emin;
     ltrs = new double[M];
     epss = new double[M];
@@ -68,7 +68,13 @@ void test_all()
     load_auger(Z, "data/aug.pl", a);
     check_data(Z, s, a);
     
-    Emin = J(Z);
+    for (int i = 0; i<N; i++) 
+    {
+        u[i] = 0.;
+        up[i] = 0.;
+    }
+    
+    Emin = 1000;
     double dE = (Emax - Emin) / (M - 1);
     for (int i = 0; i<M; i++)
     {
@@ -81,7 +87,7 @@ void test_all()
         I1s[i] = I1(s, E[i]);
         I2s[i] = I2(s, E[i]);
     }
-
+    
     for (int i = M - 1; i>=0; i--)
     {
         tmp = u;
@@ -106,7 +112,12 @@ void test_all()
         f[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
     }
     
-    Emin = 0.;
+    for (int i = 0; i<N; i++) 
+    {
+        u[i] = 0.;
+        up[i] = 0.;
+    }
+    //Emin = 0.;
     dE = (Emax - Emin) / (M - 1);
     for (int i = 0; i<M; i++)
     {
@@ -140,48 +151,30 @@ void test_all()
     }
     
     FILE *fd;
-    fd = fopen("ltr.dat", "w");
+    fd = fopen("data.dat", "w");
     for (int i = M - 1; i>=0; i--)
     {
-        fprintf(fd, "%e %e %e\n", E[i], ltrs[i], ltrs2[i]);
+        fprintf(fd, "%e %e %e %e %e %e %e\n", E[i], ltrs[i], ltrs2[i], epss[i], epss2[i], f[i], f2[i]);
     }
     fclose(fd);
-    fd = fopen("ltr.gp", "w");
+    fd = fopen("data.gp", "w");
+    fprintf(fd, "set terminal wxt 1\n");
     fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'ltr.dat' using 1:2 with lines title 'l_tr_A(E)',\\\n");
-    fprintf(fd, "'ltr.dat' using 1:3 with lines title 'l_tr_T(E)' \n");
+    fprintf(fd, "plot 'data.dat' using 1:2 with lines title 'l_tr_A(E)',\\\n");
+    fprintf(fd, "'data.dat' using 1:3 with lines title 'l_tr_T(E)' \n");
+    fprintf(fd, "set terminal wxt 2\n");
+    fprintf(fd, "set size square\n");
+    fprintf(fd, "plot 'data.dat' using 1:4 with lines title 'eps_A(E)',\\\n");
+    fprintf(fd, "'data.dat' using 1:5 with lines title 'eps_T(E)' \n");
+    fprintf(fd, "set terminal wxt 3\n");
+    fprintf(fd, "set size square\n");
+    fprintf(fd, "plot 'data.dat' using 1:6 with lines title 'A',\\\n");
+    fprintf(fd, "'data.dat' using 1:7 with lines title 'T' \n");
     fclose(fd);
     
-    fd = fopen("eps.dat", "w");
-    for (int i = M - 1; i>=0; i--)
-    {
-        fprintf(fd, "%e %e %e\n", E[i], epss[i], epss2[i]);
-    }
-    fclose(fd);
-    fd = fopen("eps.gp", "w");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'eps.dat' using 1:2 with lines title 'eps_A(E)',\\\n");
-    fprintf(fd, "'eps.dat' using 1:3 with lines title 'eps_T(E)' \n");
-    fclose(fd);
+    fd = popen("gnuplot -p data.gp", "w");
+    pclose(fd);
     
-    fd = fopen("spectrum.dat", "w");
-    for (int i = M - 1; i>=0; i--)
-    {
-        fprintf(fd, "%e %e %e\n", E[i], f[i], f2[i]);
-    }
-    fclose(fd);
-    fd = fopen("spectrum.gp", "w");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'spectrum.dat' using 1:2 with lines title 'A',\\\n");
-    fprintf(fd, "'spectrum.dat' using 1:3 with lines title 'T' \n");
-    fclose(fd);
-    
-    fd = popen("gnuplot -p ltr.gp", "w");
-    pclose(fd);
-    fd = popen("gnuplot -p eps.gp", "w");
-    pclose(fd);
-    fd = popen("gnuplot -p spectrum.gp", "w");
-    pclose(fd);
     delete[] E;
     delete[] f;
     delete[] ltrs;
@@ -317,5 +310,6 @@ int main()
         system("chcp 65001");
     #endif // __WIN__
     test_all();
+    //test_spline();
     return 0;
 }

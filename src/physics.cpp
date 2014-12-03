@@ -49,3 +49,9 @@ double I2(subst_t s, double E)
         8. / e / e * (1 - pow(eps, 7)) / 7. + 8. / e * (1 - pow(eps, 5)) / 5.;
 }
 
+double crsec(double theta, subst_t s, double E)
+{
+    double T = (s.U0 + E) / Ee;
+    return pow((T + 1) * re / T / (T + 2) / (1 - cos(theta) + 2 * eta(s, E)), 2) * s.Z * (s.Z + 1);
+}
+

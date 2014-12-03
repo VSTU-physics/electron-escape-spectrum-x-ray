@@ -27,4 +27,6 @@ double eps(subst_t s, double E);
 double I1(subst_t s, double E);
 double I2(subst_t s, double E);
 double J(int Z);
+double crsec(double theta, subst_t s, double E);
+double eta(subst_t s, double E);
 
