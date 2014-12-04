@@ -56,392 +56,234 @@ void check_data(int Z, subst_t s, auger_t a, approx_t ap)
 
 double delta(double x, double dx)
 {
-    return (fabs(x)<dx/2) ? 1./dx : 0.;
+    return (fabs(x) < fabs(dx/2)) ? 1./dx : 0.;
 }
 
-void test_all()
+void solve(const char* fname, auger_t a, int N, double* z,
+           int M, double* E, double* ltrs, double* epss,
+           double* I1s, double* I2s, double* fs)
 {
-    int Z = 32;
-    double *u, *z, *up;
-    double l = 1;
-    int N = 500; // число точек
+    FILE* fd = fopen(fname, "w");
+    double* tmp;
+    double* u = new double[N];
+    double* up = new double[N];
+
+    for (int i = 1; i < M; i++)
+    {
+        tmp = u;
+        u = up;
+        up = tmp;
+
+        double source = 0;
+        double dE = E[i] - E[i - 1];
+        for (int k = 0; k < a.N; k++)
+            source += a.P[k] * delta(E[i] - a.E[k], dE);
+
+        spe(u, up, z, N, dE,
+            1./3 * ltrs[i] / epss[i],
+            source,
+            I1s[i]/(2 - 3 * I2s[i]),
+            - ltrs[i] / 3,
+            0,
+            1.,
+            0.,
+            0.
+            );
+        fs[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
+        if (i % 100 == 0)
+        {
+            for (int j = 0; j < N; j += 10)
+            {
+                fprintf(fd, "%e %e %e\n", E[i], z[j], u[j]);
+            }
+            fprintf(fd, "\n");
+        }
+    }
+    fclose(fd);
+}
+
+void analytical(int Z, int M, int N, double l)
+{
+    subst_t s;
+    auger_t a;
+    load_subst(Z, "data/subst.pl", s);
+    load_auger(Z, "data/aug.pl", a);
+    double Emin = 1000, Emax = 1.1 * a.E[0];
+
+    double* z = new double[N];
+    for (int i = 0; i<N; i++)
+        z[i] = i * l / (N - 1);
+
+    double* E = new double[M];
+    for (int i = 0; i < M; i++)
+        E[i] = Emax + (Emin - Emax) / (M - 1) * i;
+
+    double* I1s = new double[M];
+    double* I2s = new double[M];
+    double* ltrs = new double[M];
+    double* epss = new double[M];
+    double* rs = new double[M];
+    double* bs = new double[M];
+    double* fs = new double[M];
+
+    for (int i = 0; i<M; i++)
+    {
+        I1s[i] = I1(s, E[i]);
+        I2s[i] = I2(s, E[i]);
+        ltrs[i] = l_tr(s, E[i]);
+        epss[i] = eps(s, E[i]);
+        bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
+    }
+
+    for (int i = 0; i < M-1; i++)
+    {
+        rs[M - 2 - i] = rs[M - 1 - i] +
+            0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
+            (E[M - i - 2] - E[M - i - 1]);
+    }
+
+    solve("solution_a.dat", a, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    FILE* fd = fopen("data_a.dat", "w");
+    fprintf(fd, "# E ltr eps f r bc\n");
+    for (int i = 0; i < M; i++)
+    {
+        fprintf(fd, "%e %e %e %e %e %e\n",
+                E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
+    }
+    fclose(fd);
+
+    delete [] I1s;
+    delete [] I2s;
+    delete [] ltrs;
+    delete [] epss;
+    delete [] rs;
+    delete [] bs;
+    delete [] fs;
+    delete [] E;
+}
+
+void table(int Z, int M, int N, double l)
+{
+    subst_t s;
+    auger_t a;
+    load_subst(Z, "data/subst.pl", s);
+    load_auger(Z, "data/aug.pl", a);
+    double Emin = 1000, Emax = 1.1 * a.E[0];
+    double* z = new double[N];
+    for (int i = 0; i<N; i++)
+        z[i] = i * l / (N - 1);
+
+    double* E = new double[M];
+    for (int i = 0; i < M; i++)
+        E[i] = Emax + (Emin - Emax) / (M - 1) * i;
+
+    double* I1s = new double[M];
+    double* I2s = new double[M];
+    double* ltrs = new double[M];
+    double* epss = new double[M];
+    double* rs = new double[M];
+    double* bs = new double[M];
+    double* fs = new double[M];
+    load_ltr(ltrs, E, M, "data/", s);
+    load_esharp(epss, E, M, "data/", s);
+    for (int i = 0; i<M; i++)
+    {
+        I1s[i] = I1(s, E[i]);
+        I2s[i] = I2(s, E[i]);
+        bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
+    }
+    for (int i = 0; i < M-1; i++)
+    {
+        rs[M - 2 - i] = rs[M - 1 - i] +
+            0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
+            (E[M - i - 2] - E[M - i - 1]);
+    }
+    solve("solution_t.dat", a, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    FILE* fd = fopen("data_t.dat", "w");
+    fprintf(fd, "# E ltr eps f r bc\n");
+    for (int i = 0; i < M; i++)
+    {
+        fprintf(fd, "%e %e %e %e %e %e\n",
+                E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
+    }
+    fclose(fd);
+    delete [] I1s;
+    delete [] I2s;
+    delete [] ltrs;
+    delete [] epss;
+    delete [] rs;
+    delete [] bs;
+    delete [] fs;
+    delete [] E;
+}
+
+void approximation(int Z, int M, int N, double l)
+{
     subst_t s;
     auger_t a;
     approx_t ap;
-
-    u = new double[N];
-    up = new double[N];
-    z = new double[N];
-    for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
-
-    double *E, *tmp, *f, *f2, *f3, *ltrs, *epss, *I1s, *I2s, *ltrs2, *epss2, *ltrs3, *epss3,
-           *Rs, *Rs2, *Rs3, *bs, *bs2, *bs3;
-    int M =  5000; // число точек в спектре
-    double Emax = 10000, Emin;
-    ltrs = new double[M];
-    epss = new double[M];
-    ltrs2 = new double[M];
-    epss2 = new double[M];
-    ltrs3 = new double[M];
-    epss3 = new double[M];
-    I1s = new double[M];
-    I2s = new double[M];
-    E = new double[M];
-    f = new double[M];
-    f2 = new double[M];
-    f3 = new double[M];
-    Rs = new double[M];
-    Rs2 = new double[M];
-    Rs3 = new double[M];
-    bs = new double[M];
-    bs2 = new double[M];
-    bs3 = new double[M];
-
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
     load_approx(Z, "data/approx.pl", ap);
-    check_data(Z, s, a, ap);
-
+    double Emin = 1000, Emax = 1.1 * a.E[0];
+    double* z = new double[N];
     for (int i = 0; i<N; i++)
-    {
-        u[i] = 0.;
-        up[i] = 0.;
-    }
+        z[i] = i * l / (N - 1);
 
-    Emin = 1000;
-    double dE = (Emax - Emin) / (M - 1);
+    double* E = new double[M];
+    for (int i = 0; i < M; i++)
+        E[i] = Emax + (Emin - Emax) / (M - 1) * i;
+
+    double* I1s = new double[M];
+    double* I2s = new double[M];
+    double* ltrs = new double[M];
+    double* epss = new double[M];
+    double* rs = new double[M];
+    double* bs = new double[M];
+    double* fs = new double[M];
+
+    le_approx(ltrs, epss, E, M, ap, s);
     for (int i = 0; i<M; i++)
     {
-        E[i] = Emin + i * dE;
-    }
-    for (int i = 0; i<M; i++)
-    {
-        ltrs[i] = l_tr(s, E[i]);
-        epss[i] = eps(s, E[i]);
         I1s[i] = I1(s, E[i]);
         I2s[i] = I2(s, E[i]);
+        bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
 
-    FILE *fd;
-    fd = fopen("solution_a.dat", "w");
-    for (int i = M - 1; i>=0; i--)
+    for (int i = 0; i < M-1; i++)
     {
-        tmp = u;
-        u = up;
-        up = tmp;
-
-        double source = 0;
-        for (int k = 0; k<a.N; k++)
-        {
-            source += a.P[k]*delta(E[i] - a.E[k], dE);
-        }
-        spe(u, up, z, N, dE,
-            - 1./3 * ltrs[i] / epss[i],
-            source,
-            I1s[i]/(2 - 3 * I2s[i]),
-            - ltrs[i] / 3,
-            0,
-            1.,
-            0.,
-            0.
-            );
-        f[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
-        if (i != M - 1)
-            Rs[i] = Rs[i+1] + 0.5 * (1 / epss[i+1] + 1 / epss[i]) * dE;
-        bs[i] = I1s[i]/(2 - 3 * I2s[i]) / ltrs[i] * 3;
-
-        if (i % 100 == 0)
-        {
-            for (int j = 0; j < N; j += 10)
-            {
-                fprintf(fd, "%e %e %e\n", E[i], z[j], u[j]);
-            }
-            fprintf(fd, "\n");
-        }
+        rs[M - 2 - i] = rs[M - 1 - i] +
+            0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
+            (E[M - i - 2] - E[M - i - 1]);
+    }
+    solve("solution_p.dat", a, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    FILE* fd = fopen("data_p.dat", "w");
+    fprintf(fd, "# E ltr eps f r bc\n");
+    for (int i = 0; i < M; i++)
+    {
+        fprintf(fd, "%e %e %e %e %e %e\n",
+                E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
     }
     fclose(fd);
-
-    for (int i = 0; i<N; i++)
-    {
-        u[i] = 0.;
-        up[i] = 0.;
-    }
-    //Emin = 0.;
-    dE = (Emax - Emin) / (M - 1);
-    for (int i = 0; i<M; i++)
-    {
-        E[i] = Emin + i * dE;
-    }
-    load_ltr(ltrs2, E, M, "data/", s );
-    load_esharp(epss2, E, M, "data/", s);
-
-    fd = fopen("solution_t.dat", "w");
-    for (int i = M - 1; i>=0; i--)
-    {
-        tmp = u;
-        u = up;
-        up = tmp;
-
-        double source = 0;
-        for (int k = 0; k<a.N; k++)
-        {
-            source += a.P[k]*delta(E[i] - a.E[k], dE);
-        }
-        spe(u, up, z, N, dE,
-            - 1./3 * ltrs2[i] / epss2[i],
-            source,
-            I1s[i]/(2 - 3 * I2s[i]),
-            - ltrs2[i] / 3,
-            0,
-            1.,
-            0.,
-            0.
-            );
-        f2[i] = 3 / ltrs2[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
-        if (i != M - 1)
-            Rs2[i] = Rs2[i+1] + 0.5 * (1 / epss2[i+1] + 1 / epss2[i]) * dE;
-        bs2[i] = I1s[i]/(2 - 3 * I2s[i]) / ltrs2[i] * 3;
-        if (i % 100 == 0)
-        {
-            for (int j = 0; j < N; j += 10)
-            {
-                fprintf(fd, "%e %e %e\n", E[i], z[j], u[j]);
-            }
-            fprintf(fd, "\n");
-        }
-    }
-
-    fclose(fd);
-    for (int i = 0; i<N; i++)
-    {
-        u[i] = 0.;
-        up[i] = 0.;
-    }
-    //Emin = 0.;
-    dE = (Emax - Emin) / (M - 1);
-    for (int i = 0; i<M; i++)
-    {
-        E[i] = Emin + i * dE;
-    }
-
-    printf("error\n");
-    le_approx(ltrs3, epss3, E, M, ap, s);
-    printf("error\n");
-    fd = fopen("solution_p.dat", "w");
-    for (int i = M - 1; i>=0; i--)
-    {
-        tmp = u;
-        u = up;
-        up = tmp;
-
-        double source = 0;
-        for (int k = 0; k<a.N; k++)
-        {
-            source += a.P[k]*delta(E[i] - a.E[k], dE);
-        }
-        spe(u, up, z, N, dE,
-            - 1./3 * ltrs3[i] / epss3[i],
-            source,
-            I1s[i]/(2 - 3 * I2s[i]),
-            - ltrs3[i] / 3,
-            0,
-            1.,
-            0.,
-            0.
-            );
-        f3[i] = 3 / ltrs2[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
-        if (i != M - 1)
-            Rs3[i] = Rs3[i+1] + 0.5 * (1 / epss3[i+1] + 1 / epss3[i]) * dE;
-        bs3[i] = I1s[i]/(2 - 3 * I2s[i]) / ltrs3[i] * 3;
-        if (i % 100 == 0)
-        {
-            for (int j = 0; j < N; j += 10)
-            {
-                fprintf(fd, "%e %e %e\n", E[i], z[j], u[j]);
-            }
-            fprintf(fd, "\n");
-        }
-    }
-    fclose(fd);
-
-    fd = fopen("data.dat", "w");
-    for (int i = M - 1; i>=0; i--)
-    {
-        fprintf(fd, "%e %e %e %e %e %e %e %e %e %e %e %e %e %e %e %e\n",
-                E[i], ltrs[i], ltrs2[i], ltrs3[i],
-                epss[i], epss2[i], epss3[i],
-                f[i], f2[i], f3[i],
-                Rs[i], Rs2[i], Rs3[i],
-                bs[i], bs2[i], bs3[i]);
-    }
-    fclose(fd);
-    fd = fopen("data.gp", "w");
-    fprintf(fd, "set terminal wxt 1\n");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:2 with lines title 'l_tr_A(E)',\\\n");
-    fprintf(fd, "'data.dat' using 1:3 with lines title 'l_tr_T(E)',\\\n");
-    fprintf(fd, "'data.dat' using 1:4 with lines title 'l_tr_P(E)'\n");
-    fprintf(fd, "set terminal wxt 2\n");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:5 with lines title 'eps_A(E)',\\\n");
-    fprintf(fd, "'data.dat' using 1:6 with lines title 'eps_T(E)',\\\n");
-    fprintf(fd, "'data.dat' using 1:7 with lines title 'eps_P(E)'\n");
-    fprintf(fd, "set terminal wxt 3\n");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:8 with lines title 'A',\\\n");
-    fprintf(fd, "'data.dat' using 1:9 with lines title 'T',\\\n");
-    fprintf(fd, "'data.dat' using 1:10 with lines title 'P'\n");
-    fprintf(fd, "set terminal wxt 4\n");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:11 with lines title 'R(E) A',\\\n");
-    fprintf(fd, "'data.dat' using 1:12 with lines title 'R(E) T',\\\n");
-    fprintf(fd, "'data.dat' using 1:13 with lines title 'R(E) P' \n");
-    fprintf(fd, "set terminal wxt 5\n");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:14 with lines title 'bc(E) A',\\\n");
-    fprintf(fd, "'data.dat' using 1:15 with lines title 'bc(E) T',\\\n");
-    fprintf(fd, "'data.dat' using 1:16 with lines title 'bc(E) P'\n");
-    fprintf(fd, "set terminal wxt 6\n");
-    fprintf(fd, "set dummy u,v\n");
-    fprintf(fd, "set samples 51, 51\n");
-    fprintf(fd, "set isosamples 21, 21\n");
-    fprintf(fd, "set contour\n");
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set pm3d at s\n");
-    fprintf(fd, "set hidden3d\n");
-    fprintf(fd, "splot 'solution_t.dat' using 1:2:3 with lines title 'u(E, z)'");
-    fclose(fd);
-
-    fd = popen("gnuplot -p data.gp", "w");
-    pclose(fd);   
-
-    delete[] E;
-    delete[] f;
-    delete[] ltrs;
-    delete[] epss;
-    delete[] f2;
-    delete[] ltrs2;
-    delete[] epss2;
-    delete[] I1s;
-    delete[] I2s;
+    delete [] I1s;
+    delete [] I2s;
+    delete [] ltrs;
+    delete [] epss;
+    delete [] rs;
+    delete [] bs;
+    delete [] fs;
+    delete [] E;
 }
-
-void old_test()
+void test_all()
 {
-        char type = 'A'; // A - аналитический расчёт коэффициентов,
-                     // T - табличные значения
     int Z = 32;
-    double *u, *z, *up;
+    int N = 100;
+    int M = 500;
     double l = 1;
-    int N = 500; // число точек
-    subst_t s;
-    auger_t a;
 
-    u = new double[N];
-    up = new double[N];
-    z = new double[N];
-    for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
-
-    double *E, *tmp, *f, *ltrs, *epss, *I1s, *I2s;
-    int M = 500; // число точек в спектре
-    ltrs = new double[M];
-    epss = new double[M];
-    I1s = new double[M];
-    I2s = new double[M];
-    E = new double[M];
-    f = new double[M];
-
-    load_subst(Z, "data/subst.pl", s);
-    load_auger(Z, "data/aug.pl", a);
-    //check_data(Z, s, a);
-
-    double dE = a.E[0] / (M - 1);
-    for (int i = 0; i<M; i++)
-    {
-        E[i] = i * dE;
-        }
-    switch (type)
-    {
-        case 'A':
-            for (int i = 0; i<M; i++)
-            {
-                ltrs[i] = l_tr(s, E[i]);
-                epss[i] = eps(s, E[i]);
-                I1s[i] = I1(s, E[i]);
-                I2s[i] = I2(s, E[i]);
-            }
-            break;
-        case 'T':
-            // спецификация на эти функции: возвращают значения в массивы в
-            // точках E
-            //load_ltr(s, "data/", E, M, ltrs);
-            //load_ebar(s, "data/", E, M, ebar);
-            break;
-        default:
-            break;
-    }
-
-    for (int i = M - 1; i>=0; i--)
-    {
-        tmp = u;
-        u = up;
-        up = tmp;
-
-        double source = 0;
-        for (int k = 0; k<a.N; k++)
-        {
-            source += a.P[k]*delta(E[i] - a.E[k], dE);
-        }
-        spe(u, up, z, N, dE,
-            - 1./3 * ltrs[i] / epss[i],
-            source,
-            I1s[i]/(2 - 3 * I2s[i]),
-            - ltrs[i] / 3,
-            0,
-            1.,
-            0.,
-            0.
-            );
-        f[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
-    }
-    FILE *fd;
-    fd = fopen("data.gp", "w");
-    fprintf(fd, "set multiplot layout 2,2\n");
-    fprintf(fd, "set size square\n");
-    fprintf(fd, "plot '-' with lines title 'l_tr(E)' \n");
-    for (int i = M - 1; i>=0; i--)
-    {
-        fprintf(fd, "%e %e\n", E[i], ltrs[i]);
-    }
-    fprintf(fd, "end\n");
-    fprintf(fd, "plot '-' with lines title 'eps(E)'\n");
-    for (int i = M - 1; i>=0; i--)
-    {
-        fprintf(fd, "%e %e\n", E[i], epss[i]);
-    }
-    fprintf(fd, "end\n");
-    fprintf(fd, "plot '-' with lines title 'spectrum'\n");
-    for (int i = M - 1; i>=0; i--)
-    {
-        fprintf(fd, "%e %e\n", E[i], f[i]);
-    }
-    fprintf(fd, "end\n");
-    //fprintf(fd, "plot '-' with lines title 'spectrum'\n");
-    //for (int i = 0; i<N; i++)
-    //{
-        //fprintf(fd, "%e %e\n", u[i], up[i]);
-    //}
-    //fprintf(fd, "end\n");
-    fprintf(fd, "unset multiplot\n");
-    fclose(fd);
-    fd = popen("gnuplot -p data.gp", "w");
-    pclose(fd);
-    delete[] E;
-    delete[] f;
-    delete[] ltrs;
-    delete[] epss;
-    delete[] I1s;
-    delete[] I2s;
+    analytical(Z, M, N, l);
+    table(Z, M, N, l);
+    approximation(Z, M, N, l);
 }
 
 int main()

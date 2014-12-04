@@ -14,7 +14,7 @@ void load_auger(int Z, const char* ch, auger_t &aug)
 	fscanf(fd, "%s\n", chrm);
 	aug.E = new double[1];
 	aug.P = new double[1];
-    do 
+    do
 	{
         fscanf(fd, "%d ", &z);
 		fscanf(fd, "%d", &aug.N);
@@ -36,7 +36,7 @@ void load_auger(int Z, const char* ch, auger_t &aug)
 		}
 		fscanf(fd, "]");
 		fscanf(fd, "%s%s\n", aug.atom, aug.shell);
-		if ((feof(fd)!=0)&&(z!=Z)) 
+		if ((feof(fd)!=0)&&(z!=Z))
 		{
 			printf("Element is absent at list\n");
 			return;
@@ -54,16 +54,16 @@ void load_subst(int Z, const char* ch, subst_t &subs){
         return;
     };
 	fscanf(fd, "%s\n", chrm);
-    do 
+    do
 	{
         fscanf(fd, "%d %lf %lf %lf %s\n", &subs.Z, &subs.M, &subs.rho, &subs.U0, chrm);
-		if ((feof(fd)!=0)&&(subs.Z!=Z)) 
+		if ((feof(fd)!=0)&&(subs.Z!=Z))
 		{
 			printf("Element is absent at list\n");
 			return;
 		}
 	} while (subs.Z!=Z);
-	fclose(fd);	
+	fclose(fd);
 };
 
 void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
@@ -85,25 +85,25 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 		fscanf(fd, "%lE", &theta[j]);
 		theta[j]*=M_PI/180;
 	}
-	fscanf(fd, "%s\n", chrm);
+    fscanf(fd, "%s\n", chrm);
     FILE *fd2;
     fd2 = fopen("testltr.dat", "w");
-	for (int i = 0; i<e_l; i++)
-	{
-		fscanf(fd, "%lE", &E_points[e_l - 1 - i]);
+    for (int i = 0; i<e_l; i++)
+    {
+        fscanf(fd, "%lE", &E_points[e_l - 1 - i]);
         printf("%e %e\n", E_points[e_l - 1 - i], eta(s, E_points[e_l - 1 - i]));
-		for (int j = 0; j<theta_l; j++)
-		{
-			fscanf(fd, "%lE", &dltr[j]);
+        for (int j = 0; j<theta_l; j++)
+        {
+            fscanf(fd, "%lE", &dltr[j]);
             if ((i == 0)||(i == e_l/2)||(i == e_l - 1)) fprintf(fd2, "%e %e %e\n", theta[j], dltr[j], crsec(theta[j], s, E_points[e_l - 1 - i]));
-			dltr[j]*=s.rho*Na/s.M*(1 - cos(theta[j]))*sin(theta[j]);
-		}
+            dltr[j]*=s.rho*Na/s.M*(1 - cos(theta[j]))*sin(theta[j]);
+        }
         fprintf(fd2, "\n");
-		fscanf(fd, "%s\n", chrm);
-		ltr_points[e_l - 1 - i] = 1./(2*M_PI*int_cubic_spline(theta[0], theta[theta_l-1], theta, dltr, theta_l));
-	}
-	eval_cubic_spline(E, ltr, N, E_points, ltr_points, e_l);
-	fclose(fd);
+        fscanf(fd, "%s\n", chrm);
+        ltr_points[e_l - 1 - i] = 1./(2*M_PI*int_cubic_spline(theta[0], theta[theta_l-1], theta, dltr, theta_l));
+    }
+    eval_cubic_spline(E, ltr, N, E_points, ltr_points, e_l);
+    fclose(fd);
     fclose(fd2);
     fd2 = fopen("testltr.gp", "w");
     fprintf(fd2, "set terminal wxt 4\n");
@@ -129,9 +129,9 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 	fscanf(fd, "%s\n", chrm);
 	fscanf(fd, "%s\n", chrm);
 	double Q_points[500], dW_points[500], E_points[100], e_sharp[100];
-	int i = 0, j, jmax, imax; 
-	do 
-	{	
+	int i = 0, j, jmax, imax;
+	do
+	{
 		fscanf(fd, "%lE", &E_points[i]);
 		j = 0;
 		do
@@ -149,7 +149,7 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 		} while (chr!='\n');
 		jmax = j - 1;
 		e_sharp[i] = 0.;
-		
+
 		for (int l = 1; l<jmax; l++)
 		{
 			//printf("%e %e %e\n", e_sharp[i], Q_points[l], dW_points[l]);
@@ -157,7 +157,7 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 		}
 		//printf("%e\n", e_sharp[i]);
 		i++;
-	} while (feof(fd)==0);	
+	} while (feof(fd)==0);
 	fclose(fd);
 	imax = i - 1;
 	eval_cubic_spline(E, esharp, N, E_points, e_sharp, imax);
@@ -178,7 +178,7 @@ void load_approx(int Z, const char* ch, approx_t &app)
 	app.alpha_i = new double[1];
     app.R0_i = new double[1];
     app.d1_i = new double[1];
-    do 
+    do
 	{
         fscanf(fd, "%d ", &z);
 		fscanf(fd, "%d", &app.N);
@@ -217,13 +217,13 @@ void load_approx(int Z, const char* ch, approx_t &app)
 		}
 		fscanf(fd, "]");
 		fscanf(fd, "%s\n", chrm);
-		if ((feof(fd)!=0)&&(z!=Z)) 
+		if ((feof(fd)!=0)&&(z!=Z))
 		{
 			printf("Element is absent at list\n");
 			return;
 		}
 	} while (z!=Z);
-	fclose(fd);    
+	fclose(fd);
 };
 
 void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t s)
@@ -279,5 +279,5 @@ void test_parse()
 	{
 		printf("%e %e %e\n", E[i], ltr[i], esharp[i]);
 	}
-	
+
 };
