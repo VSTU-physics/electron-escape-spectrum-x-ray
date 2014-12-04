@@ -513,7 +513,7 @@ function compute_parameters_out = input_data(atom_name, E0_eV, data_type)
 
     if isequal(data_type,'A') % calculate by analytical data
     % For nonrelativistic electrons the energy loss per unit path can be calculated 
-    % using the formula proposed by Vavilov VS \ cite {Vavilov}
+    % using the 00formula proposed by Vavilov VS \ cite {Vavilov}
     % \begin{equation}
     %   - \frac{dE}{ds} = \frac{4 \pi e^4}{m_e v^2} nZ
     %      \ln \left(\frac{ m_e v^2}{2 I}\sqrt{\frac{e}{2}}\right),
