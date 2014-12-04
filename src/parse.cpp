@@ -91,11 +91,11 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 	for (int i = 0; i<e_l; i++)
 	{
 		fscanf(fd, "%lE", &E_points[e_l - 1 - i]);
-        printf("%e\n", eta(s, E_points[i]));
+        printf("%e %e\n", E_points[e_l - 1 - i], eta(s, E_points[e_l - 1 - i]));
 		for (int j = 0; j<theta_l; j++)
 		{
 			fscanf(fd, "%lE", &dltr[j]);
-            if ((i == 0)||(i == e_l/2)||(i == e_l - 1)) fprintf(fd2, "%e %e %e\n", theta[j], dltr[j], 100*crsec(theta[j], s, E_points[i]));
+            if ((i == 0)||(i == e_l/2)||(i == e_l - 1)) fprintf(fd2, "%e %e %e\n", theta[j], dltr[j], crsec(theta[j], s, E_points[e_l - 1 - i]));
 			dltr[j]*=s.rho*Na/s.M*(1 - cos(theta[j]))*sin(theta[j]);
 		}
         fprintf(fd2, "\n");
