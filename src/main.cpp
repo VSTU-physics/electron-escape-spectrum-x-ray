@@ -301,10 +301,19 @@ void test_all()
     fprintf(fd, "plot 'data.dat' using 1:14 with lines title 'bc(E) A',\\\n");
     fprintf(fd, "'data.dat' using 1:15 with lines title 'bc(E) T',\\\n");
     fprintf(fd, "'data.dat' using 1:16 with lines title 'bc(E) P'\n");
+    fprintf(fd, "set terminal wxt 6\n");
+    fprintf(fd, "set dummy u,v\n");
+    fprintf(fd, "set samples 51, 51\n");
+    fprintf(fd, "set isosamples 21, 21\n");
+    fprintf(fd, "set contour\n");
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set pm3d at s\n");
+    fprintf(fd, "set hidden3d\n");
+    fprintf(fd, "splot 'solution_t.dat' using 1:2:3 with lines title 'u(E, z)'");
     fclose(fd);
 
     fd = popen("gnuplot -p data.gp", "w");
-    pclose(fd);
+    pclose(fd);   
 
     delete[] E;
     delete[] f;
