@@ -162,7 +162,95 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 	imax = i - 1;
 	eval_cubic_spline(E, esharp, N, E_points, e_sharp, imax);
 };
- 
+
+void load_approx(int Z, const char* ch, approx_t &app)
+{
+	char chrm[50];
+	int z;
+	FILE *fd;
+	if ((fd = fopen(ch, "r")) == NULL)
+	{
+        printf("Can't open file %s. Check that file exists\n", ch);
+        return;
+    };
+	fscanf(fd, "%s\n", chrm);
+	app.E = new double[1];
+	app.alpha_i = new double[1];
+    app.R0_i = new double[1];
+    app.d1_i = new double[1];
+    do 
+	{
+        fscanf(fd, "%d ", &z);
+		fscanf(fd, "%d", &app.N);
+		delete [] app.E;
+        delete [] app.alpha_i;
+        delete [] app.R0_i;
+        delete [] app.d1_i;
+		app.E = new double[1];
+        app.alpha_i = new double[1];
+        app.R0_i = new double[1];
+        app.d1_i = new double[1];
+		fscanf(fd, " [");
+		for (int i = 0; i<app.N; i++)
+		{
+			fscanf(fd, "%lf", &app.E[i]);
+            app.E[i] *= 1000;
+		}
+		fscanf(fd, "]");
+		fscanf(fd, " [");
+		for (int i = 0; i<app.N; i++)
+		{
+			fscanf(fd, "%lf", &app.alpha_i[i]);
+		}
+		fscanf(fd, "]");
+        fscanf(fd, " [");
+		for (int i = 0; i<app.N; i++)
+		{
+			fscanf(fd, "%lf", &app.d1_i[i]);
+		}
+		fscanf(fd, "]");
+        fscanf(fd, " [");
+		for (int i = 0; i<app.N; i++)
+		{
+			fscanf(fd, "%lf", &app.R0_i[i]);
+            app.R0_i[i] *= 1e-7;
+		}
+		fscanf(fd, "]");
+		fscanf(fd, "%s\n", chrm);
+		if ((feof(fd)!=0)&&(z!=Z)) 
+		{
+			printf("Element is absent at list\n");
+			return;
+		}
+	} while (z!=Z);
+	fclose(fd);    
+};
+
+void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t s)
+{
+    int k;
+    for (int i = 0; i<N; i++)
+    {
+        for (int j = 0; j<ap.N; j++)
+        {
+            if ((E[i] >= ap.E[j+1])&&(E[i] < ap.E[j]))
+            {
+                k = j;
+            }
+        }
+        if (E[i] >= ap.E[0])
+        {
+            k = 0;
+        }
+        if (E[i] < ap.E[ap.N - 1])
+        {
+            k = ap.N - 1;
+        }
+        eps[i] = ap.E[k] / ap.alpha_i[k] / ap.R0_i[k] * pow(E[i] / ap.E[k], 1 - ap.alpha_i[k]);
+        ltr[i] = ap.R0_i[k] / ap.d1_i[k] * pow(E[i] / ap.E[k], ap.alpha_i[k]);
+    }
+}
+
 void test_parse()
 {
 	auger_t aug;

@@ -8,7 +8,7 @@
 #include "calculations.h"
 #include "parse.h"
 
-void check_data(int Z, subst_t s, auger_t a)
+void check_data(int Z, subst_t s, auger_t a, approx_t ap)
 {
     printf("Загружены данные для Z = %d:\n", Z);
     printf("Свойства материала:\n");
@@ -30,6 +30,28 @@ void check_data(int Z, subst_t s, auger_t a)
         printf(" %f", a.P[i]);
     }
     printf(" ]\n");
+    printf("Для метода аппроксимации:\n");
+    printf("Кол-во типов: %d\n", ap.N);
+    printf("Энергии: [");
+    for (int i = 0; i < ap.N; i++) {
+        printf(" %f", ap.E[i]);
+    }
+    printf(" ]\n");
+    printf("alpha: [");
+    for (int i = 0; i < ap.N; i++) {
+        printf(" %f", ap.alpha_i[i]);
+    }
+    printf(" ]\n");
+    printf("d1: [");
+    for (int i = 0; i < ap.N; i++) {
+        printf(" %f", ap.d1_i[i]);
+    }
+    printf(" ]\n");
+    printf("R0: [");
+    for (int i = 0; i < ap.N; i++) {
+        printf(" %f", ap.R0_i[i]);
+    }
+    printf(" ]\n");
 }
 
 double delta(double x, double dx)
@@ -45,28 +67,33 @@ void test_all()
     int N = 500; // число точек
     subst_t s;
     auger_t a;
+    approx_t ap;
 
     u = new double[N];
     up = new double[N];
     z = new double[N];
     for (int i = 0; i<N; i++) z[i] = i*l/(N-1);
 
-    double *E, *tmp, *f, *f2, *ltrs, *epss, *I1s, *I2s, *ltrs2, *epss2;
+    double *E, *tmp, *f, *f2, *f3, *ltrs, *epss, *I1s, *I2s, *ltrs2, *epss2, *ltrs3, *epss3;
     int M =  5000; // число точек в спектре
     double Emax = 10000, Emin;
     ltrs = new double[M];
     epss = new double[M];
     ltrs2 = new double[M];
     epss2 = new double[M];
+    ltrs3 = new double[M];
+    epss3 = new double[M];
     I1s = new double[M];
     I2s = new double[M];
     E = new double[M];
     f = new double[M];
     f2 = new double[M];
+    f3 = new double[M];
 
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
-    check_data(Z, s, a);
+    load_approx(Z, "data/approx.pl", ap);
+    check_data(Z, s, a, ap);
     
     for (int i = 0; i<N; i++) 
     {
@@ -150,26 +177,68 @@ void test_all()
         f2[i] = 3 / ltrs2[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
     }
     
+    for (int i = 0; i<N; i++) 
+    {
+        u[i] = 0.;
+        up[i] = 0.;
+    }
+    //Emin = 0.;
+    dE = (Emax - Emin) / (M - 1);
+    for (int i = 0; i<M; i++)
+    {
+        E[i] = Emin + i * dE;
+    }
+    
+    printf("error\n");
+    le_approx(ltrs3, epss3, E, M, ap, s);
+    printf("error\n");
+    for (int i = M - 1; i>=0; i--)
+    {
+        tmp = u;
+        u = up;
+        up = tmp;
+
+        double source = 0;
+        for (int k = 0; k<a.N; k++)
+        {
+            source += a.P[k]*delta(E[i] - a.E[k], dE);
+        }
+        spe(u, up, z, N, dE,
+            - 1./3 * ltrs3[i] / epss3[i],
+            source,
+            I1s[i]/(2 - 3 * I2s[i]),
+            - ltrs3[i] / 3,
+            0,
+            1.,
+            0.,
+            0.
+            );
+        f3[i] = 3 / ltrs2[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
+    }
+    
     FILE *fd;
     fd = fopen("data.dat", "w");
     for (int i = M - 1; i>=0; i--)
     {
-        fprintf(fd, "%e %e %e %e %e %e %e\n", E[i], ltrs[i], ltrs2[i], epss[i], epss2[i], f[i], f2[i]);
+        fprintf(fd, "%e %e %e %e %e %e %e %e %e %e\n", E[i], ltrs[i], ltrs2[i], ltrs3[i], epss[i], epss2[i], epss3[i], f[i], f2[i], f3[i]);
     }
     fclose(fd);
     fd = fopen("data.gp", "w");
     fprintf(fd, "set terminal wxt 1\n");
     fprintf(fd, "set size square\n");
     fprintf(fd, "plot 'data.dat' using 1:2 with lines title 'l_tr_A(E)',\\\n");
-    fprintf(fd, "'data.dat' using 1:3 with lines title 'l_tr_T(E)' \n");
+    fprintf(fd, "'data.dat' using 1:3 with lines title 'l_tr_T(E)',\\\n");
+    fprintf(fd, "'data.dat' using 1:4 with lines title 'l_tr_P(E)'\n");
     fprintf(fd, "set terminal wxt 2\n");
     fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:4 with lines title 'eps_A(E)',\\\n");
-    fprintf(fd, "'data.dat' using 1:5 with lines title 'eps_T(E)' \n");
+    fprintf(fd, "plot 'data.dat' using 1:5 with lines title 'eps_A(E)',\\\n");
+    fprintf(fd, "'data.dat' using 1:6 with lines title 'eps_T(E)',\\\n");
+    fprintf(fd, "'data.dat' using 1:7 with lines title 'eps_P(E)'\n");
     fprintf(fd, "set terminal wxt 3\n");
     fprintf(fd, "set size square\n");
-    fprintf(fd, "plot 'data.dat' using 1:6 with lines title 'A',\\\n");
-    fprintf(fd, "'data.dat' using 1:7 with lines title 'T' \n");
+    fprintf(fd, "plot 'data.dat' using 1:8 with lines title 'A',\\\n");
+    fprintf(fd, "'data.dat' using 1:9 with lines title 'T',\\\n");
+    fprintf(fd, "'data.dat' using 1:10 with lines title 'P'\n");
     fclose(fd);
     
     fd = popen("gnuplot -p data.gp", "w");
@@ -213,7 +282,7 @@ void old_test()
 
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
-    check_data(Z, s, a);
+    //check_data(Z, s, a);
 
     double dE = a.E[0] / (M - 1);
     for (int i = 0; i<M; i++)

@@ -22,6 +22,15 @@ typedef struct auger
 	char shell[30]; // оболочки с которых летят Оже-электроны
 } auger_t; // Оже?!
 
+typedef struct approx
+{
+    int N;
+    double *E;
+    double *alpha_i;
+    double *d1_i;
+    double *R0_i;
+} approx_t;
+
 double l_tr(subst_t s, double E);
 double eps(subst_t s, double E);
 double I1(subst_t s, double E);
