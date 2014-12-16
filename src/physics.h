@@ -2,7 +2,7 @@
 #define Ee 511003.4 // эВ
 #define re 2.8179403267e-13 // cм
 #define Na 6.0221413e23 // моль^-1
-#define alpha 0.00729735256
+#define ALPHA 0.00729735256
 
 typedef struct subst
 {
@@ -31,6 +31,16 @@ typedef struct approx
     double *R0_i;
 } approx_t;
 
+typedef struct particle
+{
+    double x;
+    double y;
+    double z;
+    double theta;
+    double phi;
+    double E;
+} particle_t;
+
 double l_tr(subst_t s, double E);
 double eps(subst_t s, double E);
 double I1(subst_t s, double E);
@@ -38,4 +48,5 @@ double I2(subst_t s, double E);
 double J(int Z);
 double crsec(double theta, subst_t s, double E);
 double eta(subst_t s, double E);
-
+double auger_source(auger_t a, double rand);
+bool reflection(double E, double theta, double U0);

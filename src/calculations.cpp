@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 #include "calculations.h"
 
 /*
@@ -190,6 +191,15 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N)
 	} else {
 		return NAN;
 	}
+}
+
+double random(double l)
+{
+    return 1.*l*(rand() + 1)/(RAND_MAX + 1);
+}
+
+double linterp(double x, double x1, double y1, double x2, double y2){
+    return (y2 - y1) / (x2 - x1) * (x - x1) + y1;
 }
 
 

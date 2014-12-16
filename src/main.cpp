@@ -3,10 +3,11 @@
 #ifdef __WIN__
     #include <windows.h>
 #endif // __WIN__
-
+#include <stdlib.h>
 #include "physics.h"
 #include "calculations.h"
 #include "parse.h"
+#include "monte-carlo.h"
 
 void check_data(int Z, subst_t s, auger_t a, approx_t ap)
 {
@@ -286,12 +287,25 @@ void test_all()
     approximation(Z, M, N, l);
 }
 
+void test_mc()
+{
+    int Z = 32;
+    int nparticles = 1000000;
+    int ntimes = 10000;
+    int N = 100;
+    double Emin = 10;
+    double Smax = 0.00006;
+    double lmax = 0.00001;
+    monte_carlo(Z, nparticles, ntimes, N, Emin, Smax, lmax);
+}
+
 int main()
 {
     #ifdef __WIN__
         system("chcp 65001");
     #endif // __WIN__
-    test_all();
+    //test_all();
+    test_mc();
     //test_spline();
     return 0;
 }
