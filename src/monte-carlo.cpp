@@ -144,4 +144,25 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     delete [] E_S;
 }
 
+void gnuplot_mc(int &wxt)
+{
+    FILE *fd;
+    fd = fopen("gnuplot_mc.gp", "w");
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Спектр n(E)'\n");
+    fprintf(fd, "plot 'results_mc.dat' using 1:2 lw 2 with lines\n");
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость числа вышедших электронов от пробега n(S)'\n");
+    fprintf(fd, "plot 'results_mc.dat' using 3:4 lw 2 with lines\n");
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость средней энергии вышедших электронов от пробега E(S)'\n");
+    fprintf(fd, "plot 'results_mc.dat' using 3:5 lw 2 with lines\n");
+    fclose(fd);
+}
 

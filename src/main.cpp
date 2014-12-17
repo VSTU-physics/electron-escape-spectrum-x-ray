@@ -103,13 +103,47 @@ void solve(const char* fname, auger_t a, int N, double* z,
     fclose(fd);
 }
 
-void analytical(int Z, int M, int N, double l)
+void gnuplot(const char * s, int &wxt)
+{
+    FILE *fd;
+    char filename[50];
+    sprintf(filename, "gnuplot_%s.gp", s);
+    fd = fopen(filename, "w");
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
+    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
+    fprintf(fd, "plot '%s' using 1:3 lw 2 with lines\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Спектр n(E)'\n");
+    fprintf(fd, "plot '%s' using 1:4 lw 2 with lines\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
+    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Граничное условие bc(E)'\n");
+    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    fclose(fd);
+}
+
+void analytical(int Z, int M, int N, double l, double Emin)
 {
     subst_t s;
     auger_t a;
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
-    double Emin = 1000, Emax = 1.1 * a.E[0];
+    double Emax = 1.1 * a.E[0];
 
     double* z = new double[N];
     for (int i = 0; i<N; i++)
@@ -152,7 +186,7 @@ void analytical(int Z, int M, int N, double l)
                 E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
     }
     fclose(fd);
-
+    
     delete [] I1s;
     delete [] I2s;
     delete [] ltrs;
@@ -163,13 +197,13 @@ void analytical(int Z, int M, int N, double l)
     delete [] E;
 }
 
-void table(int Z, int M, int N, double l)
+void table(int Z, int M, int N, double l, double Emin)
 {
     subst_t s;
     auger_t a;
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
-    double Emin = 1000, Emax = 1.1 * a.E[0];
+    double Emax = 1.1 * a.E[0];
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -218,7 +252,7 @@ void table(int Z, int M, int N, double l)
     delete [] E;
 }
 
-void approximation(int Z, int M, int N, double l)
+void approximation(int Z, int M, int N, double l, double Emin)
 {
     subst_t s;
     auger_t a;
@@ -226,7 +260,7 @@ void approximation(int Z, int M, int N, double l)
     load_subst(Z, "data/subst.pl", s);
     load_auger(Z, "data/aug.pl", a);
     load_approx(Z, "data/approx.pl", ap);
-    double Emin = 1000, Emax = 1.1 * a.E[0];
+    double Emax = 1.1 * a.E[0];
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -275,16 +309,23 @@ void approximation(int Z, int M, int N, double l)
     delete [] fs;
     delete [] E;
 }
+
 void test_all()
 {
     int Z = 32;
     int N = 100;
     int M = 500;
     double l = 1;
+    double Emin = 1000;
 
-    analytical(Z, M, N, l);
-    table(Z, M, N, l);
-    approximation(Z, M, N, l);
+    analytical(Z, M, N, l, Emin);
+    table(Z, M, N, l, Emin);
+    approximation(Z, M, N, l, Emin);
+    
+    int wxt = 0;
+    gnuplot("data_a.dat", wxt);
+    gnuplot("data_t.dat", wxt);
+    gnuplot("data_p.dat", wxt);
 }
 
 void test_mc()
@@ -297,6 +338,9 @@ void test_mc()
     double Smax = 0.0001;
     double lmax = 0.00001;
     monte_carlo(Z, nparticles, ntimes, N, Emin, Smax, lmax);
+    
+    int wxt = 0;
+    gnuplot_mc(wxt);
 }
 
 int main()
@@ -304,7 +348,7 @@ int main()
     #ifdef __WIN__
         system("chcp 65001");
     #endif // __WIN__
-    //test_all();
+    test_all();
     test_mc();
     //test_spline();
     return 0;
