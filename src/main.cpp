@@ -290,11 +290,11 @@ void test_all()
 void test_mc()
 {
     int Z = 32;
-    int nparticles = 1000000;
+    int nparticles = 100000;
     int ntimes = 10000;
     int N = 100;
     double Emin = 10;
-    double Smax = 0.00006;
+    double Smax = 0.0001;
     double lmax = 0.00001;
     monte_carlo(Z, nparticles, ntimes, N, Emin, Smax, lmax);
 }

@@ -333,9 +333,8 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
 			sigma[j] /= sigma[theta_l - 1];
             if (sigma[j] > 0.8)
             {
-                printf("%d номер точки аппроксимации %d\n", i, j);
                 alpha_points[e_l - 1 - i] = 1 / theta[j] * tan(M_PI * sigma[j] / 2);
-                printf("%d номер точки аппроксимации %d Коэффициент alpha %e \n", i, j, alpha_points[e_l - 1 - i]);
+                //printf("%d номер точки аппроксимации %d Коэффициент alpha %e \n", i, j, alpha_points[e_l - 1 - i]);
                 break;
             }
 		}
@@ -395,7 +394,7 @@ void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, co
             if (e_sharp[l] > 0.8)
             {
                 beta_points[i] = E_points[i] / Q_points[l] * tan(M_PI * e_sharp[l] / 2);
-                printf("%d номер точки аппроксимации %d Коэффициент beta %e \n", i, l, beta_points[i]);
+                //printf("%d номер точки аппроксимации %d Коэффициент beta %e \n", i, l, beta_points[i]);
                 break;
             }
 		}

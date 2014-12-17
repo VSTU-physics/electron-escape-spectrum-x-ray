@@ -35,7 +35,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     double rand, x, y, z, S, dS;
     int k;
     bool stop;
-    dS = Smax / (N - 1);
+    dS = Smax / N;
 
     double *n_E, *n_S, *E_S;
     double E_exit;
@@ -43,7 +43,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     n_S = new double[N]; for (int i = 0; i<N; i++) n_S[i] = 0;
     E_S = new double[N]; for (int i = 0; i<N; i++) E_S[i] = 0;
     int general_sum = 0;
-
+    
     for (int i = 0; i<nparticles; i++)
     {
         stop = 1;
@@ -81,6 +81,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
                     k = (int)((E_exit - Emin) / dE);
                     if (k < N) n_E[k] += 1;
                     k = (int) (S/dS);
+                    //printf("%d %d %e %e\n", general_sum, k, p.E, E_S[k]);
                     if (k < N)
                     {
                         n_S[k] += 1;
@@ -88,7 +89,12 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
                     }
                     stop = 0;
                     general_sum ++;
+                    //
                 }
+            } else {
+                p.x = x;
+                p.y = y;
+                p.z = z;
             }
             
             k = (int)((p.E - Emin) / dE);
@@ -114,9 +120,6 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
                 p.theta = theta_t;
                 p.phi = phi_t;
             }
-            p.x = x;
-            p.y = y;
-            p.z = z;
         }
     }
 
@@ -127,9 +130,9 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
         fprintf(fd, "%e %e %e %e %e\n",
                 E[i],
                 n_E[i],
-                i*dS,
+                (i+1)*dS,
                 n_S[i],
-                E_S[i] / n_S[i]);
+                ((int) n_S[i] == 0) ? 0 : E_S[i] / n_S[i]);
     }
     fclose(fd);
 
@@ -140,3 +143,5 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     delete [] n_S;
     delete [] E_S;
 }
+
+
