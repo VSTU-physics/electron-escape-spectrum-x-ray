@@ -139,12 +139,11 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
     sort(in, xs, M);
     
 	cubic_spline(x, y, N, a, b, c, d);
-	//Пусть xs и x сортированы по возрастанию
+	//Пусть x сортирован по возрастанию
 	int j = 0;
 	double h;
 	for (int i = 0; i<M; i++)
     {
-		//printf("%e %e %e\n", xs[i], x[0], x[N-1]);
         if (xs[in[i]]<x[0])
         {
             h = xs[in[i]] - x[0];

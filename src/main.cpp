@@ -4,6 +4,7 @@
     #include <windows.h>
 #endif // __WIN__
 #include <stdlib.h>
+#include <time.h> 
 #include "physics.h"
 #include "calculations.h"
 #include "parse.h"
@@ -55,11 +56,6 @@ void check_data(int Z, subst_t s, auger_t a, approx_t ap)
     printf(" ]\n");
 }
 
-// double delta(double x, double dx)
-// {
-    // return (fabs(x) < fabs(dx/2)) ? 1./dx : 0.;
-// }
-
 void solve(const char* fname, auger_t a, int N, double* z,
            int M, double* E, double* ltrs, double* epss,
            double* I1s, double* I2s, double* fs)
@@ -78,9 +74,7 @@ void solve(const char* fname, auger_t a, int N, double* z,
 
         double source = 0;
         double dE = E[i] - E[i - 1];
-        
-        //printf("%e %e %e %e\n", u[2], I1s[i]/(2 - 3 * I2s[i]), - ltrs[i] / 3, epss[i]);
-        
+  
         spe(u, up, z, N, dE,
             - 1./3 * ltrs[i] / epss[i],
             source,
@@ -93,8 +87,6 @@ void solve(const char* fname, auger_t a, int N, double* z,
             );
         for (int k = 0; k < a.N; k++)
         {
-            //source -= a.P[k] * delta(E[i] - a.E[k], dE);
-            //if (fabs(source) > 0) printf("%e %e %e\n", source, delta(E[i] - a.E[k], dE), dE);
             if (fabs(E[i] - a.E[k]) < fabs(dE/2)) 
             {
                 for (int j = 0; j < N; j++) u[j] += a.P[k];
@@ -109,7 +101,6 @@ void solve(const char* fname, auger_t a, int N, double* z,
             }
             fprintf(fd, "\n");
         }
-        //getchar();
     }
     fclose(fd);
 }
@@ -120,26 +111,26 @@ void gnuplot(const char * s, int &wxt)
     char filename[50];
     sprintf(filename, "gnuplot_%s.gp", s);
     fd = fopen(filename, "w");
-    // wxt ++;
-    // fprintf(fd, "set terminal wxt %d\n", wxt);
-    // fprintf(fd, "unset key\n");
-    // fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
-    // fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
-    // wxt ++;
-    // fprintf(fd, "set terminal wxt %d\n", wxt);
-    // fprintf(fd, "unset key\n");
-    // fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
-    // fprintf(fd, "plot '%s' using 1:3 lw 2 with lines\n", s);
-    // wxt ++;
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
+    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
+    fprintf(fd, "plot '%s' using 1:3 lw 2 with lines\n", s);
+    wxt ++;
     fprintf(fd, "set terminal wxt %d\n", wxt);
     fprintf(fd, "unset key\n");
     fprintf(fd, "set title 'Спектр n(E)'\n");
     fprintf(fd, "plot '%s' using 1:4 lw 2 with lines\n", s);
-    // wxt ++;
-    // fprintf(fd, "set terminal wxt %d\n", wxt);
-    // fprintf(fd, "unset key\n");
-    // fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
-    // fprintf(fd, "plot '%s' using 1:5 lw 2 with lines\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
+    fprintf(fd, "plot '%s' using 1:5 lw 2 with lines\n", s);
     wxt ++;
     fprintf(fd, "set terminal wxt %d\n", wxt);
     fprintf(fd, "unset key\n");
@@ -365,8 +356,8 @@ void test_all()
     int Z = 32;
     int N = 1000;
     int M = 5000;
-    double l = 0.00001;
-    double Emin = 900;
+    double l = 0.001;
+    double Emin = 400;
 
     analytical(Z, M, N, l, Emin);
     table(Z, M, N, l, Emin);
@@ -396,8 +387,8 @@ int main()
     #ifdef __WIN__
         system("chcp 65001");
     #endif // __WIN__
+    srand (time(NULL));
     test_all();
-    //test_mc();
-    //test_spline();
+    test_mc();
     return 0;
 }

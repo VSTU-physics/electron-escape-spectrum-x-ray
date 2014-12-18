@@ -112,8 +112,6 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
     fprintf(fd2, "plot 'testltr.dat' using 1:2 with lines title 'cross_section_T(E)',\\\n");
     fprintf(fd2, "'testltr.dat' using 1:3 with lines title 'cross_section_A(E)' \n");
     fclose(fd2);
-    //fd2 = popen("gnuplot -p testltr.gp", "w");
-    //pclose(fd2);
 };
 
 void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
@@ -153,7 +151,6 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 
 		for (int l = 1; l<jmax; l++)
 		{
-			//printf("%e %e %e\n", e_sharp[i], Q_points[l], dW_points[l]);
 			e_sharp[i] += 0.5*(Q_points[l] - Q_points[l-1])*(Q_points[l]*dW_points[l] + Q_points[l-1]*dW_points[l-1]);
 		}
 		i++;
@@ -161,7 +158,6 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 	fclose(fd);
 	imax = i - 1;
 	eval_cubic_spline(E, esharp, N, E_points, e_sharp, imax);
-    //for (int j = 0; j<N; j++) printf("%e %e %e %e\n", esharp[j], E[j], e_sharp[j*imax/N], E_points[j*imax/N]);
 };
 
 void load_approx(int Z, const char* ch, approx_t &app)
@@ -334,7 +330,6 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
             if (sigma[j] > 0.8)
             {
                 alpha_points[e_l - 1 - i] = 1 / theta[j] * tan(M_PI * sigma[j] / 2);
-                //printf("%d номер точки аппроксимации %d Коэффициент alpha %e \n", i, j, alpha_points[e_l - 1 - i]);
                 break;
             }
 		}
@@ -394,7 +389,6 @@ void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, co
             if (e_sharp[l] > 0.8)
             {
                 beta_points[i] = E_points[i] / Q_points[l] * tan(M_PI * e_sharp[l] / 2);
-                //printf("%d номер точки аппроксимации %d Коэффициент beta %e \n", i, l, beta_points[i]);
                 break;
             }
 		}

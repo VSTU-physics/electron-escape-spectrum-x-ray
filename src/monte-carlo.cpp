@@ -65,7 +65,6 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
             y = p.y - lambda * log(rand) * sin(p.theta) * sin(p.phi);
             z = p.z - lambda * log(rand) * cos(p.theta);
             S -= lambda * log(rand);
-            //printf("%e %e %e %e %e\n", p.z, inv_lambda_in[k], inv_lambda_el, rand, p.E);
             if (z<0)
             {
                 if (reflection(p.E, p.theta, s.U0))
