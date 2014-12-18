@@ -35,35 +35,37 @@ void spe(double *f,
          double c_2t)
 {
 	double A[N], B[N], C[N], D[N];
+    double dz1, dz2, dza;
 	A[0] = 0;
 	B[0] = a_1t - b_1t/(z[1] - z[0]);
 	C[0] = b_1t/(z[1] - z[0]);
 	D[0] = c_1t;
-	for (int i = 1; i< N - 1; i++)
+	for (int i = 1; i < N - 1; i++)
     {
-        double dz1, dz2, dza;
         dz1 = z[i] - z[i-1];
 		dz2 = z[i+1] - z[i];
         dza = (dz1 + dz2)*0.5;
 		A[i] = dt*pt/dz1/dza;
-		B[i] = -1 - 2*pt/dz1/dz2*dt;
+		B[i] = - 1 - 2*pt/dz1/dz2*dt;
 		C[i] = dt*pt/dz2/dza;
 		D[i] = - gt*dt - f_prev[i];
 	}
-	A[N-1] = b_2t/(z[N-1] - z[N-2]);
-	B[N-1] = a_2t - b_2t/(z[N-1] - z[N-2]);
+	A[N-1] = - b_2t/(z[N-1] - z[N-2]);
+	B[N-1] = a_2t + b_2t/(z[N-1] - z[N-2]);
 	C[N-1] = 0;
 	D[N-1] = c_2t;
 	for (int i = 1; i<N; i++)
     {
-		B[i] -= A[i]/B[i-1]*C[i];
+		B[i] -= A[i]/B[i-1]*C[i-1];
 		D[i] -= A[i]/B[i-1]*D[i-1];
 	}
 	f[N-1] = D[N-1]/B[N-1];
 	for (int i = N-2; i>=0; i--)
     {
+        //if (fabs(f_prev[i]) > 0) printf("%e %e\n", f[i], f_prev[i]);
 		f[i] = (D[i] - C[i] * f[i+1])/B[i];
 	}
+    //if (fabs(f_prev[1]) > 0) getchar();
 }
 
 /*
@@ -115,9 +117,27 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	a[N-1] = y[N-1];
 }
 
+void sort(int *b, double *A, int n)
+{
+    int t;
+    for (int i=0; i<n; i++) b[i] = i;
+    for (int i=0; i<n; i++)
+        for (int j=i+1; j<n;j++)
+            if (A[b[j]] < A[b[i]])
+            {
+                t = b[j];
+                b[j] = b[i];
+                b[i] = t;
+            }
+}
+
 void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N)
 {
 	double a[N], b[N], c[N], d[N];
+    int *in;
+    in = new int[M];
+    sort(in, xs, M);
+    
 	cubic_spline(x, y, N, a, b, c, d);
 	//Пусть xs и x сортированы по возрастанию
 	int j = 0;
@@ -125,28 +145,28 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 	for (int i = 0; i<M; i++)
     {
 		//printf("%e %e %e\n", xs[i], x[0], x[N-1]);
-        if (xs[i]<x[0])
+        if (xs[in[i]]<x[0])
         {
-            h = xs[i] - x[0];
-			ys[i] = a[0] + b[0]*h + c[0]*h*h/2 + d[0]*h*h*h/6;
+            h = xs[in[i]] - x[0];
+			ys[in[i]] = a[0] + b[0]*h + c[0]*h*h/2 + d[0]*h*h*h/6;
         }
-        if (xs[i]>x[N-1])
+        if (xs[in[i]]>x[N-1])
         {
-            h = xs[i] - x[N-1];
-			ys[i] = a[N-1] + b[N-1]*h + c[N-1]*h*h/2 + d[N-1]*h*h*h/6;
+            h = xs[in[i]] - x[N-1];
+			ys[in[i]] = a[N-1] + b[N-1]*h + c[N-1]*h*h/2 + d[N-1]*h*h*h/6;
         }
-		if ((xs[i]>=x[0])&&(xs[i]<x[N-1]))
+		if ((xs[in[i]]>=x[0])&&(xs[in[i]]<x[N-1]))
         {
-			while (!((xs[i]<x[j+1])&&(xs[i]>=x[j]))&&(j<N))
+			while (!((xs[in[i]]<x[j+1])&&(xs[in[i]]>=x[j]))&&(j<N))
             {
 				j++;
 			}
-			h = xs[i] - x[j];
-			ys[i] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;
+			h = xs[in[i]] - x[j];
+			ys[in[i]] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;
 		}
-		if (xs[i] == x[N-1])
+		if (xs[in[i]] == x[N-1])
         {
-			ys[i] = y[N-1];
+			ys[in[i]] = y[N-1];
 		}
 	}
 }

@@ -55,10 +55,10 @@ void check_data(int Z, subst_t s, auger_t a, approx_t ap)
     printf(" ]\n");
 }
 
-double delta(double x, double dx)
-{
-    return (fabs(x) < fabs(dx/2)) ? 1./dx : 0.;
-}
+// double delta(double x, double dx)
+// {
+    // return (fabs(x) < fabs(dx/2)) ? 1./dx : 0.;
+// }
 
 void solve(const char* fname, auger_t a, int N, double* z,
            int M, double* E, double* ltrs, double* epss,
@@ -68,6 +68,7 @@ void solve(const char* fname, auger_t a, int N, double* z,
     double* tmp;
     double* u = new double[N];
     double* up = new double[N];
+    for (int i = 0; i < N; i++) u[i] = 0;
 
     for (int i = 1; i < M; i++)
     {
@@ -77,11 +78,11 @@ void solve(const char* fname, auger_t a, int N, double* z,
 
         double source = 0;
         double dE = E[i] - E[i - 1];
-        for (int k = 0; k < a.N; k++)
-            source += a.P[k] * delta(E[i] - a.E[k], dE);
-
+        
+        //printf("%e %e %e %e\n", u[2], I1s[i]/(2 - 3 * I2s[i]), - ltrs[i] / 3, epss[i]);
+        
         spe(u, up, z, N, dE,
-            1./3 * ltrs[i] / epss[i],
+            - 1./3 * ltrs[i] / epss[i],
             source,
             I1s[i]/(2 - 3 * I2s[i]),
             - ltrs[i] / 3,
@@ -90,7 +91,16 @@ void solve(const char* fname, auger_t a, int N, double* z,
             0.,
             0.
             );
-        fs[i] = 3 / ltrs[i] * I1s[i]/(2 - 3 * I2s[i]) * u[0];
+        for (int k = 0; k < a.N; k++)
+        {
+            //source -= a.P[k] * delta(E[i] - a.E[k], dE);
+            //if (fabs(source) > 0) printf("%e %e %e\n", source, delta(E[i] - a.E[k], dE), dE);
+            if (fabs(E[i] - a.E[k]) < fabs(dE/2)) 
+            {
+                for (int j = 0; j < N; j++) u[j] += a.P[k];
+            }
+        }
+        fs[i] = 3 * I1s[i] / (2 - 3 * I2s[i]) * u[0]; // * 
         if (i % 100 == 0)
         {
             for (int j = 0; j < N; j += 10)
@@ -99,6 +109,7 @@ void solve(const char* fname, auger_t a, int N, double* z,
             }
             fprintf(fd, "\n");
         }
+        //getchar();
     }
     fclose(fd);
 }
@@ -109,31 +120,70 @@ void gnuplot(const char * s, int &wxt)
     char filename[50];
     sprintf(filename, "gnuplot_%s.gp", s);
     fd = fopen(filename, "w");
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
-    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
-    fprintf(fd, "plot '%s' using 1:3 lw 2 with lines\n", s);
-    wxt ++;
+    // wxt ++;
+    // fprintf(fd, "set terminal wxt %d\n", wxt);
+    // fprintf(fd, "unset key\n");
+    // fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
+    // fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    // wxt ++;
+    // fprintf(fd, "set terminal wxt %d\n", wxt);
+    // fprintf(fd, "unset key\n");
+    // fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
+    // fprintf(fd, "plot '%s' using 1:3 lw 2 with lines\n", s);
+    // wxt ++;
     fprintf(fd, "set terminal wxt %d\n", wxt);
     fprintf(fd, "unset key\n");
     fprintf(fd, "set title 'Спектр n(E)'\n");
     fprintf(fd, "plot '%s' using 1:4 lw 2 with lines\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
-    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    // wxt ++;
+    // fprintf(fd, "set terminal wxt %d\n", wxt);
+    // fprintf(fd, "unset key\n");
+    // fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
+    // fprintf(fd, "plot '%s' using 1:5 lw 2 with lines\n", s);
     wxt ++;
     fprintf(fd, "set terminal wxt %d\n", wxt);
     fprintf(fd, "unset key\n");
     fprintf(fd, "set title 'Граничное условие bc(E)'\n");
-    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
+    fprintf(fd, "plot '%s' using 1:6 lw 2 with lines\n", s);
+    fclose(fd);
+}
+
+void all_gnuplot(const char *s, int &wxt)
+{
+    FILE *fd;
+    char filename[50];
+    sprintf(filename, "gnuplot_%s.gp", s);
+    fd = fopen(filename, "w");
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
+    fprintf(fd, "plot 'data_a.dat' using 1:2 lw 2 with lines title 'A',\\\n", s);
+    fprintf(fd, "     'data_p.dat' using 1:2 lw 2 with lines title 'P',\\\n", s);
+    fprintf(fd, "     'data_t.dat' using 1:2 lw 2 with lines title 'T'\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
+    fprintf(fd, "plot 'data_a.dat' using 1:3 lw 2 with lines title 'A',\\\n", s);
+    fprintf(fd, "     'data_p.dat' using 1:3 lw 2 with lines title 'P',\\\n", s);
+    fprintf(fd, "     'data_t.dat' using 1:3 lw 2 with lines title 'T'\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "set title 'Спектр n(E)'\n");
+    fprintf(fd, "plot 'data_a.dat' using 1:4 lw 2 with lines title 'A',\\\n", s);
+    fprintf(fd, "     'data_p.dat' using 1:4 lw 2 with lines title 'P',\\\n", s);
+    fprintf(fd, "     'data_t.dat' using 1:4 lw 2 with lines title 'T'\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
+    fprintf(fd, "plot 'data_a.dat' using 1:5 lw 2 with lines title 'A',\\\n", s);
+    fprintf(fd, "     'data_p.dat' using 1:5 lw 2 with lines title 'P',\\\n", s);
+    fprintf(fd, "     'data_t.dat' using 1:5 lw 2 with lines title 'T'\n", s);
+    wxt ++;
+    fprintf(fd, "set terminal wxt %d\n", wxt);
+    fprintf(fd, "set title 'Граничное условие bc(E)'\n");
+    fprintf(fd, "plot 'data_a.dat' using 1:6 lw 2 with lines title 'A',\\\n", s);
+    fprintf(fd, "     'data_p.dat' using 1:6 lw 2 with lines title 'P',\\\n", s);
+    fprintf(fd, "     'data_t.dat' using 1:6 lw 2 with lines title 'T'\n", s);
     fclose(fd);
 }
 
@@ -313,19 +363,17 @@ void approximation(int Z, int M, int N, double l, double Emin)
 void test_all()
 {
     int Z = 32;
-    int N = 100;
-    int M = 500;
-    double l = 1;
-    double Emin = 1000;
+    int N = 1000;
+    int M = 5000;
+    double l = 0.00001;
+    double Emin = 900;
 
     analytical(Z, M, N, l, Emin);
     table(Z, M, N, l, Emin);
     approximation(Z, M, N, l, Emin);
     
     int wxt = 0;
-    gnuplot("data_a.dat", wxt);
-    gnuplot("data_t.dat", wxt);
-    gnuplot("data_p.dat", wxt);
+    all_gnuplot("ABP", wxt);
 }
 
 void test_mc()
@@ -349,7 +397,7 @@ int main()
         system("chcp 65001");
     #endif // __WIN__
     test_all();
-    test_mc();
+    //test_mc();
     //test_spline();
     return 0;
 }

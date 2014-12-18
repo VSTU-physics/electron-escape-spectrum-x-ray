@@ -112,8 +112,8 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
     fprintf(fd2, "plot 'testltr.dat' using 1:2 with lines title 'cross_section_T(E)',\\\n");
     fprintf(fd2, "'testltr.dat' using 1:3 with lines title 'cross_section_A(E)' \n");
     fclose(fd2);
-    fd2 = popen("gnuplot -p testltr.gp", "w");
-    pclose(fd2);
+    //fd2 = popen("gnuplot -p testltr.gp", "w");
+    //pclose(fd2);
 };
 
 void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
@@ -156,12 +156,12 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 			//printf("%e %e %e\n", e_sharp[i], Q_points[l], dW_points[l]);
 			e_sharp[i] += 0.5*(Q_points[l] - Q_points[l-1])*(Q_points[l]*dW_points[l] + Q_points[l-1]*dW_points[l-1]);
 		}
-		//printf("%e\n", e_sharp[i]);
 		i++;
 	} while (feof(fd)==0);
 	fclose(fd);
 	imax = i - 1;
 	eval_cubic_spline(E, esharp, N, E_points, e_sharp, imax);
+    //for (int j = 0; j<N; j++) printf("%e %e %e %e\n", esharp[j], E[j], e_sharp[j*imax/N], E_points[j*imax/N]);
 };
 
 void load_approx(int Z, const char* ch, approx_t &app)

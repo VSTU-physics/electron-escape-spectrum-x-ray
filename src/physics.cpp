@@ -39,7 +39,7 @@ double I1(subst_t s, double E)
 {
     double eps = sqrt(s.U0 / (s.U0 + E));
     double e = eps * eps;
-    return -4. / 3 / e / e * (1 - pow(1 - e, 1.5)) + 2 / e - 2 * e / 3;
+    return (eps < 1) ? -4. / 3 / e / e * (1 - pow(1 - e, 1.5)) + 2 / e - 2 * e / 3 : 0.;
 }
 
 double I2(subst_t s, double E)
@@ -47,8 +47,8 @@ double I2(subst_t s, double E)
     double eps = sqrt(s.U0 / (s.U0 + E));
     double e = eps * eps;
     double i = 1 - e;
-    return 4. / e / e * pow(i, 1.5) * (1. / 3 - i / 15 - i * i / 21) -
-        8. / e / e * (1 - pow(eps, 7)) / 7. + 8. / e * (1 - pow(eps, 5)) / 5.;
+    return (eps < 1) ? - 8. / 7 / e / e + 8. / 5 / e - 16. * e * eps / 35 - 4 * sqrt(i) / 105 + 
+                        8 * sqrt(i) / 7 / e / e  - 36 * sqrt(i) / 35 / e - 8. / 105 * e * sqrt(i)  : 0.;
 }
 
 double crsec(double theta, subst_t s, double E)
