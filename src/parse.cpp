@@ -1,6 +1,4 @@
 #include "parse.h"
-#include <math.h>
-#include <stdlib.h>
 
 void load_auger(int Z, const char* ch, auger_t &aug)
 {

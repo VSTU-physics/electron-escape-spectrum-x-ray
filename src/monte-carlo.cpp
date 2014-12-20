@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include "physics.h"
-#include "calculations.h"
-#include "parse.h"
-#include <stdlib.h>
+#include "monte-carlo.h"
 
 void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)
 {

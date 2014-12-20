@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #ifdef __WIN__
     #include <windows.h>
 #endif // __WIN__
-#include <stdlib.h>
-#include <time.h> 
+#include <cstdlib>
+#include <ctime> 
 #include "physics.h"
 #include "calculations.h"
 #include "parse.h"

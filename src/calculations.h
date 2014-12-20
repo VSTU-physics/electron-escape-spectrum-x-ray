@@ -1,5 +1,5 @@
 #pragma once
-#include <stdlib.h>
+#include <cstdlib>
 
 void spe(double *f,
          double *f_prev,
