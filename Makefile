@@ -2,7 +2,7 @@ all: code docs theory
 
 code:
 	make -C src release
-	cp src/main ./
+	cp src/spectrum ./
 
 docs:
 	make -C doc docs
@@ -13,4 +13,4 @@ theory:
 	cp doc/теория.pdf ./
 
 clean:
-	rm -f документация.pdf теория.pdf main
+	rm -f документация.pdf теория.pdf spectrum *.dat *.gp

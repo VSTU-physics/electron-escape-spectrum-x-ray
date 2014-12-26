@@ -4,11 +4,12 @@
     #include <windows.h>
 #endif // __WIN__
 #include <cstdlib>
-#include <ctime> 
+#include <ctime>
 #include "physics.h"
 #include "calculations.h"
 #include "parse.h"
 #include "monte-carlo.h"
+#include "INIReader.h"
 
 void check_data(int Z, subst_t s, auger_t a, approx_t ap)
 {
@@ -74,7 +75,7 @@ void solve(const char* fname, auger_t a, int N, double* z,
 
         double source = 0;
         double dE = E[i] - E[i - 1];
-  
+
         spe(u, up, z, N, dE,
             - 1./3 * ltrs[i] / epss[i],
             source,
@@ -87,12 +88,12 @@ void solve(const char* fname, auger_t a, int N, double* z,
             );
         for (int k = 0; k < a.N; k++)
         {
-            if (fabs(E[i] - a.E[k]) < fabs(dE/2)) 
+            if (fabs(E[i] - a.E[k]) < fabs(dE/2))
             {
                 for (int j = 0; j < N; j++) u[j] += a.P[k];
             }
         }
-        fs[i] = 3 * I1s[i] / (2 - 3 * I2s[i]) * u[0]; // * 
+        fs[i] = 3 * I1s[i] / (2 - 3 * I2s[i]) * u[0]; // *
         if (i % 100 == 0)
         {
             for (int j = 0; j < N; j += 10)
@@ -227,7 +228,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
                 E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
     }
     fclose(fd);
-    
+
     delete [] I1s;
     delete [] I2s;
     delete [] ltrs;
@@ -362,7 +363,7 @@ void test_all()
     analytical(Z, M, N, l, Emin);
     table(Z, M, N, l, Emin);
     approximation(Z, M, N, l, Emin);
-    
+
     int wxt = 0;
     all_gnuplot("ABP", wxt);
 }
@@ -377,7 +378,7 @@ void test_mc()
     double Smax = 0.0001;
     double lmax = 0.00001;
     monte_carlo(Z, nparticles, ntimes, N, Emin, Smax, lmax);
-    
+
     int wxt = 0;
     gnuplot_mc(wxt);
 }
@@ -388,7 +389,51 @@ int main()
         system("chcp 65001");
     #endif // __WIN__
     srand (time(NULL));
-    test_all();
-    test_mc();
+    INIReader reader("config.ini");
+
+    if (reader.ParseError() < 0) {
+        printf("Can't load 'config.ini'\n");
+        return 1;
+    }
+
+    int N = 1000;
+    int M = 5000;
+
+    int z;
+    z = reader.GetInteger("analytical", "z", 0);
+    if (z)
+    {
+        double l = reader.GetReal("analytical", "l", 0.001);
+        double ecut = reader.GetReal("analytical", "ecut", 400);
+        analytical(z, M, N, l, ecut);
+    }
+
+    z = reader.GetInteger("table", "z", 0);
+    if (z)
+    {
+        double l = reader.GetReal("table", "l", 0.001);
+        double ecut = reader.GetReal("table", "ecut", 400);
+        table(z, M, N, l, ecut);
+    }
+
+    z = reader.GetInteger("approximation", "z", 0);
+    if (z)
+    {
+        double l = reader.GetReal("approximation", "l", 0.001);
+        double ecut = reader.GetReal("approximation", "ecut", 400);
+        approximation(z, M, N, l, ecut);
+    }
+
+    z = reader.GetInteger("monte-carlo", "z", 0);
+    if (z)
+    {
+        double l = reader.GetReal("monte-carlo", "l", 0.00001);
+        double s = reader.GetReal("monte-carlo", "s", 0.0001);
+        double ecut = reader.GetReal("monte-carlo", "ecut", 10);
+        int nparticles = reader.GetInteger("monte-carlo", "particles", 400);
+        int ntimes = reader.GetInteger("monte-carlo", "times", 400);
+        int N = 100;
+        monte_carlo(z, nparticles, ntimes, N, ecut, s, l);
+    }
     return 0;
 }

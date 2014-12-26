@@ -1,12 +1,12 @@
 CXXFLAGS := -Wall -g -std=c++11
 CXXLIBS := -lm
-SOURCE := main.cpp physics.cpp calculations.cpp parse.cpp monte-carlo.cpp
+SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp monte-carlo.cpp INIReader.cpp
 
 OBJS := $(patsubst %.cpp, %.o, $(SOURCE))
 DEPS := $(patsubst %.o, %.d, $(OBJS))
 
 release: $(OBJS) $(DEPS)
-	$(CXX) $(OBJS) -o main $(CXXLIBS)
+	$(CXX) $(OBJS) -o spectrum $(CXXLIBS)
 
 %.o: %.cpp %.d
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
