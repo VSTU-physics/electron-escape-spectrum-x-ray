@@ -9,6 +9,7 @@
 #include "calculations.h"
 #include "parse.h"
 #include "monte-carlo.h"
+#include "plots.h"
 #include "INIReader.h"
 
 void check_data(int Z, subst_t s, auger_t a, approx_t ap)
@@ -103,79 +104,6 @@ void solve(const char* fname, auger_t a, int N, double* z,
             fprintf(fd, "\n");
         }
     }
-    fclose(fd);
-}
-
-void gnuplot(const char * s, int &wxt)
-{
-    FILE *fd;
-    char filename[50];
-    sprintf(filename, "gnuplot_%s.gp", s);
-    fd = fopen(filename, "w");
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
-    fprintf(fd, "plot '%s' using 1:2 lw 2 with lines\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
-    fprintf(fd, "plot '%s' using 1:3 lw 2 with lines\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Спектр n(E)'\n");
-    fprintf(fd, "plot '%s' using 1:4 lw 2 with lines\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
-    fprintf(fd, "plot '%s' using 1:5 lw 2 with lines\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "unset key\n");
-    fprintf(fd, "set title 'Граничное условие bc(E)'\n");
-    fprintf(fd, "plot '%s' using 1:6 lw 2 with lines\n", s);
-    fclose(fd);
-}
-
-void all_gnuplot(const char *s, int &wxt)
-{
-    FILE *fd;
-    char filename[50];
-    sprintf(filename, "gnuplot_%s.gp", s);
-    fd = fopen(filename, "w");
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "set title 'Зависимость l_tr(E)'\n");
-    fprintf(fd, "plot 'data_a.dat' using 1:2 lw 2 with lines title 'A',\\\n", s);
-    fprintf(fd, "     'data_p.dat' using 1:2 lw 2 with lines title 'P',\\\n", s);
-    fprintf(fd, "     'data_t.dat' using 1:2 lw 2 with lines title 'T'\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "set title 'Зависимость dE/dS(E)'\n");
-    fprintf(fd, "plot 'data_a.dat' using 1:3 lw 2 with lines title 'A',\\\n", s);
-    fprintf(fd, "     'data_p.dat' using 1:3 lw 2 with lines title 'P',\\\n", s);
-    fprintf(fd, "     'data_t.dat' using 1:3 lw 2 with lines title 'T'\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "set title 'Спектр n(E)'\n");
-    fprintf(fd, "plot 'data_a.dat' using 1:4 lw 2 with lines title 'A',\\\n", s);
-    fprintf(fd, "     'data_p.dat' using 1:4 lw 2 with lines title 'P',\\\n", s);
-    fprintf(fd, "     'data_t.dat' using 1:4 lw 2 with lines title 'T'\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
-    fprintf(fd, "plot 'data_a.dat' using 1:5 lw 2 with lines title 'A',\\\n", s);
-    fprintf(fd, "     'data_p.dat' using 1:5 lw 2 with lines title 'P',\\\n", s);
-    fprintf(fd, "     'data_t.dat' using 1:5 lw 2 with lines title 'T'\n", s);
-    wxt ++;
-    fprintf(fd, "set terminal wxt %d\n", wxt);
-    fprintf(fd, "set title 'Граничное условие bc(E)'\n");
-    fprintf(fd, "plot 'data_a.dat' using 1:6 lw 2 with lines title 'A',\\\n", s);
-    fprintf(fd, "     'data_p.dat' using 1:6 lw 2 with lines title 'P',\\\n", s);
-    fprintf(fd, "     'data_t.dat' using 1:6 lw 2 with lines title 'T'\n", s);
     fclose(fd);
 }
 
@@ -352,37 +280,6 @@ void approximation(int Z, int M, int N, double l, double Emin)
     delete [] E;
 }
 
-void test_all()
-{
-    int Z = 32;
-    int N = 1000;
-    int M = 5000;
-    double l = 0.001;
-    double Emin = 400;
-
-    analytical(Z, M, N, l, Emin);
-    table(Z, M, N, l, Emin);
-    approximation(Z, M, N, l, Emin);
-
-    int wxt = 0;
-    all_gnuplot("ABP", wxt);
-}
-
-void test_mc()
-{
-    int Z = 32;
-    int nparticles = 100000;
-    int ntimes = 10000;
-    int N = 100;
-    double Emin = 10;
-    double Smax = 0.0001;
-    double lmax = 0.00001;
-    monte_carlo(Z, nparticles, ntimes, N, Emin, Smax, lmax);
-
-    int wxt = 0;
-    gnuplot_mc(wxt);
-}
-
 int main()
 {
     #ifdef __WIN__
@@ -400,12 +297,14 @@ int main()
     int M = 5000;
 
     int z;
+    bool A, P, T;
     z = reader.GetInteger("analytical", "z", 0);
     if (z)
     {
         double l = reader.GetReal("analytical", "l", 0.001);
         double ecut = reader.GetReal("analytical", "ecut", 400);
         analytical(z, M, N, l, ecut);
+        A = true;
     }
 
     z = reader.GetInteger("table", "z", 0);
@@ -414,6 +313,7 @@ int main()
         double l = reader.GetReal("table", "l", 0.001);
         double ecut = reader.GetReal("table", "ecut", 400);
         table(z, M, N, l, ecut);
+        T = true;
     }
 
     z = reader.GetInteger("approximation", "z", 0);
@@ -422,6 +322,7 @@ int main()
         double l = reader.GetReal("approximation", "l", 0.001);
         double ecut = reader.GetReal("approximation", "ecut", 400);
         approximation(z, M, N, l, ecut);
+        P = true;
     }
 
     z = reader.GetInteger("monte-carlo", "z", 0);
@@ -434,6 +335,9 @@ int main()
         int ntimes = reader.GetInteger("monte-carlo", "times", 400);
         int N = 100;
         monte_carlo(z, nparticles, ntimes, N, ecut, s, l);
+        plot_mc();
     }
+
+    plot_analytics(A, P, T);
     return 0;
 }
