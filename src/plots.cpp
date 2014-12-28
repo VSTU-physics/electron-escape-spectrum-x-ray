@@ -22,6 +22,7 @@ void plot_analytics(bool A, bool P, bool T)
     if(A) fprintf(fd, "'data_a.dat' using 1:3 lw 2 with lines title 'A',\\\n");
     if(P) fprintf(fd, "'data_p.dat' using 1:3 lw 2 with lines title 'P',\\\n");
     if(T) fprintf(fd, "'data_t.dat' using 1:3 lw 2 with lines title 'T'\n");
+    fprintf(fd, "\n");
 
     fprintf(fd, "set terminal wxt %d\n", wxt++);
     fprintf(fd, "set title 'Спектр n(E)'\n");
@@ -29,6 +30,7 @@ void plot_analytics(bool A, bool P, bool T)
     if(A) fprintf(fd, "'data_a.dat' using 1:4 lw 2 with lines title 'A',\\\n");
     if(P) fprintf(fd, "'data_p.dat' using 1:4 lw 2 with lines title 'P',\\\n");
     if(T) fprintf(fd, "'data_t.dat' using 1:4 lw 2 with lines title 'T'\n");
+    fprintf(fd, "\n");
 
     fprintf(fd, "set terminal wxt %d\n", wxt++);
     fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
@@ -36,6 +38,7 @@ void plot_analytics(bool A, bool P, bool T)
     if(A) fprintf(fd, "'data_a.dat' using 1:5 lw 2 with lines title 'A',\\\n");
     if(P) fprintf(fd, "'data_p.dat' using 1:5 lw 2 with lines title 'P',\\\n");
     if(T) fprintf(fd, "'data_t.dat' using 1:5 lw 2 with lines title 'T'\n");
+    fprintf(fd, "\n");
 
     fprintf(fd, "set terminal wxt %d\n", wxt++);
     fprintf(fd, "set title 'Граничное условие bc(E)'\n");
@@ -43,6 +46,7 @@ void plot_analytics(bool A, bool P, bool T)
     if(A) fprintf(fd, "'data_a.dat' using 1:6 lw 2 with lines title 'A',\\\n");
     if(P) fprintf(fd, "'data_p.dat' using 1:6 lw 2 with lines title 'P',\\\n");
     if(T) fprintf(fd, "'data_t.dat' using 1:6 lw 2 with lines title 'T'\n");
+    fprintf(fd, "\n");
 
     fclose(fd);
 }

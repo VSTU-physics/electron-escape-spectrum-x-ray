@@ -1,8 +1,8 @@
 all: code docs theory
 
 code:
-	make -C src release
-	cp src/spectrum ./
+	make -C src analytics
+	cp src/analytics ./
 
 docs:
 	make -C doc docs
