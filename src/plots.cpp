@@ -48,7 +48,7 @@ void plot_analytics(bool A, bool P, bool T)
     if(T) fprintf(fd, "'data_t.dat' using 1:6 lw 2 with lines title 'T'\n");
     fprintf(fd, "\n");
 
-    fclose(fd);
+    pclose(fd);
 }
 
 void plot_mc()
@@ -69,5 +69,5 @@ void plot_mc()
     fprintf(fd, "set title 'Зависимость средней энергии вышедших электронов от пробега E(S)'\n");
     fprintf(fd, "plot 'results_mc.dat' using 3:5 lw 2 with lines\n");
 
-    fclose(fd);
+    pclose(fd);
 }

@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cmath>
 #include <cstdlib>
+#include <algorithm>
 #include "calculations.h"
 
 /*
@@ -35,13 +36,13 @@ void spe(double *f,
          double c_2t)
 {
 	double A[N], B[N], C[N], D[N];
-    double dz1, dz2, dza;
 	A[0] = 0;
 	B[0] = a_1t - b_1t/(z[1] - z[0]);
 	C[0] = b_1t/(z[1] - z[0]);
 	D[0] = c_1t;
 	for (int i = 1; i < N - 1; i++)
     {
+        double dz1, dz2, dza;
         dz1 = z[i] - z[i-1];
 		dz2 = z[i+1] - z[i];
         dza = (dz1 + dz2)*0.5;
@@ -117,27 +118,14 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	a[N-1] = y[N-1];
 }
 
-void sort(int *b, double *A, int n)
-{
-    int t;
-    for (int i=0; i<n; i++) b[i] = i;
-    for (int i=0; i<n; i++)
-        for (int j=i+1; j<n;j++)
-            if (A[b[j]] < A[b[i]])
-            {
-                t = b[j];
-                b[j] = b[i];
-                b[i] = t;
-            }
-}
 
 void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N)
 {
 	double a[N], b[N], c[N], d[N];
-    int *in;
-    in = new int[M];
-    sort(in, xs, M);
-    
+    int *in = new int[M];
+    for (int i=0; i<M; i++) in[i] = i;
+    std::sort(in, in + M, [&xs](int& a, int& b){return (xs[a] < xs[b]);});
+
 	cubic_spline(x, y, N, a, b, c, d);
 	//Пусть x сортирован по возрастанию
 	int j = 0;
@@ -190,17 +178,17 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N)
                 h = lb - x[N-1];
                 result+=a[N-1]*h + b[N-1]*h*h/2 + c[N-1]*h*h*h/6 + d[N-1]*h*h*h*h/24;
             }
-			if ((la<=x[j])&&(lb>=x[j+1])) 
+			if ((la<=x[j])&&(lb>=x[j+1]))
             {
 				h = x[j+1] - x[j];
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
 			}
-			if ((la>x[j])&&(la<x[j+1])) 
+			if ((la>x[j])&&(la<x[j+1]))
             {
 				h = x[j+1] - la;
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
 			}
-			if ((lb>x[j])&&(lb<x[j+1])) 
+			if ((lb>x[j])&&(lb<x[j+1]))
             {
 				h = lb - x[j];
 				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
@@ -220,55 +208,3 @@ double random(double l)
 double linterp(double x, double x1, double y1, double x2, double y2){
     return (y2 - y1) / (x2 - x1) * (x - x1) + y1;
 }
-
-
-void test_spe()
-{
-	int N = 1000, M = 100;
-	double t = 0., dt = 1e-2, *phi, zmax = 3.1416;
-	double dz = zmax/(N-1), z[N];
-	phi = new double[N*M];
-	for (int i = 0; i<N; i++){
-		z[i] = (i==0) ? 0 : z[i-1]+dz;
-		phi[i] = sin(z[i]);
-	}
-	for (int i = 1; i<M; i++){
-		t+=dt;
-		spe(phi + i*N, phi + (i - 1)*N, z, N, dt, 1., 0., 1., 0., 0., 1., 0., 0.);
-	}
-	FILE *file;
-	file = fopen("results.txt", "w");
-	for (int i = 0; i<N; i++){
-		fprintf(file, "%f %f %f %f\n", z[i], phi[i], *(phi+N*50+i), *(phi+N*(M-1)+i));
-	}
-	fclose(file);
-	file = popen("gnuplot", "w");
-	fprintf(file, "plot 'results.txt' using 1:2 with lines, '' using 1:3 with lines, '' using 1:4 with lines\n");
-    pclose(file);
-}
-
-void test_spline()
-{
-	int N = 1000, M = 30;
-	double x[N], xx[M], y[N], yy[M], x_min = 0, x_max = 10;
-	for (int i = 0; i<M; i++){
-		xx[i] = (x_max - x_min)/(M - 1)*i + x_min;
-		yy[i] = sin(xx[i]);
-	}
-	FILE *file;
-	file = fopen("results.txt", "w");
-	for (int i = 0; i<N; i++){
-		x[i] = (x_max - x_min)/(N - 1)*i + x_min;
-	}
-	double pi = 3.14169;
-	eval_cubic_spline(x, y, N, xx, yy, M);
-	for (int i = 0; i<N; i++){
-		fprintf(file, "%f %f %f\n", x[i], y[i], sin(x[i]));
-	}
-	fclose(file);
-	printf("%f", int_cubic_spline(pi/2, 2*pi, xx, yy, M));
-    printf("%f", int_cubic_spline(pi/2, 3*pi, xx, yy, M));
-    printf("%f", int_cubic_spline(pi/2, 3*pi/2, xx, yy, M));
-}
-
-

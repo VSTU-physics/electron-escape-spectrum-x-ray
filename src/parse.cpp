@@ -68,7 +68,7 @@ void load_subst(int Z, const char* ch, subst_t &subs){
 void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 {
 	char chrm[500], filename[50];
-	sprintf(filename, "%s%d_el.pl", ch, s.Z);
+	sprintf(filename, "%s%d_el.dat", ch, s.Z);
 	FILE *fd;
 	if ((fd = fopen(filename, "r")) == NULL)
 	{
@@ -90,7 +90,6 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
     for (int i = 0; i<e_l; i++)
     {
         fscanf(fd, "%lE", &E_points[e_l - 1 - i]);
-        printf("%e %e\n", E_points[e_l - 1 - i], eta(s, E_points[e_l - 1 - i]));
         for (int j = 0; j<theta_l; j++)
         {
             fscanf(fd, "%lE", &dltr[j]);
@@ -115,7 +114,7 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 {
 	char chr, chrm[500], filename[50];
-	sprintf(filename, "%s%d_in.pl", ch, s.Z);
+	sprintf(filename, "%s%d_in.dat", ch, s.Z);
 	FILE *fd;
 	if ((fd = fopen(filename, "r")) == NULL)
 	{
@@ -126,11 +125,11 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 	fscanf(fd, "%s\n", chrm);
 	fscanf(fd, "%s\n", chrm);
 	double Q_points[500], dW_points[500], E_points[100], e_sharp[100];
-	int i = 0, j, jmax, imax;
+	int i = 0;
 	do
 	{
 		fscanf(fd, "%lE", &E_points[i]);
-		j = 0;
+		int j = 0;
 		do
 		{
 			fscanf(fd, "%lE", &Q_points[j]);
@@ -144,18 +143,16 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 			fscanf(fd, "%c", &chr);
 			j++;
 		} while (chr!='\n');
-		jmax = j - 1;
 		e_sharp[i] = 0.;
 
-		for (int l = 1; l<jmax; l++)
+		for (int l = 1; l<j-1; l++)
 		{
 			e_sharp[i] += 0.5*(Q_points[l] - Q_points[l-1])*(Q_points[l]*dW_points[l] + Q_points[l-1]*dW_points[l-1]);
 		}
 		i++;
 	} while (feof(fd)==0);
 	fclose(fd);
-	imax = i - 1;
-	eval_cubic_spline(E, esharp, N, E_points, e_sharp, imax);
+	eval_cubic_spline(E, esharp, N, E_points, e_sharp, i-1);
 };
 
 void load_approx(int Z, const char* ch, approx_t &app)
@@ -250,7 +247,7 @@ void test_parse()
 {
 	auger_t aug;
 	int Z = 14;
-	load_auger(Z, "data/aug.pl", aug);
+	load_auger(Z, "data/aug.dat", aug);
 	printf("%d \n[", aug.N);
 	for (int i = 0; i<aug.N; i++)
 	{
@@ -267,7 +264,7 @@ void test_parse()
 	int N = 10;
 	double ltr[N], E[N], esharp[N];
 	subst_t s;
-	load_subst(32, "data/subst.pl", s);
+	load_subst(32, "data/subst.dat", s);
 	load_ltr(ltr, E, N, "data/", s);
 	load_esharp(esharp, E, N, "data/", s);
 	for (int i = 0; i<N; i++)
@@ -280,7 +277,7 @@ void test_parse()
 void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, const char* ch, subst_t s)
 {
     char chrm[500], filename[50];
-	sprintf(filename, "%s%d_el.pl", ch, s.Z);
+	sprintf(filename, "%s%d_el.dat", ch, s.Z);
 	FILE *fd;
 	if ((fd = fopen(filename, "r")) == NULL)
 	{
@@ -293,7 +290,6 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
 	fscanf(fd, "%d %s\n", &e_l, chrm);
 
     double *theta, *E_points, *alpha_points, *sigma, dsigma, horror;
-    int k;
     theta = new double[theta_l];
     sigma = new double[theta_l];
     E_points = new double[e_l];
@@ -339,7 +335,7 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
 void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, const char* ch, subst_t s)
 {
 	char chr, chrm[500], filename[50];
-	sprintf(filename, "%s%d_in.pl", ch, s.Z);
+	sprintf(filename, "%s%d_in.dat", ch, s.Z);
 	FILE *fd;
 	if ((fd = fopen(filename, "r")) == NULL)
 	{
@@ -355,11 +351,11 @@ void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, co
 	fscanf(fd, "%s\n", chrm);
 	fscanf(fd, "%s\n", chrm);
 	double Q_points[500], dW_points[500], E_points[100], e_sharp[500], beta_points[100], inv_l_points[100];
-	int i = 0, j, jmax, imax;
+	int i = 0, imax;
 	do
 	{
 		fscanf(fd, "%lE", &E_points[i]);
-		j = 0;
+		int j = 0;
 		do
 		{
 			fscanf(fd, "%lE", &Q_points[j]);
@@ -373,7 +369,7 @@ void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, co
 			fscanf(fd, "%c", &chr);
 			j++;
 		} while (chr!='\n');
-		jmax = j - 1;
+		int jmax = j - 1;
 		e_sharp[0] = 0.;
 
 		for (int l = 1; l<jmax; l++)

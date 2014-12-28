@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <cstring>
-#include "monte-carlo.h"
+#include "spectrum.h"
 #include "plots.h"
 #include <gtk/gtk.h>
 

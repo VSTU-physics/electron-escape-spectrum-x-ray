@@ -2,7 +2,7 @@ CXXFLAGS := -Wall -g -std=c++11
 CXXLIBS := -lm
 GTKFLAGS := $(shell pkg-config --cflags gtk+-3.0)
 GTKLIBS := $(shell pkg-config --libs gtk+-3.0)
-SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp monte-carlo.cpp INIReader.cpp
+SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp INIReader.cpp
 TEST_S := spectrum_test.cpp $(SOURCE)
 GUI_A_S := analytics.cpp $(SOURCE)
 GUI_M_S := mc.cpp $(SOURCE)
@@ -27,7 +27,7 @@ mc: $(GUI_M_O) $(GUI_M_D)
 	$(CXX) -c $< -o $@ $(CXXFLAGS) $(GTKFLAGS)
 
 %.d: %.cpp
-	@set -e; $(CXX) -M $< | \
+	@set -e; $(CXX) $(GTKFLAGS) -M $< | \
 		sed -e 's%\($*\)\.o[ :]*%\1.o $@ : %g' > $@; \
 		[ -s $@ ] || rm -f $@
 	@echo create $@
