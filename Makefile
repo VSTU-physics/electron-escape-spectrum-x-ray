@@ -2,7 +2,9 @@ all: code docs theory
 
 code:
 	make -C src analytics
+	make -C src mc
 	cp src/analytics ./
+	cp src/monte-carlo ./
 
 docs:
 	make -C doc docs

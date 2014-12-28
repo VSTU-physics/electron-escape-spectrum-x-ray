@@ -5,17 +5,23 @@ GTKLIBS := $(shell pkg-config --libs gtk+-3.0)
 SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp monte-carlo.cpp INIReader.cpp
 TEST_S := spectrum_test.cpp $(SOURCE)
 GUI_A_S := analytics.cpp $(SOURCE)
+GUI_M_S := mc.cpp $(SOURCE)
 
 TEST_O := $(patsubst %.cpp, %.o, $(TEST_S))
 TEST_D := $(patsubst %.o, %.d, $(TEST_O))
 GUI_A_O := $(patsubst %.cpp, %.o, $(GUI_A_S))
 GUI_A_D := $(patsubst %.o, %.d, $(GUI_A_O))
+GUI_M_O := $(patsubst %.cpp, %.o, $(GUI_M_S))
+GUI_M_D := $(patsubst %.o, %.d, $(GUI_M_O))
 
 test: $(TEST_O) $(TEST_D)
 	$(CXX) $(TEST_O) -o test $(CXXLIBS)
 
 analytics: $(GUI_A_O) $(GUI_A_D)
 	$(CXX) $(GUI_A_O) -o analytics $(CXXLIBS) $(GTKLIBS)
+
+mc: $(GUI_M_O) $(GUI_M_D)
+	$(CXX) $(GUI_M_O) -o monte-carlo $(CXXLIBS) $(GTKLIBS)
 
 %.o: %.cpp %.d
 	$(CXX) -c $< -o $@ $(CXXFLAGS) $(GTKFLAGS)

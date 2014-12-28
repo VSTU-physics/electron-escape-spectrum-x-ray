@@ -1,25 +1,15 @@
 #include <cstdlib>
 #include <cstring>
-#include "spectrum.h"
+#include "monte-carlo.h"
 #include "plots.h"
 #include <gtk/gtk.h>
 
-GtkWidget *A, *P, *T, *Ecut, *Elem;
+GtkWidget *Ecut, *Elem, *Npart, *Ntimes;
 
 static void
 start (GtkWidget *widget,
        gpointer   data)
 {
-   bool a, p, t;
-   a = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(A));
-   p = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(P));
-   t = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(T));
-
-    int N = 1000;
-    int M = 5000;
-
-
-   double l = 0.001;
    int z;
    const gchar *el = gtk_entry_get_text(GTK_ENTRY(Elem));
    if (!strcmp(el, "Si"))
@@ -34,16 +24,13 @@ start (GtkWidget *widget,
     }
 
     double ecut = atof(gtk_entry_get_text(GTK_ENTRY(Ecut)));
-    if (a)
-        analytical(z, M, N, l, ecut);
-
-    if (t)
-        table(z, M, N, l, ecut);
-
-    if (p)
-        approximation(z, M, N, l, ecut);
-
-   plot_analytics(a, p, t);
+    int Nt = atoi(gtk_entry_get_text(GTK_ENTRY(Ntimes)));
+    int Np = atoi(gtk_entry_get_text(GTK_ENTRY(Npart)));
+    int N = 100;
+    double s = 0.0001;
+    double l = 0.00001;
+     monte_carlo(z, Np, Nt, N, ecut, s, l);
+    plot_mc();
 }
 
 int
@@ -86,17 +73,19 @@ main (int   argc,
     gtk_entry_set_text(GTK_ENTRY(Ecut), "500");
     gtk_grid_attach (GTK_GRID (grid), Ecut, 0, 3, 1, 1);
 
-    label = gtk_label_new("Types of data:");
+    label = gtk_label_new("Number of particles:");
     gtk_grid_attach (GTK_GRID (grid), label, 0, 4, 1, 1);
 
-    A = gtk_check_button_new_with_label("analytical");
-    gtk_grid_attach (GTK_GRID (grid), A, 0, 5, 1, 1);
+    Npart = gtk_entry_new();
+    gtk_entry_set_text(GTK_ENTRY(Npart), "10000");
+    gtk_grid_attach (GTK_GRID (grid), Npart, 0, 5, 1, 1);
 
-    T = gtk_check_button_new_with_label("table");
-    gtk_grid_attach (GTK_GRID (grid), T, 0, 6, 1, 1);
+    label = gtk_label_new("Number of steps:");
+    gtk_grid_attach (GTK_GRID (grid), label, 0, 6, 1, 1);
 
-    P = gtk_check_button_new_with_label("approximation");
-    gtk_grid_attach (GTK_GRID (grid), P, 0, 7, 1, 1);
+    Ntimes = gtk_entry_new();
+    gtk_entry_set_text(GTK_ENTRY(Ntimes), "10000");
+    gtk_grid_attach (GTK_GRID (grid), Ntimes, 0, 7, 1, 1);
 
     button = gtk_button_new_with_label ("Start!");
     g_signal_connect (button, "clicked", G_CALLBACK (start), NULL);
