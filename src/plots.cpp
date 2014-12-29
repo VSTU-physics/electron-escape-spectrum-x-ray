@@ -33,7 +33,7 @@ void plot_analytics(bool A, bool P, bool T)
     fprintf(fd, "\n");
 
     fprintf(fd, "set terminal wxt %d\n", wxt++);
-    fprintf(fd, "set title 'Зависимость пробега RS(E)'\n");
+    fprintf(fd, "set title 'Зависимость пробега R(E)'\n");
     fprintf(fd, "plot\\\n");
     if(A) fprintf(fd, "'data_a.dat' using 1:5 lw 2 with lines title 'A',\\\n");
     if(P) fprintf(fd, "'data_p.dat' using 1:5 lw 2 with lines title 'P',\\\n");

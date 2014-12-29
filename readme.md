@@ -8,7 +8,12 @@
 Для запуска программ необходимо сделать следующее:
 
 1. Установить git: `sudo apt-get install git`
-2. Скачать этот репозиторий командой  `git clone git@github.com:VSTU-physics/electron-escape-spectrum-x-ray.git`
-3. ...
-4. Перейти в каталог репозитория и выполнить `make`
-5. Запустить скомпилированные программы: `./analytics` или `./monte-carlo`
+2. Скачать этот репозиторий командой  `git clone http://github.com/VSTU-physics/electron-escape-spectrum-x-ray.git`
+3. Установить gnuplot (если он ещё не установлен) и libgtk-3-dev: `sudo apt-get install gnuplot-qt libgtk-3-dev`
+4. Перейти в каталог репозитория
+5. Запустить gnuplot командой `gnuplot` и проверить в выводе команды `set terminal` наличие `wxt`; при его наличии перейти к шагу 7
+6. Если `wxt` нет в списке, то выйти из gnuplot и выполнить `./wxt2qt.sh`
+7. Выполнить `make`
+8. Запустить скомпилированные программы: `./analytics` или `./monte-carlo`
+
+Графики выводятся в окнах gnuplot.

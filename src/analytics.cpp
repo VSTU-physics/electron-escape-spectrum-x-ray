@@ -91,13 +91,13 @@ main (int   argc,
     label = gtk_label_new("Types of data:");
     gtk_grid_attach (GTK_GRID (grid), label, 0, 4, 1, 1);
 
-    A = gtk_check_button_new_with_label("analytical");
+    A = gtk_check_button_new_with_label("analytical (A)");
     gtk_grid_attach (GTK_GRID (grid), A, 0, 5, 1, 1);
 
-    T = gtk_check_button_new_with_label("table");
+    T = gtk_check_button_new_with_label("table (T)");
     gtk_grid_attach (GTK_GRID (grid), T, 0, 6, 1, 1);
 
-    P = gtk_check_button_new_with_label("approximation");
+    P = gtk_check_button_new_with_label("approximation (P)");
     gtk_grid_attach (GTK_GRID (grid), P, 0, 7, 1, 1);
 
     button = gtk_button_new_with_label ("Start!");
