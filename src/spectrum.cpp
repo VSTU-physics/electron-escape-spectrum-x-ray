@@ -132,6 +132,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
 
+    rs[M-1] = 0;
     for (int i = 0; i < M-1; i++)
     {
         rs[M - 2 - i] = rs[M - 1 - i] +
@@ -187,6 +188,7 @@ void table(int Z, int M, int N, double l, double Emin)
         I2s[i] = I2(s, E[i]);
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
+    rs[M-1] = 0;
     for (int i = 0; i < M-1; i++)
     {
         rs[M - 2 - i] = rs[M - 1 - i] +
@@ -242,6 +244,7 @@ void approximation(int Z, int M, int N, double l, double Emin)
         I2s[i] = I2(s, E[i]);
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
+    rs[M-1] = 0;
 
     for (int i = 0; i < M-1; i++)
     {
@@ -270,16 +273,13 @@ void approximation(int Z, int M, int N, double l, double Emin)
 
 void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)
 {
-    printf("in monte_carlo!\n");
     double *E, *beta, *alpha, beta_t, alpha_t, theta_s, phi_s, theta_t, phi_t;
     E = new double[N];
     beta = new double[N];
     alpha = new double[N];
 
-    printf("before load subst data\n");
     subst_t s;
     load_subst(Z, "data/subst.dat", s);
-    printf("loaded subst data\n");
     double Emax = 1.1 * s.E[0];
     double dE = (Emax - Emin) / (N - 1);
     for (int i = 0; i < N; i++)
@@ -291,7 +291,6 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     load_mc_elastic(alpha, E, N, inv_lambda_el, "data/", s);
     load_mc_inelastic(beta, E, N, inv_lambda_in, "data/", s);
 
-    printf("loaded el/in data\n");
     double lambda;
 
     particle_t p;
@@ -307,7 +306,6 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     E_S = new double[N]; for (int i = 0; i<N; i++) E_S[i] = 0;
     int general_sum = 0;
 
-    printf("start mc\n");
     for (int i = 0; i<nparticles; i++)
     {
         bool stop = true;
@@ -386,7 +384,6 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
         }
     }
 
-    printf("end mc\n");
     FILE *fd;
     fd = fopen("results_mc.dat", "w");
     for (int i = 0; i<N; i++)
@@ -400,7 +397,6 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     }
     fclose(fd);
 
-    printf("printed\n");
     delete [] E;
     delete [] beta;
     delete [] alpha;

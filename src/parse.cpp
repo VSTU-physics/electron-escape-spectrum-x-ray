@@ -10,11 +10,15 @@ void load_subst(int Z, const char* ch, subst_t &subs){
     };
 	fscanf(fd, "%s\n", chrm);
 
+    subs.E = new double[1];
+    subs.P = new double[1];
     do
 	{
         fscanf(fd, "%d %s %lf %lf %lf %d\n", &subs.Z, subs.atom, &subs.M, &subs.rho, &subs.U0, &subs.N);
+
         delete[] subs.E;
         delete[] subs.P;
+        
         subs.E = new double[subs.N];
         subs.P = new double[subs.N];
 		fscanf(fd, " [");
