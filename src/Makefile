@@ -3,7 +3,7 @@ CXXLIBS := -lm
 GTKFLAGS := $(shell pkg-config --cflags gtk+-3.0)
 GTKLIBS := $(shell pkg-config --libs gtk+-3.0)
 SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp INIReader.cpp
-TEST_S := spectrum_test.cpp $(SOURCE)
+TEST_S := test.cpp $(SOURCE)
 GUI_A_S := analytics.cpp $(SOURCE)
 GUI_M_S := mc.cpp $(SOURCE)
 

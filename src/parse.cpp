@@ -63,30 +63,19 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 		theta[j]*=M_PI/180;
 	}
     fscanf(fd, "%s\n", chrm);
-    FILE *fd2;
-    fd2 = fopen("testltr.dat", "w");
     for (int i = 0; i<e_l; i++)
     {
         fscanf(fd, "%lE", &E_points[e_l - 1 - i]);
         for (int j = 0; j<theta_l; j++)
         {
             fscanf(fd, "%lE", &dltr[j]);
-            if ((i == 0)||(i == e_l/2)||(i == e_l - 1)) fprintf(fd2, "%e %e %e\n", theta[j], dltr[j], crsec(theta[j], s, E_points[e_l - 1 - i]));
             dltr[j]*=s.rho*Na/s.M*(1 - cos(theta[j]))*sin(theta[j]);
         }
-        fprintf(fd2, "\n");
         fscanf(fd, "%s\n", chrm);
         ltr_points[e_l - 1 - i] = 1./(2*M_PI*int_cubic_spline(theta[0], theta[theta_l-1], theta, dltr, theta_l));
     }
     eval_cubic_spline(E, ltr, N, E_points, ltr_points, e_l);
     fclose(fd);
-    fclose(fd2);
-    fd2 = fopen("testltr.gp", "w");
-    fprintf(fd2, "set terminal wxt 4\n");
-    fprintf(fd2, "set size square\n");
-    fprintf(fd2, "plot 'testltr.dat' using 1:2 with lines title 'cross_section_T(E)',\\\n");
-    fprintf(fd2, "'testltr.dat' using 1:3 with lines title 'cross_section_A(E)' \n");
-    fclose(fd2);
 };
 
 void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
