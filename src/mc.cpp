@@ -29,7 +29,8 @@ start (GtkWidget *widget,
     int N = 100;
     double s = 0.0001;
     double l = 0.00001;
-     monte_carlo(z, Np, Nt, N, ecut, s, l);
+    printf("call monte-carlo!\n");
+    monte_carlo(z, Np, Nt, N, ecut, s, l);
     plot_mc();
 }
 

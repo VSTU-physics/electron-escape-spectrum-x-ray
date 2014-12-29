@@ -47,7 +47,7 @@ double I2(subst_t s, double E)
     double eps = sqrt(s.U0 / (s.U0 + E));
     double e = eps * eps;
     double i = 1 - e;
-    return (eps < 1) ? - 8. / 7 / e / e + 8. / 5 / e - 16. * e * eps / 35 - 4 * sqrt(i) / 105 + 
+    return (eps < 1) ? - 8. / 7 / e / e + 8. / 5 / e - 16. * e * eps / 35 - 4 * sqrt(i) / 105 +
                         8 * sqrt(i) / 7 / e / e  - 36 * sqrt(i) / 35 / e - 8. / 105 * e * sqrt(i)  : 0.;
 }
 
@@ -57,22 +57,22 @@ double crsec(double theta, subst_t s, double E)
     return pow((T + 1) * re / T / (T + 2) / (1 - cos(theta) + 2 * eta(s, E)), 2) * s.Z * (s.Z + 1);
 }
 
-double auger_source(auger_t a, double rand)
+double auger_source(subst_t s, double rand)
 {
     double pmax = 0, p = 0;
-    for (int i = 0; i<a.N; i++)
+    for (int i = 0; i<s.N; i++)
     {
-        pmax += a.P[i];
+        pmax += s.P[i];
     }
-    for (int i = 0; i<a.N; i++)
+    for (int i = 0; i<s.N; i++)
     {
         if (p > rand)
         {
-            return a.E[i-1];
+            return s.E[i-1];
         }
-        p += a.P[i]/pmax;
+        p += s.P[i]/pmax;
     }
-    return a.E[a.N-1];
+    return s.E[s.N-1];
 }
 
 bool reflection(double E, double theta, double U0)

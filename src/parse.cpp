@@ -1,49 +1,5 @@
 #include "parse.h"
 
-void load_auger(int Z, const char* ch, auger_t &aug)
-{
-	char chrm[50];
-	int z;
-	FILE *fd;
-	if ((fd = fopen(ch, "r")) == NULL)
-	{
-        printf("Can't open file %s. Check that file exists\n", ch);
-        return;
-    };
-	fscanf(fd, "%s\n", chrm);
-	aug.E = new double[1];
-	aug.P = new double[1];
-    do
-	{
-        fscanf(fd, "%d ", &z);
-		fscanf(fd, "%d", &aug.N);
-		delete aug.E;
-		delete aug.P;
-		aug.E = new double[aug.N];
-		aug.P = new double[aug.N];
-		fscanf(fd, " [");
-		for (int i = 0; i<aug.N; i++)
-		{
-			fscanf(fd, "%lf", &aug.E[i]);
-            aug.E[i] *= 1000;
-		}
-		fscanf(fd, "]");
-		fscanf(fd, " [");
-		for (int i = 0; i<aug.N; i++)
-		{
-			fscanf(fd, "%lf", &aug.P[i]);
-		}
-		fscanf(fd, "]");
-		fscanf(fd, "%s%s\n", aug.atom, aug.shell);
-		if ((feof(fd)!=0)&&(z!=Z))
-		{
-			printf("Element is absent at list\n");
-			return;
-		}
-	} while (z!=Z);
-	fclose(fd);
-}
-
 void load_subst(int Z, const char* ch, subst_t &subs){
 	char chrm[50];
 	FILE *fd;
@@ -53,9 +9,27 @@ void load_subst(int Z, const char* ch, subst_t &subs){
         return;
     };
 	fscanf(fd, "%s\n", chrm);
+
     do
 	{
-        fscanf(fd, "%d %lf %lf %lf %s\n", &subs.Z, &subs.M, &subs.rho, &subs.U0, chrm);
+        fscanf(fd, "%d %s %lf %lf %lf %d\n", &subs.Z, subs.atom, &subs.M, &subs.rho, &subs.U0, &subs.N);
+        delete[] subs.E;
+        delete[] subs.P;
+        subs.E = new double[subs.N];
+        subs.P = new double[subs.N];
+		fscanf(fd, " [");
+		for (int i = 0; i<subs.N; i++)
+		{
+			fscanf(fd, "%lf", &subs.E[i]);
+            subs.E[i] *= 1000;
+		}
+		fscanf(fd, "]");
+		fscanf(fd, " [");
+		for (int i = 0; i<subs.N; i++)
+		{
+			fscanf(fd, "%lf", &subs.P[i]);
+		}
+		fscanf(fd, "]\n");
 		if ((feof(fd)!=0)&&(subs.Z!=Z))
 		{
 			printf("Element is absent at list\n");
@@ -242,37 +216,6 @@ void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t 
         ltr[i] = ap.R0_i[k] / ap.d1_i[k] * pow(E[i] / ap.E[k], ap.alpha_i[k]);
     }
 }
-
-void test_parse()
-{
-	auger_t aug;
-	int Z = 14;
-	load_auger(Z, "data/aug.dat", aug);
-	printf("%d \n[", aug.N);
-	for (int i = 0; i<aug.N; i++)
-	{
-		printf("%f ", aug.E[i]);
-	}
-	printf("]\n[");
-	for (int i = 0; i<aug.N; i++)
-	{
-		printf("%f ", aug.P[i]);
-	}
-	printf("]\n");
-	printf("%s \n", aug.atom);
-	printf("%s \n", aug.shell);
-	int N = 10;
-	double ltr[N], E[N], esharp[N];
-	subst_t s;
-	load_subst(32, "data/subst.dat", s);
-	load_ltr(ltr, E, N, "data/", s);
-	load_esharp(esharp, E, N, "data/", s);
-	for (int i = 0; i<N; i++)
-	{
-		printf("%e %e %e\n", E[i], ltr[i], esharp[i]);
-	}
-
-};
 
 void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, const char* ch, subst_t s)
 {

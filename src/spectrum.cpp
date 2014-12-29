@@ -7,53 +7,52 @@
 #include "calculations.h"
 #include "parse.h"
 
-void check_data(int Z, subst_t s, auger_t a, approx_t ap)
+void check_data(int Z, subst_t s/*, approx_t ap*/)
 {
     printf("Загружены данные для Z = %d:\n", Z);
     printf("Свойства материала:\n");
     printf("Зарядовое число: %d\n", s.Z);
     printf("Плотность: %f\n", s.rho);
     printf("Молярная масса: %f\n", s.M);
-    printf("Макс. энергия Оже-электронов: %f\n", s.Emax);
     printf("Работа выхода: %f\n", s.U0);
     printf("\n");
     printf("Характеристики электронов:\n");
-    printf("Кол-во типов: %d\n", a.N);
+    printf("Кол-во типов: %d\n", s.N);
     printf("Энергии: [");
-    for (int i = 0; i < a.N; i++) {
-        printf(" %f", a.E[i]);
+    for (int i = 0; i < s.N; i++) {
+        printf(" %f", s.E[i]);
     }
     printf(" ]\n");
     printf("Вероятности: [");
-    for (int i = 0; i < a.N; i++) {
-        printf(" %f", a.P[i]);
+    for (int i = 0; i < s.N; i++) {
+        printf(" %f", s.P[i]);
     }
     printf(" ]\n");
-    printf("Для метода аппроксимации:\n");
-    printf("Кол-во типов: %d\n", ap.N);
-    printf("Энергии: [");
-    for (int i = 0; i < ap.N; i++) {
-        printf(" %f", ap.E[i]);
-    }
-    printf(" ]\n");
-    printf("alpha: [");
-    for (int i = 0; i < ap.N; i++) {
-        printf(" %f", ap.alpha_i[i]);
-    }
-    printf(" ]\n");
-    printf("d1: [");
-    for (int i = 0; i < ap.N; i++) {
-        printf(" %f", ap.d1_i[i]);
-    }
-    printf(" ]\n");
-    printf("R0: [");
-    for (int i = 0; i < ap.N; i++) {
-        printf(" %f", ap.R0_i[i]);
-    }
-    printf(" ]\n");
+    //printf("Для метода аппроксимации:\n");
+    //printf("Кол-во типов: %d\n", ap.N);
+    //printf("Энергии: [");
+    //for (int i = 0; i < ap.N; i++) {
+        //printf(" %f", ap.E[i]);
+    //}
+    //printf(" ]\n");
+    //printf("alpha: [");
+    //for (int i = 0; i < ap.N; i++) {
+        //printf(" %f", ap.alpha_i[i]);
+    //}
+    //printf(" ]\n");
+    //printf("d1: [");
+    //for (int i = 0; i < ap.N; i++) {
+        //printf(" %f", ap.d1_i[i]);
+    //}
+    //printf(" ]\n");
+    //printf("R0: [");
+    //for (int i = 0; i < ap.N; i++) {
+        //printf(" %f", ap.R0_i[i]);
+    //}
+    //printf(" ]\n");
 }
 
-void solve(const char* fname, auger_t a, int N, double* z,
+void solve(const char* fname, subst_t s, int N, double* z,
            int M, double* E, double* ltrs, double* epss,
            double* I1s, double* I2s, double* fs)
 {
@@ -82,11 +81,11 @@ void solve(const char* fname, auger_t a, int N, double* z,
             0.,
             0.
             );
-        for (int k = 0; k < a.N; k++)
+        for (int k = 0; k < s.N; k++)
         {
-            if (fabs(E[i] - a.E[k]) < fabs(dE/2))
+            if (fabs(E[i] - s.E[k]) < fabs(dE/2))
             {
-                for (int j = 0; j < N; j++) u[j] += a.P[k];
+                for (int j = 0; j < N; j++) u[j] += s.P[k];
             }
         }
         fs[i] = 3 * I1s[i] / (2 - 3 * I2s[i]) * u[0]; // *
@@ -105,10 +104,8 @@ void solve(const char* fname, auger_t a, int N, double* z,
 void analytical(int Z, int M, int N, double l, double Emin)
 {
     subst_t s;
-    auger_t a;
     load_subst(Z, "data/subst.dat", s);
-    load_auger(Z, "data/aug.dat", a);
-    double Emax = 1.1 * a.E[0];
+    double Emax = 1.1 * s.E[0];
 
     double* z = new double[N];
     for (int i = 0; i<N; i++)
@@ -142,7 +139,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
             (E[M - i - 2] - E[M - i - 1]);
     }
 
-    solve("solution_a.dat", a, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    solve("solution_a.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
     FILE* fd = fopen("data_a.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -165,10 +162,8 @@ void analytical(int Z, int M, int N, double l, double Emin)
 void table(int Z, int M, int N, double l, double Emin)
 {
     subst_t s;
-    auger_t a;
     load_subst(Z, "data/subst.dat", s);
-    load_auger(Z, "data/aug.dat", a);
-    double Emax = 1.1 * a.E[0];
+    double Emax = 1.1 * s.E[0];
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -198,7 +193,7 @@ void table(int Z, int M, int N, double l, double Emin)
             0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
             (E[M - i - 2] - E[M - i - 1]);
     }
-    solve("solution_t.dat", a, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    solve("solution_t.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
     FILE* fd = fopen("data_t.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -220,12 +215,10 @@ void table(int Z, int M, int N, double l, double Emin)
 void approximation(int Z, int M, int N, double l, double Emin)
 {
     subst_t s;
-    auger_t a;
     approx_t ap;
     load_subst(Z, "data/subst.dat", s);
-    load_auger(Z, "data/aug.dat", a);
     load_approx(Z, "data/approx.dat", ap);
-    double Emax = 1.1 * a.E[0];
+    double Emax = 1.1 * s.E[0];
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -256,7 +249,7 @@ void approximation(int Z, int M, int N, double l, double Emin)
             0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
             (E[M - i - 2] - E[M - i - 1]);
     }
-    solve("solution_p.dat", a, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    solve("solution_p.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
     FILE* fd = fopen("data_p.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -277,16 +270,17 @@ void approximation(int Z, int M, int N, double l, double Emin)
 
 void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)
 {
+    printf("in monte_carlo!\n");
     double *E, *beta, *alpha, beta_t, alpha_t, theta_s, phi_s, theta_t, phi_t;
     E = new double[N];
     beta = new double[N];
     alpha = new double[N];
 
+    printf("before load subst data\n");
     subst_t s;
-    auger_t a;
     load_subst(Z, "data/subst.dat", s);
-    load_auger(Z, "data/aug.dat", a);
-    double Emax = 1.1 * a.E[0];
+    printf("loaded subst data\n");
+    double Emax = 1.1 * s.E[0];
     double dE = (Emax - Emin) / (N - 1);
     for (int i = 0; i < N; i++)
         E[i] = Emin + dE * i;
@@ -297,6 +291,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     load_mc_elastic(alpha, E, N, inv_lambda_el, "data/", s);
     load_mc_inelastic(beta, E, N, inv_lambda_in, "data/", s);
 
+    printf("loaded el/in data\n");
     double lambda;
 
     particle_t p;
@@ -312,6 +307,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     E_S = new double[N]; for (int i = 0; i<N; i++) E_S[i] = 0;
     int general_sum = 0;
 
+    printf("start mc\n");
     for (int i = 0; i<nparticles; i++)
     {
         bool stop = true;
@@ -322,7 +318,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
         p.theta = random(M_PI);
         p.phi = random(2*M_PI);
         double rand = random(1);
-        p.E = auger_source(a, rand);
+        p.E = auger_source(s, rand);
         for (int j = 0; j<ntimes && stop; j++)
         {
             k = (int)((p.E - Emin) / dE);
@@ -390,6 +386,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
         }
     }
 
+    printf("end mc\n");
     FILE *fd;
     fd = fopen("results_mc.dat", "w");
     for (int i = 0; i<N; i++)
@@ -403,6 +400,7 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     }
     fclose(fd);
 
+    printf("printed\n");
     delete [] E;
     delete [] beta;
     delete [] alpha;
