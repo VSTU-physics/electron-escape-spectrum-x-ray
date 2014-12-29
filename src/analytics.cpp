@@ -44,7 +44,7 @@ start (GtkWidget *widget,
     if (p)
         approximation(z, M, N, l, ecut);
 
-    plot_analytics(a, p, t);
+    plot_analytics(a, p, t && z == 32);
 }
 
 int

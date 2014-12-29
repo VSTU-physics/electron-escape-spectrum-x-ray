@@ -63,7 +63,7 @@ main (int   argc,
     gtk_grid_attach (GTK_GRID (grid), label, 0, 0, 1, 1);
 
     Elem = gtk_entry_new();
-    gtk_entry_set_text(GTK_ENTRY(Elem), "Si or Ge");
+    gtk_entry_set_text(GTK_ENTRY(Elem), "Ge");
     gtk_grid_attach (GTK_GRID (grid), Elem, 0, 1, 1, 1);
 
     label = gtk_label_new("Ecut, eV:");
