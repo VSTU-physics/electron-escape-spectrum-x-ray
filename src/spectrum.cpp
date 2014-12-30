@@ -56,7 +56,7 @@ void solve(const char* fname, subst_t s, int N, double* z,
            int M, double* E, double* ltrs, double* epss,
            double* I1s, double* I2s, double* fs)
 {
-    FILE* fd = fopen(fname, "w");
+    //FILE* fd = fopen(fname, "w");
     double* tmp;
     double* u = new double[N];
     double* up = new double[N];
@@ -89,16 +89,16 @@ void solve(const char* fname, subst_t s, int N, double* z,
             }
         }
         fs[i] = 3 * I1s[i] / (2 - 3 * I2s[i]) * u[0]; // *
-        if (i % 100 == 0)
-        {
-            for (int j = 0; j < N; j += 10)
-            {
-                fprintf(fd, "%e %e %e\n", E[i], z[j], u[j]);
-            }
-            fprintf(fd, "\n");
-        }
+        //if (i % 100 == 0)
+        //{
+            //for (int j = 0; j < N; j += 10)
+            //{
+                //fprintf(fd, "%e %e %e\n", E[i], z[j], u[j]);
+            //}
+            //fprintf(fd, "\n");
+        //}
     }
-    fclose(fd);
+    //fclose(fd);
 }
 
 void analytical(int Z, int M, int N, double l, double Emin)
@@ -123,6 +123,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
     double* bs = new double[M];
     double* fs = new double[M];
 
+
     for (int i = 0; i<M; i++)
     {
         I1s[i] = I1(s, E[i]);
@@ -132,6 +133,8 @@ void analytical(int Z, int M, int N, double l, double Emin)
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
 
+    solve("solution_a.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+
     rs[M-1] = 0;
     for (int i = 0; i < M-1; i++)
     {
@@ -140,7 +143,6 @@ void analytical(int Z, int M, int N, double l, double Emin)
             (E[M - i - 2] - E[M - i - 1]);
     }
 
-    solve("solution_a.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
     FILE* fd = fopen("data_a.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -269,6 +271,64 @@ void approximation(int Z, int M, int N, double l, double Emin)
     delete [] bs;
     delete [] fs;
     delete [] E;
+}
+
+void quit_function(int Z, int M, int N, double l, double Emin)
+{
+    subst_t s;
+    load_subst(Z, "data/subst.dat", s);
+    double Emax = 1.1 * s.E[0];
+
+    double* z = new double[N];
+    for (int i = 0; i<N; i++)
+        z[i] = i * l / (N - 1);
+
+    double* E = new double[M];
+    for (int i = 0; i < M; i++)
+        E[i] = Emax + (Emin - Emax) / (M - 1) * i;
+
+    double* I1s = new double[M];
+    double* I2s = new double[M];
+    double* ltrs = new double[M];
+    double* epss = new double[M];
+    double* bs = new double[M];
+    double* fs = new double[M];
+
+
+    for (int i = 0; i<M; i++)
+    {
+        I1s[i] = I1(s, E[i]);
+        I2s[i] = I2(s, E[i]);
+        ltrs[i] = l_tr(s, E[i]);
+        epss[i] = eps(s, E[i]);
+        bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
+    }
+
+    int L = 20;
+    double* Kt = new double[L];
+    for (int k = 1; k<=L; k++)
+    {
+        for (int i = 0; i<N; i++)
+            z[i] = i * k * l / (N - 1) / L;
+        solve("tmp.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+        Kt[k-1] = 0;
+        for (int i = 0; i < M; ++i)
+            Kt[k-1] += fs[i];
+    }
+
+    FILE* fd = fopen("Kt.dat", "w");
+    for (int k = 0; k<L; k++)
+        fprintf(fd, "%f %f\n", l*(k+1)/L, Kt[k] / Kt[L-1]);
+    fclose(fd);
+
+    delete [] I1s;
+    delete [] I2s;
+    delete [] ltrs;
+    delete [] epss;
+    delete [] bs;
+    delete [] fs;
+    delete [] E;
+    delete [] Kt;
 }
 
 void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)

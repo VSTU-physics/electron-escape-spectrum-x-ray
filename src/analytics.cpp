@@ -5,28 +5,35 @@
 #include "plots.h"
 #include <gtk/gtk.h>
 
-GtkWidget *A, *P, *T, *Ecut, *Elem;
+GtkWidget *A, *P, *T, *K, *Ecut, *Elem;
 
 static void
 start (GtkWidget *widget,
        gpointer   data)
 {
-    bool a, p, t;
+    bool a, p, t, k;
     a = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(A));
     p = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(P));
     t = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(T));
+    k = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(K));
 
     int N = 1000;
     int M = 5000;
 
 
-    double l = 0.001;
+    double l;
     int z;
     const gchar *el = gtk_entry_get_text(GTK_ENTRY(Elem));
     if (!strcmp(el, "Si"))
+    {
         z = 14;
+        l = 1e-4;
+    }
     else if (!strcmp(el, "Ge"))
+    {
         z = 32;
+        l = 6e-5;
+    }
     else
     {
         gtk_entry_set_text(GTK_ENTRY(Elem), "Si or Ge");
@@ -45,6 +52,12 @@ start (GtkWidget *widget,
         approximation(z, M, N, l, ecut);
 
     plot_analytics(a, p, t && z == 32);
+
+    if (k)
+    {
+        quit_function(z, M, N, l, ecut);
+        plot_k();
+    }
 }
 
 int
@@ -100,9 +113,14 @@ main (int   argc,
     P = gtk_check_button_new_with_label("approximation (P)");
     gtk_grid_attach (GTK_GRID (grid), P, 0, 7, 1, 1);
 
+    label = gtk_label_new("Another options:");
+    gtk_grid_attach (GTK_GRID (grid), label, 0, 8, 1, 1);
+    K = gtk_check_button_new_with_label("Exit function K(t)");
+    gtk_grid_attach (GTK_GRID (grid), K, 0, 9, 1, 1);
+
     button = gtk_button_new_with_label ("Start!");
     g_signal_connect (button, "clicked", G_CALLBACK (start), NULL);
-    gtk_grid_attach (GTK_GRID (grid), button, 0, 8, 1, 1);
+    gtk_grid_attach (GTK_GRID (grid), button, 0, 10, 1, 1);
 
     /* Now that we are done packing our widgets, we show them all
     * in one go, by calling gtk_widget_show_all() on the window.

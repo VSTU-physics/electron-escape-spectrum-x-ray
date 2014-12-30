@@ -71,3 +71,14 @@ void plot_mc()
 
     pclose(fd);
 }
+
+void plot_k()
+{
+    FILE* fd = popen("gnuplot -p", "w");
+    fprintf(fd, "set terminal wxt %d\n", wxt++);
+    fprintf(fd, "unset key\n");
+    fprintf(fd, "set title 'Интегральная функция выхода K(t)'\n");
+    fprintf(fd, "plot 'Kt.dat' lw 2 with lines smooth bezier\n");
+    pclose(fd);
+}
+
