@@ -1,0 +1,64 @@
+\section{Модуль calculations}
+
+\begin{verbatim}
+void spe(double *f,
+         double *f_prev,
+         double *z,
+         int N,
+         double dt,
+         double pt,
+         double gt,
+         double a_1t,
+         double b_1t,
+         double c_1t,
+         double a_2t,
+         double b_2t,
+         double c_2t)
+\end{verbatim}
+
+spe решает уравнение:
+\[
+        \frac{\partial f}{\partial t} =
+        p(z, t) \frac{\partial^2 f}{\partial z^2} + g(z, t),
+\]
+при граничных условиях:
+\[
+        a_1(t) f + b_1(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_
+1} = c_1(t),
+\]
+\[
+        a_2(t) f + b_2(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_
+2} = c_2(t),
+\]
+и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
+
+\begin{verbatim}
+void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, double *d)
+\end{verbatim}
+
+\begin{verbatim}
+void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N)
+\end{verbatim}
+
+\verb+eval_cubic_spline+ заносит значения в точках xs[j] в массив ys[j], j = 0,
+1, 2, ..., M-1 функции заданной кубиче-
+скими сплайнами для таблицы (x[i], y[i]), i = 0, 1, 2, ... , N-1. 
+
+\verb+int_cubic_spline+ ищет интегралы, \verb+cubic_spline+ ищет коэффициенты сплайна:
+\[
+    S_i(x) = a_i + b_i (x - x_i) + \frac{1}{2} c_i (x - x_i)^2 + \frac{1}{6} d_i (x - x_i)^3
+    \quad x\in[x_i, x_{i+1}].
+\]
+
+
+\begin{verbatim}
+double int_cubic_spline(double la, double lb, double *x, double *y, int N)
+\end{verbatim}
+
+\begin{verbatim}
+double random(double l)
+\end{verbatim}
+
+\begin{verbatim}
+double linterp(double x, double x1, double y1, double x2, double y2)
+\end{verbatim}

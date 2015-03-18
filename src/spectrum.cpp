@@ -183,7 +183,7 @@ void table(int Z, int M, int N, double l, double Emin)
     double* bs = new double[M];
     double* fs = new double[M];
     load_ltr(ltrs, E, M, "data/", s);
-    load_esharp(epss, E, M, "data/", s);
+    load_eave(epss, E, M, "data/", s);
     for (int i = 0; i<M; i++)
     {
         I1s[i] = I1(s, E[i]);

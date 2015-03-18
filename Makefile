@@ -6,5 +6,8 @@ code:
 	cp src/monte-carlo ./
 	cp src/test ./
 
+doc:
+	make -C doc docs
+
 clean:
 	rm -f *.dat *.gp monte-carlo analytics test

@@ -78,7 +78,7 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
     fclose(fd);
 };
 
-void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
+void load_eave(double *eave, double *E, int N, const char* ch, subst_t s)
 {
 	char chr, chrm[500], filename[50];
 	sprintf(filename, "%s%d_in.dat", ch, s.Z);
@@ -119,7 +119,7 @@ void load_esharp(double *esharp, double *E, int N, const char* ch, subst_t s)
 		i++;
 	} while (feof(fd)==0);
 	fclose(fd);
-	eval_cubic_spline(E, esharp, N, E_points, e_sharp, i-1);
+	eval_cubic_spline(E, eave, N, E_points, e_sharp, i-1);
 };
 
 void load_approx(int Z, const char* ch, approx_t &app)
