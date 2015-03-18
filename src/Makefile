@@ -1,16 +1,20 @@
 CXXFLAGS := -Wall -g -std=c++11
 CXXLIBS := -lm
+
 GTKFLAGS := $(shell pkg-config --cflags gtk+-3.0)
 GTKLIBS := $(shell pkg-config --libs gtk+-3.0)
-SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp INIReader.cpp
-TEST_S := test.cpp $(SOURCE)
+
+SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp
+TEST_S := test.cpp INIReader.cpp $(SOURCE)
 GUI_A_S := analytics.cpp $(SOURCE)
 GUI_M_S := mc.cpp $(SOURCE)
 
 TEST_O := $(patsubst %.cpp, %.o, $(TEST_S))
 TEST_D := $(patsubst %.o, %.d, $(TEST_O))
+
 GUI_A_O := $(patsubst %.cpp, %.o, $(GUI_A_S))
 GUI_A_D := $(patsubst %.o, %.d, $(GUI_A_O))
+
 GUI_M_O := $(patsubst %.cpp, %.o, $(GUI_M_S))
 GUI_M_D := $(patsubst %.o, %.d, $(GUI_M_O))
 

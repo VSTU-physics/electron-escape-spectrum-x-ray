@@ -49,9 +49,9 @@ main (int   argc,
 
     /* create a new window, and set its title */
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), "Grid");
+    gtk_window_set_title (GTK_WINDOW (window), "Monte-Carlo");
     g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-    gtk_container_set_border_width (GTK_CONTAINER (window), 10);
+    gtk_container_set_border_width (GTK_CONTAINER (window), 20);
 
     /* Here we construct the container that is going pack our buttons */
     grid = gtk_grid_new ();
