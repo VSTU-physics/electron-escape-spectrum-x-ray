@@ -6,7 +6,7 @@ code:
 	cp src/monte-carlo ./
 	cp src/test ./
 
-doc:
+docs:
 	make -C doc docs
 
 clean:
