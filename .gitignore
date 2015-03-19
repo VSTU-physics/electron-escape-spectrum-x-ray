@@ -18,3 +18,7 @@
 *.asv
 main
 [Oo]bj/
+doc/latex
+doc/html
+html/
+latex/

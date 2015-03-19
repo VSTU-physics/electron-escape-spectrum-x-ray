@@ -4,19 +4,19 @@
 #include <algorithm>
 #include "calculations.h"
 
-/*
+/*!
 	spe решает уравнение:
-	\[
+	\f[
 		\frac{\partial f}{\partial t} =
 		p(z, t) \frac{\partial^2 f}{\partial z^2} + g(z, t),
-	\]
+	\f]
 	при граничных условиях:
-	\[
+	\f[
 		\a_1(t) f + \b_1(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_1} = \c_1(t),
-	\]
-	\[
+	\f]
+	\f[
 		\a_2(t) f + \b_2(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = \c_2(t),
-	\]
+	\f]
 	и произвольных начальных условиях неявным методом на одном шаге. Ошибка $O(h)$. A, B, C -- диагонали
 	матрицы нижняя, собственно диагональ, верхняя. D -- правая часть уравнения.
 */
