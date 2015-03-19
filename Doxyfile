@@ -325,7 +325,7 @@ BUILTIN_STL_SUPPORT    = NO
 # enable parsing support.
 # The default value is: NO.
 
-CPP_CLI_SUPPORT        = NO
+CPP_CLI_SUPPORT        = YES
 
 # Set the SIP_SUPPORT tag to YES if your project consists of sip (see:
 # http://www.riverbankcomputing.co.uk/software/sip/intro) sources only. Doxygen
@@ -419,25 +419,25 @@ LOOKUP_CACHE_SIZE      = 0
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = NO
+EXTRACT_ALL            = YES
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
 # The default value is: NO.
 
-EXTRACT_PRIVATE        = NO
+EXTRACT_PRIVATE        = YES
 
 # If the EXTRACT_PACKAGE tag is set to YES, all members with package or internal
 # scope will be included in the documentation.
 # The default value is: NO.
 
-EXTRACT_PACKAGE        = NO
+EXTRACT_PACKAGE        = YES
 
 # If the EXTRACT_STATIC tag is set to YES, all static members of a file will be
 # included in the documentation.
 # The default value is: NO.
 
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 
 # If the EXTRACT_LOCAL_CLASSES tag is set to YES, classes (and structs) defined
 # locally in source files will be included in the documentation. If set to NO,
@@ -453,7 +453,7 @@ EXTRACT_LOCAL_CLASSES  = YES
 # included.
 # The default value is: NO.
 
-EXTRACT_LOCAL_METHODS  = NO
+EXTRACT_LOCAL_METHODS  = YES
 
 # If this flag is set to YES, the members of anonymous namespaces will be
 # extracted and appear in the documentation as a namespace called
@@ -768,7 +768,19 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = "E:/ALL/Для вуза/Ф1 1 семестр/Дополнительные главы физики/electron-escape-spectrum-x-ray/src"
+INPUT                  = src/analytics.cpp \
+                         src/calculations.cpp \
+                         src/mc.cpp \
+                         src/parse.cpp \
+                         src/physics.cpp \
+                         src/plots.cpp \
+                         src/spectrum.cpp \
+                         src/test.cpp \
+                         src/calculations.h \
+                         src/parse.h \
+                         src/physics.h \
+                         src/plots.h \
+                         src/spectrum.h
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
