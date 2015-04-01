@@ -138,8 +138,9 @@ void spe(double *f,
 	\f]
 
 	\details
-	\param[out] x Точки \f$ x_i \f$, в которых нам известны значения функции \f$ y_i \f$
-	\param[out] y Массив \f$ y_i \f$
+	\param[in] x Точки \f$ x_i \f$, в которых нам известны значения функции \f$ y_i \f$
+	\param[in] y Массив \f$ y_i \f$
+	\param[in] N Размер массивов
 	\param[out] a Массив коэффициентов \f$ a_i \f$
 	\param[out] b Массив коэффициентов \f$ b_i \f$
 	\param[out] c Массив коэффициентов \f$ c_i \f$
@@ -230,6 +231,59 @@ void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, 
 	a[N-1] = y[N-1];
 }
 
+/*!
+    \brief
+    eval_cubic_spline ищет значения функции \f$y(x'_i)\f$, интерполированное
+    кубическим сплайном, в промежуточных точках \f$ x'_i \f$ основного массива
+    \f$ x_i \f$.
+
+    \details
+    \param[in] xs Точки, в которых требуется найти значения функции \f$y(x'_i)\f$
+    \param[out] ys Массив, искомых значений
+    \param[in] M Число элементов массивов xs, ys
+    \param[in] x Заданные точки \f$ x_i \f$
+    \param[in] y Заданные точки \f$ y_i \f$
+    \param[in] N Число элементов массивов \f$ x_i \f$, \f$ y_i \f$
+
+    Сначала упорядочиваем массив элементов xs и находим коэффициенты сплайна
+    \code
+        int *in = new int[M];
+        for (int i=0; i<M; i++) in[i] = i;
+        std::sort(in, in + M, [&xs](int& a, int& b){return (xs[a] < xs[b]);});
+        cubic_spline(x, y, N, a, b, c, d);
+    \endcode
+    Код:
+    \code
+        for (int i = 0; i<M; i++)
+        {
+            if (xs[in[i]]<x[0])
+            {
+                h = xs[in[i]] - x[0];
+                ys[in[i]] = a[0] + b[0]*h + c[0]*h*h/2 + d[0]*h*h*h/6;
+            }
+            if (xs[in[i]]>x[N-1])
+            {
+                h = xs[in[i]] - x[N-1];
+                ys[in[i]] = a[N-1] + b[N-1]*h + c[N-1]*h*h/2 + d[N-1]*h*h*h/6;
+            }
+            if ((xs[in[i]]>=x[0])&&(xs[in[i]]<x[N-1]))
+            {
+                while (!((xs[in[i]]<x[j+1])&&(xs[in[i]]>=x[j]))&&(j<N))
+                {
+                    j++;
+                }
+                h = xs[in[i]] - x[j];
+                ys[in[i]] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;
+            }
+            if (xs[in[i]] == x[N-1])
+            {
+                ys[in[i]] = y[N-1];
+            }
+        }
+    \endcode
+    находит значения функции \f$ y(x'_i) \f$.
+
+*/
 
 void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N)
 {
@@ -269,6 +323,60 @@ void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int 
 		}
 	}
 }
+
+/*!
+    \brief
+    int_cubic_spline ищет интеграл от \f$ l_a \f$ до \f$ l_b\f$ от функции \f$ f(x) \f$,
+    заданной на промежутке таблицей значений \f$ (x_i, y_i) \f$, приближая её кубическими
+    сплайнами.
+
+    \details
+    \param[in] la Нижний предел интегрирования
+    \param[in] lb Верхний предел интегрирования
+    \param[in] x Заданные точки \f$ x_i \f$
+    \param[in] y Заданные точки \f$ y_i \f$
+    \param[in] N Число элементов массивов \f$ x_i \f$, \f$ y_i \f$
+
+    Проверяем, что промежуток интегрирования внутри промежутка, на котором задана функция:
+    \code
+        if ((la>=x[0])&&(la<=x[N-1])&&(lb>=x[0])&&(lb<=x[N-1]))
+    \endcode
+    Интегрируем:
+    \code
+        double a[N], b[N], c[N], d[N], h;
+		cubic_spline(x, y, N, a, b, c, d);
+		double result = 0.;
+		for (int j = 1; j<N-1; j++)
+        {
+            if (la<x[0])
+            {
+                h = x[0] - la;
+                result+=a[0]*h + b[0]*h*h/2 + c[0]*h*h*h/6 + d[0]*h*h*h*h/24;
+            }
+            if (lb>x[N-1])
+            {
+                h = lb - x[N-1];
+                result+=a[N-1]*h + b[N-1]*h*h/2 + c[N-1]*h*h*h/6 + d[N-1]*h*h*h*h/24;
+            }
+			if ((la<=x[j])&&(lb>=x[j+1]))
+            {
+				h = x[j+1] - x[j];
+				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
+			}
+			if ((la>x[j])&&(la<x[j+1]))
+            {
+				h = x[j+1] - la;
+				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
+			}
+			if ((lb>x[j])&&(lb<x[j+1]))
+            {
+				h = lb - x[j];
+				result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;
+			}
+		}
+    \endcode
+
+*/
 
 double int_cubic_spline(double la, double lb, double *x, double *y, int N)
 {
@@ -312,10 +420,31 @@ double int_cubic_spline(double la, double lb, double *x, double *y, int N)
 	}
 }
 
+/*!
+    \brief random возвращает случайное число с равномерным распределением на полуинтервале
+    \f$ (0, l] \f$.
+
+    \details
+    \param[in] l Длина промежутка
+
+    0 исключается.
+*/
+
 double random(double l)
 {
     return l * (rand() + 1) / (RAND_MAX + 1.);
 }
+
+/*!
+    \brief linterp возвращает значение функции в случае линейной интерполяции.
+
+    \details
+    \param[in] x точка в которой ищем значении функции
+    \param[in] x1 первая точка, в которой известно значение функции
+    \param[in] y1 значение функции в точке \f$ x_1 \f$
+    \param[in] x2 вторая точка, в которой известно значение функции
+    \param[in] y2 значение функции в точке \f$ x_2 \f$
+*/
 
 double linterp(double x, double x1, double y1, double x2, double y2){
     return (y2 - y1) / (x2 - x1) * (x - x1) + y1;

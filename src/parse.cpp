@@ -1,4 +1,30 @@
+/*!
+    \file
+    Файл содержит функции для обработки файлов данных.
+*/
 #include "parse.h"
+
+/*!
+    \brief Загружает параметры вещества из файла вида:
+    \code
+    #Z,label,M,rho,U0,N,energies,probabilities
+    14 Si 28.090 2.3210 18.470 3 [7.90 6.20 1.60] [0.08 0.92 0.88]
+    32 Ge 72.600 5.3500 12.500 3 [7.90 6.83 1.16] [0.12 0.88 0.86]
+    \endcode
+
+    \details
+    \param[in] Z Номер элемента в периодической системе.
+    \param[in] ch Имя файла из директории запуска.
+    \param[out] subs Структура в которую записываем параметры вещества.
+
+    Первая строка файла пропускается
+    \code
+        fscanf(fd, "%s\n", chrm);
+    \endcode
+    В первой строке не должно быть пробелов! Остальные строки последовательно считываются в структуру subs,
+    пока не будет найден нужный элемент. Если элемент не найден на стандартный поток ввода-вывода (консоль)
+    подаётся сигнал, что элемент не найден.
+*/
 
 void load_subst(int Z, const char* ch, subst_t &subs){
 	char chrm[50];
@@ -18,7 +44,7 @@ void load_subst(int Z, const char* ch, subst_t &subs){
 
         delete[] subs.E;
         delete[] subs.P;
-        
+
         subs.E = new double[subs.N];
         subs.P = new double[subs.N];
 		fscanf(fd, " [");
@@ -43,6 +69,36 @@ void load_subst(int Z, const char* ch, subst_t &subs){
 	fclose(fd);
 };
 
+/*!
+    \brief Находит в нужных точках \f$ E_i \f$ обратную транспортную длину для упругих
+    столкновений, интерполируя табличные данные из файла вида:
+    \code
+    33 theta-points
+    49 E-points
+    .1 .5 1.0 2.0 3.0 ... 180.0
+    E[eV],Differential_cross_section[cm**2/str],Total_cross_section[cm**2]
+    .3000E+05 .5231E-14 .4612E-14 .3225E-14 ... |.2074E-16
+    .2900E+05 .5210E-14 .4612E-14 .3255E-14 ... |.2130E-16
+    ...
+    \endcode
+
+    В первой и второй строке должны присутствовать слова theta-points и E-points и
+    после них не должно быть пробелов. В четвёртой строке также не должно быть пробелов.
+    33 в данном случае означает количество углов \f$ \theta_i \f$ {.1, .5, 1.0, 2.0, 3.0, ..., 180.0}.
+    49 означает размер массива энергий \f$ E_i \f$ {.3000E+05, .2900E+05, ...}. Полное сечение (|.2074E-16,
+    |.2130E-16 и т. д.) не используется.
+    \f[
+        \lambda^{-1}_{tr}
+        =
+        \frac{2 \pi N_a \rho}{M} \int\limits_0^\pi \sigma(\theta) (1 - \cos \theta) \sin \theta \, d\theta
+    \f]
+
+    \param[out] ltr Искомый массив транспортной длины \f$ \lambda_{tr} (E_i) \f$ .
+    \param[in] E Энергии, в которых мы ищем \f$ \lambda_{tr} \f$
+    \param[in] N Размер массива энергий.
+    \param[in] ch Имя файла (из директории запуска), из которого берём данные для обработки.
+    \param[in] s Структура, содержащая параметры вещества.
+*/
 void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
 {
 	char chrm[500], filename[50];
@@ -78,6 +134,32 @@ void load_ltr(double *ltr, double *E, int N, const char* ch, subst_t s)
     fclose(fd);
 };
 
+/*!
+    Находит массив значений потерь энергии на единице длины \f$ \bar{\varepsilon}(E_i) \f$, интерполируя их из файла.
+
+    Файл имеет вид:
+    \code
+    E(eV)
+    Q(eV)
+    dlambda(Q)**(-1)/dQ(cm*eV)**(-1)
+    .5000E+01
+    .1000E-01 .1030E-01 ... .4630E+01
+    .1546E+04 .1693E+04 ... .0000E+00
+    .1000E+02
+    .1000E-01 .1030E-01 ... .9630E+01
+    .8384E+03 .9191E+03 ... .0000E+00
+    ...
+    \endcode
+    Первый ряд представляет собой энергию. Второй ряд - потери энергии. Третий
+    ряд плотность вероятности потери энергии на единице длины.
+    \f[
+        \bar{\varepsilon} = \int\limits_0^{E/2} Q \frac{d \lambda^{-1}(Q)}{d Q}\, dQ
+    \f]    \param[out] eave Искомый массив \f$ \bar{\varepsilon}(E_i) \f$ .
+    \param[in] E Энергии, в которых мы ищем \f$ \bar{\varepsilon} \f$
+    \param[in] N Размер массива энергий.
+    \param[in] ch Имя файла (из директории запуска), из которого берём данные для обработки.
+    \param[in] s Структура, содержащая параметры вещества.
+*/
 void load_eave(double *eave, double *E, int N, const char* ch, subst_t s)
 {
 	char chr, chrm[500], filename[50];
@@ -122,6 +204,22 @@ void load_eave(double *eave, double *E, int N, const char* ch, subst_t s)
 	eval_cubic_spline(E, eave, N, E_points, e_sharp, i-1);
 };
 
+/*!
+    \brief Читаем данные из файла для метода аппроксимации.
+
+    Файл имеет вид:
+    \code
+        #Z,N,E[],alphai[],d1i[],R0i[nm]
+        32 3 [7.90 6.83 1.16] [1.366 1.290 1.2541] [5.79 5.96 17.3] [726.1 606.1 37] Ge
+        14 3 [7.90 6.20 1.60] [1.652 1.6257 1.4236] [2.1972 2.1516 1.5023] [878.8 587.93 71.16] Si
+    \endcode
+    Первая строка не должна содержать пробелов.
+    Вторая строка содержит последовательно данные по Оже электронам: номер элемента в периодической системе,
+    число Оже-электронов, энергии Оже-электронов, коэффициенты для аппроксимации \f$ \bar{\varepsilon} \f$.
+    \param[in] Z Номер элемента в периодической системе
+    \param[in] ch Имя файла
+    \param[out] app Структура, в которую считываем данные
+*/
 void load_approx(int Z, const char* ch, approx_t &app)
 {
 	char chrm[50];
@@ -185,6 +283,24 @@ void load_approx(int Z, const char* ch, approx_t &app)
 	fclose(fd);
 };
 
+/*!
+    \brief Аппроксимация \f$ \lambda_{tr} \f$ и \f$ \bar{\varepsilon} \f$ на
+    промежутках \f$ (E_{i+1}, E_i]\f$.
+
+    Аппроксимация на промежутке \f$ (E_{i+1}, E_i] \f$ проводится по законам:
+    \f[
+        \bar{\varepsilon}(E') = \frac{E_i}{\alpha_i R_{0i}} \left( \frac{E'}{E_i} \right)^{1 - \alpha_i}
+    \f]
+    \f[
+        \lambda_{tr}(E') = \frac{R_{0i}}{d_{1i}} \left( \frac{E'}{E_i} \right)^{\alpha_i}
+    \f]
+    \param[out] ltr Массив \f$ \lambda_{tr}(E'_i) \f$
+    \param[out] eps Массив \f$ \bar{\varepsilon}(E'_i) \f$
+    \param[in] E Массив \f$ E'_i \f$
+    \param[in] N Размер массивов \f$ E'_i \f$, \f$ \lambda_{tr}(E'_i) \f$, \f$ \bar{\varepsilon}(E'_i) \f$
+    \param[in] ap Содержит параметры аппроксимации
+    \param[in] s Содержит параметры вещества
+*/
 void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t s)
 {
     int k;
@@ -210,6 +326,30 @@ void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t 
     }
 }
 
+/*!
+    \brief Функция используется в методе Монте-Карло, ищет параметры \f$ \alpha(E_i) \f$ и \f$ \lambda^{-1}_{el} \f$.
+
+    Так как массивы данных велики, хранить их в памяти, выполнять многомерную интерполяцию
+    неудобно, поэтому использовалась аппроксимация вероятности упругого рассеяния
+    в углы \f$ (0, \theta) \f$ выражением:
+    \f[
+        P = 1/\Sigma\int\limits_0^\theta \sigma(\theta) d\theta \approx 2/\pi \arctan (\alpha \theta)
+    \f]
+    В этом случае задача свелась к поиску \f$ \alpha(E_i) \f$. Построив график по опытным данным,
+    можно выбрать точку, для которой погрешности минимальны в широком диапазоне углов. Методом научного
+    тыка было установлено, что эта точка приходится на \f$ P \approx 0.8 \f$. Таким образом, в функции
+    проводится поиск полного сечения \f$ \Sigma(E_i) \f$ и частичных сечений \f$ \Sigma(E_i, \theta_k) \f$, по полному сечению
+    определяется
+    \f[ \lambda^{-1}_{el} = \frac{2 \pi \rho N_a \Sigma}{M} \f]
+    Затем для данного сечения проводится поиск \f$ \alpha(E_i) \f$.
+
+    \param[out] alpha Массив значений \f$ \alpha(E_i) \f$
+    \param[in] E Массив \f$ E_i \f$
+    \param[in] N Размер массивов
+    \param[out] inv_lambda_el \f$ \lambda^{-1}_{el} \f$
+    \param[in] ch Имя файла
+    \param[in] s Информация о веществе
+*/
 void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, const char* ch, subst_t s)
 {
     char chrm[500], filename[50];
@@ -268,6 +408,27 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
 	fclose(fd);
 };
 
+/*!
+    \brief Функция используется в методе Монте-Карло, ищет параметры \f$ \beta(E_i) \f$ и \f$ \lambda^{-1}_{in}(E_i) \f$.
+
+    Аппроксимация вероятности неупругого рассеяния
+    в углы \f$ (0, \theta) \f$ выражением:
+    \f[
+        P(E_i, Q) = \frac{\int\limits_0^{Q} \frac{d\lambda^{-1}_{in}}{d Q} dQ}
+        {\int\limits_0^{E/2} \frac{d\lambda^{-1}_{in}}{d Q} dQ}
+        \approx 2/\pi \arctan \left(\beta \frac{Q}{E_i}\right)
+    \f]
+    Задача сводится к поиску \f$ \beta(Q_j) \f$. Построив график по опытным данным,
+    можно выбрать точку, для которой погрешности минимальны в широком диапазоне
+    углов (\f$ P \approx 0.8 \f$).
+
+    \param[out] beta Массив значений \f$ \beta(Q_i) \f$
+    \param[in] E Массив \f$ E_i \f$
+    \param[in] N Размер массивов
+    \param[out] inv_lambda_in Массив \f$ \lambda^{-1}_{in}(E_i) \f$
+    \param[in] ch Имя файла
+    \param[in] s Информация о веществе
+*/
 void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, const char* ch, subst_t s)
 {
 	char chr, chrm[500], filename[50];
