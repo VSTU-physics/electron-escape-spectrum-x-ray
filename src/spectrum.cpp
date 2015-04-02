@@ -230,7 +230,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
     }
 
     //Решаем уравнение
-    solve("solution_a.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    solve(s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
 
     //Находим средний пробег в зависимости от энергии
     rs[M-1] = 0;
@@ -320,7 +320,7 @@ void table(int Z, int M, int N, double l, double Emin)
     }
 
     //Решаем уравнение
-    solve("solution_t.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    solve(s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
 
     //Выводим данные в файл
     FILE* fd = fopen("data_t.dat", "w");
@@ -403,7 +403,7 @@ void approximation(int Z, int M, int N, double l, double Emin)
     }
 
     //Решаем уравнение
-    solve("solution_p.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+    solve(s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
 
     //Выводим данные в файл
     FILE* fd = fopen("data_p.dat", "w");
@@ -476,7 +476,7 @@ void quit_function(int Z, int M, int N, double l, double Emin)
     {
         for (int i = 0; i<N; i++)
             z[i] = i * k * l / (N - 1) / L;
-        solve("tmp.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+        solve(s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
         Kt[k-1] = 0;
         for (int i = 0; i < M; ++i)
             Kt[k-1] += fs[i];

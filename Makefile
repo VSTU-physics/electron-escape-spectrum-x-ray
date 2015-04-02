@@ -1,10 +1,8 @@
 code:
 	make -C src analytics
 	make -C src mc
-	make -C src test
 	cp src/analytics ./
 	cp src/monte-carlo ./
-	cp src/test ./
 
 docs:
 	make -C doc docs

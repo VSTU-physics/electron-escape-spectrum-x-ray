@@ -1,16 +1,9 @@
 CXXFLAGS := -Wall -g -std=c++11
 CXXLIBS := -lm
 
-GTKFLAGS := $(shell pkg-config --cflags gtk+-3.0)
-GTKLIBS := $(shell pkg-config --libs gtk+-3.0)
-
-SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp
-TEST_S := test.cpp INIReader.cpp $(SOURCE)
+SOURCE := spectrum.cpp plots.cpp physics.cpp calculations.cpp parse.cpp INIReader.cpp
 GUI_A_S := analytics.cpp $(SOURCE)
 GUI_M_S := mc.cpp $(SOURCE)
-
-TEST_O := $(patsubst %.cpp, %.o, $(TEST_S))
-TEST_D := $(patsubst %.o, %.d, $(TEST_O))
 
 GUI_A_O := $(patsubst %.cpp, %.o, $(GUI_A_S))
 GUI_A_D := $(patsubst %.o, %.d, $(GUI_A_O))
@@ -18,20 +11,17 @@ GUI_A_D := $(patsubst %.o, %.d, $(GUI_A_O))
 GUI_M_O := $(patsubst %.cpp, %.o, $(GUI_M_S))
 GUI_M_D := $(patsubst %.o, %.d, $(GUI_M_O))
 
-test: $(TEST_O) $(TEST_D)
-	$(CXX) $(TEST_O) -o test $(CXXLIBS)
-
 analytics: $(GUI_A_O) $(GUI_A_D)
-	$(CXX) $(GUI_A_O) -o analytics $(CXXLIBS) $(GTKLIBS)
+	$(CXX) $(GUI_A_O) -o analytics $(CXXLIBS)
 
 mc: $(GUI_M_O) $(GUI_M_D)
-	$(CXX) $(GUI_M_O) -o monte-carlo $(CXXLIBS) $(GTKLIBS)
+	$(CXX) $(GUI_M_O) -o monte-carlo $(CXXLIBS)
 
 %.o: %.cpp %.d
-	$(CXX) -c $< -o $@ $(CXXFLAGS) $(GTKFLAGS)
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 %.d: %.cpp
-	@set -e; $(CXX) $(GTKFLAGS) -M $< | \
+	@set -e; $(CXX) -M $< | \
 		sed -e 's%\($*\)\.o[ :]*%\1.o $@ : %g' > $@; \
 		[ -s $@ ] || rm -f $@
 	@echo create $@
