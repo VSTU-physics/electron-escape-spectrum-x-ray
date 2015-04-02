@@ -1,3 +1,8 @@
+/*!
+    \file
+    Содержит функции для поиска необходимых массивов для последующего
+    построения графиков и обработки.
+*/
 #include <cstdio>
 #include <cmath>
 #ifdef __WIN__
@@ -7,6 +12,13 @@
 #include "calculations.h"
 #include "parse.h"
 
+/*!
+    \brief Выводит данные в консоль, проверяет, что всё загружено
+    правильно.
+
+    \param[in] Z Номер элемента
+    \param[in] s Структура с данными по веществу
+*/
 void check_data(int Z, subst_t s/*, approx_t ap*/)
 {
     printf("Загружены данные для Z = %d:\n", Z);
@@ -52,7 +64,75 @@ void check_data(int Z, subst_t s/*, approx_t ap*/)
     //printf(" ]\n");
 }
 
-void solve(const char* fname, subst_t s, int N, double* z,
+/*!
+    \brief Решает задачу методом решения дифференциального уравнения
+    на заданной сетке.
+
+    \param[in] s Информация о веществе
+    \param[in] N Размер сетки по координате \f$ z \f$
+    \param[in] z Массив, содержащий сетку по \f$ z \f$
+    \param[in] M Размер сетки по энергии \f$ E \f$
+    \param[in] E Сетка по \f$ E \f$
+    \param[in] ltrs Массив \f$ \lambda_{tr}(E) \f$
+    \param[in] epss Массив \f$ \bar{\varepsilon} \f$
+    \param[in] I1s Массив интегралов из граничных условий \f$ I_1(E) \f$
+    \param[in] I2s Массив интегралов из граничных условий \f$ I_2(E) \f$
+    \param[out] fs Рассчитанный спектр \f$ f(E) \f$
+
+    Решается дифференциальное уравнение следующего вида:
+    \f[
+        \frac{\partial f}{\partial E} =
+        - \frac{\lambda_{tr}(E)}{3\bar{\varepsilon}(E)} \frac{\partial^2 f}{\partial z^2} -
+        \sum\limits_{i = 1}^N P_i \delta(E - E_i)
+    \f]
+    При граничных условиях:
+    \f{align*}{
+        & \frac{I_1(E)}{2 - 3I_2(E)} f -
+        \frac{\lambda_{tr}}{3} \frac{\partial f}{\partial z}
+        \Bigg|_{z = 0} = 0 \\
+        & f \Bigg|_{z = \infty} = 0
+    \f}
+    Так как численным методом без преобразований использовать бесконечность
+    невозможно, схема решает уравнение от 0 до некоторого \f$ z_{max} \f$. Следует
+    понимать, что выбор \f$ z_{max} \f$ один из самых трудных вопросов задачи.
+    При большом \f$ z_{max} \f$ шаг сетки оказывается слишком большим, коэффициенты велики
+    и метод даёт большую ошибку. При малом \f$ z_{max} \f$ мы не можем утверждать, что
+    \f$ z_{max} \approx \infty \f$, то есть решается совершенно другая задача не эквивалентная
+    первой. В этом состоит ограничение метода конечных разностей. \f$ z_{max} \f$ нужно выбирать таким,
+    чтобы при его небольшом увеличении решение не меняло своего характера. В данной работе выбор \f$ z_{max} \f$
+    не проводился. Было выбрано значение, при котором результаты похожи на правду.
+
+    Вторая проблема, которая возникла в ходе работы, - это использование \f$ \delta \f$-функций.
+    Сингулярности \f$ \delta \f$-функций приводят к тому, что, заменяя \f$ \delta \f$-функцию её
+    приближённым значением, требования к сетке сильно возрастают, и с её уплотнением начинает
+    расти решение  \f$ f \f$. Чтобы избежать таких эффектов, использовался стандартный метод решения
+    задач с \f$ \delta \f$-функциями. Точное решение задачи без источников можно искать на участках
+    \f$ (E_i, E_{i+1}) \f$. Источник в форме \f$ \delta \f$-функции удет приводить к тому, что при
+    пересечении \f$ E_i \f$ функция испытывает разрыв. Величина разрыва:
+    \f{gather*}{
+        \lim\limits_{\eta \to 0} \Big[ f(E_i + \eta) - f(E_i - \eta) \Big] = \lim\limits_{\eta \to 0}
+        \int\limits_{E_i - \eta}^{E_i + \eta} \Bigg[- \frac{\lambda_{tr}(E)}{3\bar{\varepsilon}(E)}
+        \frac{\partial^2 f}{\partial z^2} - \sum\limits_{j = 1}^N P_j \delta(E - E_j) \Bigg] dE
+        = \\ =
+        - \frac{\lambda_{tr}(E_i)}{3\bar{\varepsilon}(E_i)}
+        \frac{\partial^2 f(E_i, z)}{\partial z^2} \lim\limits_{\eta \to 0} 2\eta
+        - P_i = - P_i
+    \f}
+    Массив энергий E[i] упорядочен по убыванию. Поэтому в точках разрыва
+    \f[
+        \lim\limits_{\eta \to 0} \Big[ f(E_i - \eta) - f(E_i + \eta) \Big] = P_i
+    \f]
+    \code
+        for (int k = 0; k < s.N; k++)
+        {
+            if (fabs(E[i] - s.E[k]) < fabs(dE/2))
+            {
+                for (int j = 0; j < N; j++) u[j] += s.P[k];
+            }
+        }
+    \endcode
+*/
+void solve(/*const char* fname,*/ subst_t s, int N, double* z,
            int M, double* E, double* ltrs, double* epss,
            double* I1s, double* I2s, double* fs)
 {
@@ -101,12 +181,27 @@ void solve(const char* fname, subst_t s, int N, double* z,
     //fclose(fd);
 }
 
+/*!
+    \brief Проводит расчёт коэффициентов аналитическим методом, решает
+    уравнение и готовит данные для последующей обработки.
+
+    \param[in] Z Номер элемента
+    \param[in] M Число узлов сетки по \f$ E \f$
+    \param[in] N Число узлов сетки по \f$ z \f$
+    \param[in] l Максимальная длина промежутка \f$ z_{max} \f$
+    \param[in] Emin Минимальная энергия (ограничение требуется, так
+    как коэффициенты ведут себя неадекватно при \f$ E \to 0 \f$)
+
+
+*/
 void analytical(int Z, int M, int N, double l, double Emin)
 {
+    //Грузим данные о веществе
     subst_t s;
     load_subst(Z, "data/subst.dat", s);
     double Emax = 1.1 * s.E[0];
 
+    //Готовим сетки для расчётов
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -115,6 +210,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
     for (int i = 0; i < M; i++)
         E[i] = Emax + (Emin - Emax) / (M - 1) * i;
 
+    //Выделяем память под массивы
     double* I1s = new double[M];
     double* I2s = new double[M];
     double* ltrs = new double[M];
@@ -123,7 +219,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
     double* bs = new double[M];
     double* fs = new double[M];
 
-
+    //Ищем коэффициенты по аналитическим формулам
     for (int i = 0; i<M; i++)
     {
         I1s[i] = I1(s, E[i]);
@@ -133,8 +229,10 @@ void analytical(int Z, int M, int N, double l, double Emin)
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
 
+    //Решаем уравнение
     solve("solution_a.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
 
+    //Находим средний пробег в зависимости от энергии
     rs[M-1] = 0;
     for (int i = 0; i < M-1; i++)
     {
@@ -143,6 +241,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
             (E[M - i - 2] - E[M - i - 1]);
     }
 
+    //Выводим данные в файл
     FILE* fd = fopen("data_a.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -152,6 +251,7 @@ void analytical(int Z, int M, int N, double l, double Emin)
     }
     fclose(fd);
 
+    //Чистим память
     delete [] I1s;
     delete [] I2s;
     delete [] ltrs;
@@ -162,11 +262,25 @@ void analytical(int Z, int M, int N, double l, double Emin)
     delete [] E;
 }
 
+/*!
+    \brief Проводит расчёт коэффициентов с помощью данных из таблиц института Иоффе, решает
+    уравнение и готовит данные для последующей обработки.
+
+    \param[in] Z Номер элемента
+    \param[in] M Число узлов сетки по \f$ E \f$
+    \param[in] N Число узлов сетки по \f$ z \f$
+    \param[in] l Максимальная длина промежутка \f$ z_{max} \f$
+    \param[in] Emin Минимальная энергия
+
+*/
 void table(int Z, int M, int N, double l, double Emin)
 {
+    //Грузим данные о веществе
     subst_t s;
     load_subst(Z, "data/subst.dat", s);
     double Emax = 1.1 * s.E[0];
+
+    //Готовим сетки для расчётов
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -175,6 +289,7 @@ void table(int Z, int M, int N, double l, double Emin)
     for (int i = 0; i < M; i++)
         E[i] = Emax + (Emin - Emax) / (M - 1) * i;
 
+    //Выделяем память под массивы
     double* I1s = new double[M];
     double* I2s = new double[M];
     double* ltrs = new double[M];
@@ -182,14 +297,20 @@ void table(int Z, int M, int N, double l, double Emin)
     double* rs = new double[M];
     double* bs = new double[M];
     double* fs = new double[M];
+
+    //Загружаем данные из таблиц института Иоффе
     load_ltr(ltrs, E, M, "data/", s);
     load_eave(epss, E, M, "data/", s);
+
+    //Вычисляем оставшиеся коэффициенты по аналитическим формулам
     for (int i = 0; i<M; i++)
     {
         I1s[i] = I1(s, E[i]);
         I2s[i] = I2(s, E[i]);
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
+
+    //Ищем средний пробег в зависимости от энергии
     rs[M-1] = 0;
     for (int i = 0; i < M-1; i++)
     {
@@ -197,7 +318,11 @@ void table(int Z, int M, int N, double l, double Emin)
             0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
             (E[M - i - 2] - E[M - i - 1]);
     }
+
+    //Решаем уравнение
     solve("solution_t.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+
+    //Выводим данные в файл
     FILE* fd = fopen("data_t.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -206,6 +331,8 @@ void table(int Z, int M, int N, double l, double Emin)
                 E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
     }
     fclose(fd);
+
+    //Чистим память
     delete [] I1s;
     delete [] I2s;
     delete [] ltrs;
@@ -216,13 +343,28 @@ void table(int Z, int M, int N, double l, double Emin)
     delete [] E;
 }
 
+/*!
+    \brief Проводит расчёт коэффициентов с помощью аппроксимирующих формул для данных
+    из таблиц института Иоффе, решает
+    уравнение и готовит данные для последующей обработки.
+
+    \param[in] Z Номер элемента
+    \param[in] M Число узлов сетки по \f$ E \f$
+    \param[in] N Число узлов сетки по \f$ z \f$
+    \param[in] l Максимальная длина промежутка \f$ z_{max} \f$
+    \param[in] Emin Минимальная энергия
+
+*/
 void approximation(int Z, int M, int N, double l, double Emin)
 {
+    //Грузим данные о веществе и аппроксимации
     subst_t s;
     approx_t ap;
     load_subst(Z, "data/subst.dat", s);
     load_approx(Z, "data/approx.dat", ap);
     double Emax = 1.1 * s.E[0];
+
+    //Готовим сетки
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -231,6 +373,7 @@ void approximation(int Z, int M, int N, double l, double Emin)
     for (int i = 0; i < M; i++)
         E[i] = Emax + (Emin - Emax) / (M - 1) * i;
 
+    //Выделяем память под массивы
     double* I1s = new double[M];
     double* I2s = new double[M];
     double* ltrs = new double[M];
@@ -239,22 +382,30 @@ void approximation(int Z, int M, int N, double l, double Emin)
     double* bs = new double[M];
     double* fs = new double[M];
 
+    //Ищем нужные коэффициенты по аппроксимирующим формулам
     le_approx(ltrs, epss, E, M, ap, s);
+
+    //Ищем оставшиеся коэффициенты по аналитическим формулам
     for (int i = 0; i<M; i++)
     {
         I1s[i] = I1(s, E[i]);
         I2s[i] = I2(s, E[i]);
         bs[i] = I1s[i] / (2 - 3 * I2s[i]) / ltrs[i] * 3;
     }
-    rs[M-1] = 0;
 
+    //Ищем средний пробег в зависимости от энергии
+    rs[M-1] = 0;
     for (int i = 0; i < M-1; i++)
     {
         rs[M - 2 - i] = rs[M - 1 - i] +
             0.5 * (1 / epss[M - 1 - i] + 1 / epss[M - i - 2]) *
             (E[M - i - 2] - E[M - i - 1]);
     }
+
+    //Решаем уравнение
     solve("solution_p.dat", s, N, z, M, E, ltrs, epss, I1s, I2s, fs);
+
+    //Выводим данные в файл
     FILE* fd = fopen("data_p.dat", "w");
     fprintf(fd, "# E ltr eps f r bc\n");
     for (int i = 0; i < M; i++)
@@ -263,6 +414,8 @@ void approximation(int Z, int M, int N, double l, double Emin)
                 E[i], ltrs[i], epss[i], fs[i], rs[i], bs[i]);
     }
     fclose(fd);
+
+    //Чистим память
     delete [] I1s;
     delete [] I2s;
     delete [] ltrs;
@@ -273,12 +426,24 @@ void approximation(int Z, int M, int N, double l, double Emin)
     delete [] E;
 }
 
+/*!
+    \brief Рассчитывает функцию выхода.
+
+    \param[in] Z Номер элемента
+    \param[in] M Число узлов сетки по \f$ E \f$
+    \param[in] N Число узлов сетки по \f$ z \f$
+    \param[in] l Максимальная длина промежутка \f$ z_{max} \f$
+    \param[in] Emin Минимальная энергия
+
+*/
 void quit_function(int Z, int M, int N, double l, double Emin)
 {
+    //Грузим данные
     subst_t s;
     load_subst(Z, "data/subst.dat", s);
     double Emax = 1.1 * s.E[0];
 
+    //Готовим сетки
     double* z = new double[N];
     for (int i = 0; i<N; i++)
         z[i] = i * l / (N - 1);
@@ -287,6 +452,7 @@ void quit_function(int Z, int M, int N, double l, double Emin)
     for (int i = 0; i < M; i++)
         E[i] = Emax + (Emin - Emax) / (M - 1) * i;
 
+    //Выделяем память
     double* I1s = new double[M];
     double* I2s = new double[M];
     double* ltrs = new double[M];
@@ -294,7 +460,7 @@ void quit_function(int Z, int M, int N, double l, double Emin)
     double* bs = new double[M];
     double* fs = new double[M];
 
-
+    //Ищем коэффициенты аналитическим методом
     for (int i = 0; i<M; i++)
     {
         I1s[i] = I1(s, E[i]);
@@ -331,6 +497,19 @@ void quit_function(int Z, int M, int N, double l, double Emin)
     delete [] Kt;
 }
 
+/*!
+    \brief Реализация метода Монте-Карло.
+
+    \param[in] Z Номер элемента
+    \param[in] nparticles Число частиц
+    \param[in] ntimes Число столкновений
+    \param[in] N Число узлов сетки по энергиям
+    \param[in] Emin Минимальная энергия
+    \param[in] Smax Максимальный пройденный путь до выхода из образца
+    необходим для сетки по \f$ S \f$
+    \param[in] lmax Образец представляет собой куб со стороной \f$ l_{max} \f$
+
+*/
 void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)
 {
     double *E, *beta, *alpha, beta_t, alpha_t, theta_s, phi_s, theta_t, phi_t;
@@ -370,8 +549,8 @@ void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double S
     {
         bool stop = true;
         double S = 0;
-        p.x = random(lmax/2) + lmax;
-        p.y = random(lmax/2) + lmax;
+        p.x = - random(lmax/2) + lmax;
+        p.y = - random(lmax/2) + lmax;
         p.z = random(lmax);
         p.theta = random(M_PI);
         p.phi = random(2*M_PI);

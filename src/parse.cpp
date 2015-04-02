@@ -333,7 +333,7 @@ void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t 
     неудобно, поэтому использовалась аппроксимация вероятности упругого рассеяния
     в углы \f$ (0, \theta) \f$ выражением:
     \f[
-        P = 1/\Sigma\int\limits_0^\theta \sigma(\theta) d\theta \approx 2/\pi \arctan (\alpha \theta)
+        P = 1/\Sigma\int\limits_0^\theta \sigma(\theta) d\theta \approx \frac{2}{\pi} \arctan (\alpha \theta)
     \f]
     В этом случае задача свелась к поиску \f$ \alpha(E_i) \f$. Построив график по опытным данным,
     можно выбрать точку, для которой погрешности минимальны в широком диапазоне углов. Методом научного
@@ -374,7 +374,7 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
     /*
     Метод конечно ошибочный, но зато не нужно массивы хранить и интерполяцией заниматься
     \alpha - массив коэффициентов для приближённого выражения
-    1/\Sigma\int\limits_0^\theta \sigma(\theta) d\theta \approx 2/\pi \arctan (\alpha \theta)
+    1/\Sigma\int\limits_0^\theta \sigma(\theta) d\theta \approx \frac{2}{\pi} \arctan (\alpha \theta)
     */
 
 	for (int j = 0; j<theta_l; j++)
@@ -416,7 +416,7 @@ void load_mc_elastic(double *alpha, double *E, int N, double &inv_lambda_el, con
     \f[
         P(E_i, Q) = \frac{\int\limits_0^{Q} \frac{d\lambda^{-1}_{in}}{d Q} dQ}
         {\int\limits_0^{E/2} \frac{d\lambda^{-1}_{in}}{d Q} dQ}
-        \approx 2/\pi \arctan \left(\beta \frac{Q}{E_i}\right)
+        \approx \frac{2}{\pi} \arctan \left(\beta \frac{Q}{E_i}\right)
     \f]
     Задача сводится к поиску \f$ \beta(Q_j) \f$. Построив график по опытным данным,
     можно выбрать точку, для которой погрешности минимальны в широком диапазоне
