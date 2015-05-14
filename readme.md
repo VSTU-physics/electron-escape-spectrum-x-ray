@@ -9,9 +9,10 @@
 
 1. Установить git: `sudo apt-get install git`
 2. Скачать этот репозиторий командой  `git clone http://github.com/VSTU-physics/electron-escape-spectrum-x-ray.git`
-3. Установить `gnuplot` (если он ещё не установлен) и `libgtk-3-dev`: `sudo apt-get install gnuplot-qt libgtk-3-dev`
+3. Установить `gnuplot` (если он ещё не установлен): `sudo apt-get install gnuplot-qt`
 4. Перейти в каталог репозитория
 5. Выполнить `make`
-6. Запустить скомпилированные программы: `./analytics` или `./monte-carlo`
+6. Установить нужные опции в файлах `analytics.ini` и `mc.ini`
+7. Запустить скомпилированные программы: `./analytics` или `./monte-carlo`
 
 Графики выводятся в окнах gnuplot.
