@@ -269,7 +269,8 @@ $k_D$ зависит только от угла между векторами $\
 \begin{equation}
 \begin{gathered}
     I_2 = \frac{1}{\eps^4}\int\limits_\eps^1
-    [4x^3(2x^2-\eps^2)\sqrt{x^2-\eps^2}-8(x^6-\eps^2x^4)]dx,\\
+    [4x^3(2x^2-\eps^2)\sqrt{x^2-\eps^2}-8(x^6-\eps^2x^4)]dx,
+    \\
     \int 4x^3(2x^2-\eps^2)\sqrt{x^2-\eps^2} dx =
     2\int x(2x^2-\eps^2)\sqrt{x^4-\eps^2x^2} d(x^2) =
     2\int x\sqrt{x^4-\eps^2x^2} d(x^4-\eps^2x^2) =\\=
@@ -277,11 +278,13 @@ $k_D$ зависит только от угла между векторами $\
     x^2(x^2-\eps^2)^\frac{3}{2} d(x^2-\eps^2)=
     \frac{4}{3}x^4(x^2-\eps^2)^\frac{3}{2}-
     \frac{2}{3}\frac{2}{7}(x^2-\eps^2)^\frac{7}{2} -
-    \frac{2}{3}\frac{2}{5}(x^2-\eps^2)^\frac{5}{2},\\
-    \int 8(x^6-\eps^2x^4)dx = \frac{8}{7}x^7 - \frac{8}{5}\eps^2x^5,\\
+    \frac{2}{3}\frac{2}{5}(x^2-\eps^2)^\frac{5}{2}\eps^2,
+    \\
+    \int 8(x^6-\eps^2x^4)dx = \frac{8}{7}x^7 - \frac{8}{5}\eps^2x^5,
+    \\
     I_2 = \frac{4}{3}\frac{(1-\eps^2)^\frac{3}{2}}{\eps^4}-
     \frac{4}{21}\frac{(1-\eps^2)^\frac{7}{2}}{\eps^4} -
-    \frac{4}{15}\frac{(1-\eps^2)^\frac{5}{2}}{\eps^4} -
+    \frac{4}{15}\frac{(1-\eps^2)^\frac{5}{2}}{\eps^2} -
     \frac{8(1-\eps^7)}{7\eps^4} +
     \frac{8(1-\eps^5)}{5\eps^2}.
 \end{gathered}
@@ -344,8 +347,8 @@ I_2 =
 \begin{equation}
 	n(E_0) = 
 	\begin{cases}
-		& 0 & \text{ для } E_0 > E_{max} \\
-		& P_1 \eta (z) & \text{ для } E_0 = E_{max}
+		0 & \text{ для } E_0 > E_{max} \\
+		P_1 \eta (z) & \text{ для } E_0 = E_{max}
 	\end{cases}
 \end{equation}
 $E_{max}$ -- максимальная энергия Оже-электронов.
