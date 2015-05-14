@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Исходный файл src/parse.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">parse.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cstdio&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;physics.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;calculations.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> test_parse();</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#a9b586e88dc9aa13eaa8bbec91e34fcc5">load_subst</a>(<span class="keywordtype">int</span> Z, <span class="keyword">const</span> <span class="keywordtype">char</span>* ch, <a class="code" href="structsubst.html">subst_t</a> &amp;subs);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#a725806b06db2b374b32410dcc2e0b9ab">load_eave</a>(<span class="keywordtype">double</span> *eave, <span class="keywordtype">double</span> *E, <span class="keywordtype">int</span> N, <span class="keyword">const</span> <span class="keywordtype">char</span>* ch, <a class="code" href="structsubst.html">subst_t</a> s);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#a150100061392501f528fe49e46a1ebc9">load_ltr</a>(<span class="keywordtype">double</span> *ltr, <span class="keywordtype">double</span> *E, <span class="keywordtype">int</span> N, <span class="keyword">const</span> <span class="keywordtype">char</span>* ch, <a class="code" href="structsubst.html">subst_t</a> s);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#ac668992c483c270d279dee84b9004754">load_approx</a>(<span class="keywordtype">int</span> Z, <span class="keyword">const</span> <span class="keywordtype">char</span>* ch, <a class="code" href="structapprox.html">approx_t</a> &amp;app);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#aa7e324bc2fb62a627ad65113908a7ef2">le_approx</a>(<span class="keywordtype">double</span> *ltr, <span class="keywordtype">double</span> *<a class="code" href="physics_8cpp.html#a39965cb6ebe3ec08b8a09e31ad4f7c93">eps</a>, <span class="keywordtype">double</span> *E, <span class="keywordtype">int</span> N, <a class="code" href="structapprox.html">approx_t</a> ap, <a class="code" href="structsubst.html">subst_t</a> s);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#a782993875ae2e555bf3d142d9008542e">load_mc_inelastic</a>(<span class="keywordtype">double</span> *beta, <span class="keywordtype">double</span> *E, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> *inv_lambda_in, <span class="keyword">const</span> <span class="keywordtype">char</span>* ch, <a class="code" href="structsubst.html">subst_t</a> s);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> <a class="code" href="parse_8cpp.html#a82097571b1ae33acec990e3a5b1031c5">load_mc_elastic</a>(<span class="keywordtype">double</span> *alpha, <span class="keywordtype">double</span> *E, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> &amp;inv_lambda_el, <span class="keyword">const</span> <span class="keywordtype">char</span>* ch, <a class="code" href="structsubst.html">subst_t</a> s);</div>
+<div class="ttc" id="physics_8cpp_html_a39965cb6ebe3ec08b8a09e31ad4f7c93"><div class="ttname"><a href="physics_8cpp.html#a39965cb6ebe3ec08b8a09e31ad4f7c93">eps</a></div><div class="ttdeci">double eps(subst_t s, double E)</div><div class="ttdoc">Возвращает величину  в аналитическом методе </div><div class="ttdef"><b>Definition:</b> physics.cpp:51</div></div>
+<div class="ttc" id="structsubst_html"><div class="ttname"><a href="structsubst.html">subst</a></div><div class="ttdef"><b>Definition:</b> physics.h:10</div></div>
+<div class="ttc" id="parse_8cpp_html_a150100061392501f528fe49e46a1ebc9"><div class="ttname"><a href="parse_8cpp.html#a150100061392501f528fe49e46a1ebc9">load_ltr</a></div><div class="ttdeci">void load_ltr(double *ltr, double *E, int N, const char *ch, subst_t s)</div><div class="ttdoc">Находит в нужных точках  обратную транспортную длину для упругих столкновений, интерполируя табличные...</div><div class="ttdef"><b>Definition:</b> parse.cpp:102</div></div>
+<div class="ttc" id="parse_8cpp_html_a82097571b1ae33acec990e3a5b1031c5"><div class="ttname"><a href="parse_8cpp.html#a82097571b1ae33acec990e3a5b1031c5">load_mc_elastic</a></div><div class="ttdeci">void load_mc_elastic(double *alpha, double *E, int N, double &amp;inv_lambda_el, const char *ch, subst_t s)</div><div class="ttdoc">Функция используется в методе Монте-Карло, ищет параметры  и . </div><div class="ttdef"><b>Definition:</b> parse.cpp:354</div></div>
+<div class="ttc" id="parse_8cpp_html_a725806b06db2b374b32410dcc2e0b9ab"><div class="ttname"><a href="parse_8cpp.html#a725806b06db2b374b32410dcc2e0b9ab">load_eave</a></div><div class="ttdeci">void load_eave(double *eave, double *E, int N, const char *ch, subst_t s)</div><div class="ttdef"><b>Definition:</b> parse.cpp:164</div></div>
+<div class="ttc" id="structapprox_html"><div class="ttname"><a href="structapprox.html">approx</a></div><div class="ttdef"><b>Definition:</b> physics.h:33</div></div>
+<div class="ttc" id="parse_8cpp_html_a9b586e88dc9aa13eaa8bbec91e34fcc5"><div class="ttname"><a href="parse_8cpp.html#a9b586e88dc9aa13eaa8bbec91e34fcc5">load_subst</a></div><div class="ttdeci">void load_subst(int Z, const char *ch, subst_t &amp;subs)</div><div class="ttdoc">Загружает параметры вещества из файла вида: </div><div class="ttdef"><b>Definition:</b> parse.cpp:29</div></div>
+<div class="ttc" id="parse_8cpp_html_ac668992c483c270d279dee84b9004754"><div class="ttname"><a href="parse_8cpp.html#ac668992c483c270d279dee84b9004754">load_approx</a></div><div class="ttdeci">void load_approx(int Z, const char *ch, approx_t &amp;app)</div><div class="ttdoc">Читаем данные из файла для метода аппроксимации. </div><div class="ttdef"><b>Definition:</b> parse.cpp:224</div></div>
+<div class="ttc" id="parse_8cpp_html_a782993875ae2e555bf3d142d9008542e"><div class="ttname"><a href="parse_8cpp.html#a782993875ae2e555bf3d142d9008542e">load_mc_inelastic</a></div><div class="ttdeci">void load_mc_inelastic(double *beta, double *E, int N, double *inv_lambda_in, const char *ch, subst_t s)</div><div class="ttdoc">Функция используется в методе Монте-Карло, ищет параметры  и . </div><div class="ttdef"><b>Definition:</b> parse.cpp:433</div></div>
+<div class="ttc" id="parse_8cpp_html_aa7e324bc2fb62a627ad65113908a7ef2"><div class="ttname"><a href="parse_8cpp.html#aa7e324bc2fb62a627ad65113908a7ef2">le_approx</a></div><div class="ttdeci">void le_approx(double *ltr, double *eps, double *E, int N, approx_t ap, subst_t s)</div><div class="ttdoc">Аппроксимация  и  на промежутках . </div><div class="ttdef"><b>Definition:</b> parse.cpp:305</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>

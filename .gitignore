@@ -1,0 +1,24 @@
+#################
+# Object files and others
+*.o
+*.exe
+*.out
+*.log
+*.aux
+*.fdb_latexmk
+*.fls
+*.toc
+*.pdf
+*.synctex.gz(busy)
+*.synctex.gz
+*.txt
+*.gp
+*.d
+*.dat
+*.asv
+main
+[Oo]bj/
+doc/latex
+doc/html
+html/
+latex/

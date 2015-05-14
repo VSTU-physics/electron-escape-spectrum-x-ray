@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Исходный файл src/physics.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">physics.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define Ee 511003.4 // эВ</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define re 2.8179403267e-13 // cм</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define Na 6.0221413e23 // моль^-1</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define ALPHA 0.00729735256</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="structsubst.html">   10</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structsubst.html">subst</a></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structsubst.html#a3dbb0d5b7634f77ade9d80ccbb1a94f3">   12</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structsubst.html#a3dbb0d5b7634f77ade9d80ccbb1a94f3">Z</a>;          </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structsubst.html#a060b904246fdbda38621cb189d44a5db">   13</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structsubst.html#a060b904246fdbda38621cb189d44a5db">rho</a>;     </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structsubst.html#ad2af56760ab524f9fa7f8de1deca7d5d">   14</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structsubst.html#ad2af56760ab524f9fa7f8de1deca7d5d">M</a>;       </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structsubst.html#a6ba8dcd2063646cae8d237c8a1832b4b">   15</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structsubst.html#a6ba8dcd2063646cae8d237c8a1832b4b">U0</a>;      </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="structsubst.html#a3b9eb31ae7200b015f080bee67804de9">   16</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structsubst.html#a3b9eb31ae7200b015f080bee67804de9">N</a>;          </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structsubst.html#ae58d58a1ba5b5c761c2c14deeb012ffe">   17</a></span>&#160;    <span class="keywordtype">double</span> *<a class="code" href="structsubst.html#ae58d58a1ba5b5c761c2c14deeb012ffe">E</a>;      </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structsubst.html#ad8ee2dc6f88e3aa5775cede435620cd5">   18</a></span>&#160;    <span class="keywordtype">double</span> *<a class="code" href="structsubst.html#ad8ee2dc6f88e3aa5775cede435620cd5">P</a>;      </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="structsubst.html#ad9f58517d3a976f74d0a5e2a559c963e">   19</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structsubst.html#ad9f58517d3a976f74d0a5e2a559c963e">atom</a>[30];  </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structsubst.html#aabc90be08708aca99344aa3af2e0ce12">   20</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structsubst.html#aabc90be08708aca99344aa3af2e0ce12">shell</a>[30]; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;} <a class="code" href="structsubst.html">subst_t</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structapprox.html">   33</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structapprox.html">approx</a></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="structapprox.html#a7a07625c7f637ed77eeceef83bf5838a">   35</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structapprox.html#a7a07625c7f637ed77eeceef83bf5838a">N</a>;          </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structapprox.html#a71b8d4d5dba53eaf47c94cde7087f60a">   36</a></span>&#160;    <span class="keywordtype">double</span> *<a class="code" href="structapprox.html#a71b8d4d5dba53eaf47c94cde7087f60a">E</a>;      </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="structapprox.html#a034e6ff6ad00e9e55d9b661bf38e4d0e">   37</a></span>&#160;    <span class="keywordtype">double</span> *<a class="code" href="structapprox.html#a034e6ff6ad00e9e55d9b661bf38e4d0e">alpha_i</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structapprox.html#a2935abff899ee1d908dcb8885ac4b669">   38</a></span>&#160;    <span class="keywordtype">double</span> *<a class="code" href="structapprox.html#a2935abff899ee1d908dcb8885ac4b669">d1_i</a>;   </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="structapprox.html#a69c58e6ccdc34cb048d5c4f20b03a222">   39</a></span>&#160;    <span class="keywordtype">double</span> *<a class="code" href="structapprox.html#a69c58e6ccdc34cb048d5c4f20b03a222">R0_i</a>;   </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;} <a class="code" href="structapprox.html">approx_t</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="structparticle.html">   45</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structparticle.html">particle</a></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structparticle.html#adf124f2f4b2d0a90306893c2889fb1a6">   47</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structparticle.html#adf124f2f4b2d0a90306893c2889fb1a6">x</a>;       </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="structparticle.html#aafbd59d3b7e2d80b6c77a63be017a758">   48</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structparticle.html#aafbd59d3b7e2d80b6c77a63be017a758">y</a>;       </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="structparticle.html#ae1ba305626c47a5fcea844fb5a8ef870">   49</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structparticle.html#ae1ba305626c47a5fcea844fb5a8ef870">z</a>;       </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structparticle.html#a407a03ee46ba45246dedcf4280909ebe">   50</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structparticle.html#a407a03ee46ba45246dedcf4280909ebe">theta</a>;   </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="structparticle.html#ac4cfc2a718c7040d66a5c941c3f6d389">   51</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structparticle.html#ac4cfc2a718c7040d66a5c941c3f6d389">phi</a>;     </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structparticle.html#ae2c5eee37a8e02552bcb2760909d1646">   52</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="structparticle.html#ae2c5eee37a8e02552bcb2760909d1646">E</a>;       </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;} <a class="code" href="structparticle.html">particle_t</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#ac29a7a5c0ec4c02cba9844e9ccba5d56">l_tr</a>(<a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> E);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#a39965cb6ebe3ec08b8a09e31ad4f7c93">eps</a>(<a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> E);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#a8bfab7ad8be1df2752351aff7916d52c">I1</a>(<a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> E);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#a05b5364c08e01125369cde794e7ac8d4">I2</a>(<a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> E);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#a78e865ab8237a4d12b9c5204f97df28f">J</a>(<span class="keywordtype">int</span> Z);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#ad2b9b72cfeab025da76b25242368fb7b">crsec</a>(<span class="keywordtype">double</span> theta, <a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> E);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#a58567b5a528dc4ffaf72dc85071977bc">eta</a>(<a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> E);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">double</span> <a class="code" href="physics_8cpp.html#a917f3a2db515810d3184c0212cbdd1c5">auger_source</a>(<a class="code" href="structsubst.html">subst_t</a> s, <span class="keywordtype">double</span> rand);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="physics_8cpp.html#a24c9d32198c7f00b213ca6e4c3f32826">reflection</a>(<span class="keywordtype">double</span> E, <span class="keywordtype">double</span> theta, <span class="keywordtype">double</span> U0);</div>
+<div class="ttc" id="structsubst_html_ae58d58a1ba5b5c761c2c14deeb012ffe"><div class="ttname"><a href="structsubst.html#ae58d58a1ba5b5c761c2c14deeb012ffe">subst::E</a></div><div class="ttdeci">double * E</div><div class="ttdoc">Энергии различных электронов  . </div><div class="ttdef"><b>Definition:</b> physics.h:17</div></div>
+<div class="ttc" id="physics_8cpp_html_a39965cb6ebe3ec08b8a09e31ad4f7c93"><div class="ttname"><a href="physics_8cpp.html#a39965cb6ebe3ec08b8a09e31ad4f7c93">eps</a></div><div class="ttdeci">double eps(subst_t s, double E)</div><div class="ttdoc">Возвращает величину  в аналитическом методе </div><div class="ttdef"><b>Definition:</b> physics.cpp:51</div></div>
+<div class="ttc" id="structsubst_html"><div class="ttname"><a href="structsubst.html">subst</a></div><div class="ttdef"><b>Definition:</b> physics.h:10</div></div>
+<div class="ttc" id="structparticle_html_ae1ba305626c47a5fcea844fb5a8ef870"><div class="ttname"><a href="structparticle.html#ae1ba305626c47a5fcea844fb5a8ef870">particle::z</a></div><div class="ttdeci">double z</div><div class="ttdoc">Координата  . </div><div class="ttdef"><b>Definition:</b> physics.h:49</div></div>
+<div class="ttc" id="structsubst_html_a3b9eb31ae7200b015f080bee67804de9"><div class="ttname"><a href="structsubst.html#a3b9eb31ae7200b015f080bee67804de9">subst::N</a></div><div class="ttdeci">int N</div><div class="ttdoc">Число Оже электронов. </div><div class="ttdef"><b>Definition:</b> physics.h:16</div></div>
+<div class="ttc" id="structparticle_html_aafbd59d3b7e2d80b6c77a63be017a758"><div class="ttname"><a href="structparticle.html#aafbd59d3b7e2d80b6c77a63be017a758">particle::y</a></div><div class="ttdeci">double y</div><div class="ttdoc">Координата  . </div><div class="ttdef"><b>Definition:</b> physics.h:48</div></div>
+<div class="ttc" id="physics_8cpp_html_a8bfab7ad8be1df2752351aff7916d52c"><div class="ttname"><a href="physics_8cpp.html#a8bfab7ad8be1df2752351aff7916d52c">I1</a></div><div class="ttdeci">double I1(subst_t s, double E)</div><div class="ttdoc">Возвращает интеграл  в граничном условии: </div><div class="ttdef"><b>Definition:</b> physics.cpp:116</div></div>
+<div class="ttc" id="structapprox_html_a034e6ff6ad00e9e55d9b661bf38e4d0e"><div class="ttname"><a href="structapprox.html#a034e6ff6ad00e9e55d9b661bf38e4d0e">approx::alpha_i</a></div><div class="ttdeci">double * alpha_i</div><div class="ttdoc">Аппроксимирующий коэффициент . </div><div class="ttdef"><b>Definition:</b> physics.h:37</div></div>
+<div class="ttc" id="structapprox_html_a71b8d4d5dba53eaf47c94cde7087f60a"><div class="ttname"><a href="structapprox.html#a71b8d4d5dba53eaf47c94cde7087f60a">approx::E</a></div><div class="ttdeci">double * E</div><div class="ttdoc">Энергии, означающие границы промежутков . </div><div class="ttdef"><b>Definition:</b> physics.h:36</div></div>
+<div class="ttc" id="structapprox_html_a7a07625c7f637ed77eeceef83bf5838a"><div class="ttname"><a href="structapprox.html#a7a07625c7f637ed77eeceef83bf5838a">approx::N</a></div><div class="ttdeci">int N</div><div class="ttdoc">Число промежутков, на которых проводится аппроксимация </div><div class="ttdef"><b>Definition:</b> physics.h:35</div></div>
+<div class="ttc" id="physics_8cpp_html_a917f3a2db515810d3184c0212cbdd1c5"><div class="ttname"><a href="physics_8cpp.html#a917f3a2db515810d3184c0212cbdd1c5">auger_source</a></div><div class="ttdeci">double auger_source(subst_t s, double rand)</div><div class="ttdoc">Возвращает энергию рождённого в Оже-процессе электрона в методе Монте-Карло: </div><div class="ttdef"><b>Definition:</b> physics.cpp:173</div></div>
+<div class="ttc" id="physics_8cpp_html_ac29a7a5c0ec4c02cba9844e9ccba5d56"><div class="ttname"><a href="physics_8cpp.html#ac29a7a5c0ec4c02cba9844e9ccba5d56">l_tr</a></div><div class="ttdeci">double l_tr(subst_t s, double E)</div><div class="ttdoc">Возвращает величину транспортной длины  в аналитическом методе: </div><div class="ttdef"><b>Definition:</b> physics.cpp:95</div></div>
+<div class="ttc" id="structparticle_html"><div class="ttname"><a href="structparticle.html">particle</a></div><div class="ttdef"><b>Definition:</b> physics.h:45</div></div>
+<div class="ttc" id="physics_8cpp_html_a05b5364c08e01125369cde794e7ac8d4"><div class="ttname"><a href="physics_8cpp.html#a05b5364c08e01125369cde794e7ac8d4">I2</a></div><div class="ttdeci">double I2(subst_t s, double E)</div><div class="ttdoc">Возвращает интеграл  в граничном условии: </div><div class="ttdef"><b>Definition:</b> physics.cpp:138</div></div>
+<div class="ttc" id="structsubst_html_ad8ee2dc6f88e3aa5775cede435620cd5"><div class="ttname"><a href="structsubst.html#ad8ee2dc6f88e3aa5775cede435620cd5">subst::P</a></div><div class="ttdeci">double * P</div><div class="ttdoc">Вероятности появления электронов с энергиями . </div><div class="ttdef"><b>Definition:</b> physics.h:18</div></div>
+<div class="ttc" id="physics_8cpp_html_a58567b5a528dc4ffaf72dc85071977bc"><div class="ttname"><a href="physics_8cpp.html#a58567b5a528dc4ffaf72dc85071977bc">eta</a></div><div class="ttdeci">double eta(subst_t s, double E)</div><div class="ttdoc">Возвращает поправку  в аналитическом методе </div><div class="ttdef"><b>Definition:</b> physics.cpp:72</div></div>
+<div class="ttc" id="structsubst_html_a3dbb0d5b7634f77ade9d80ccbb1a94f3"><div class="ttname"><a href="structsubst.html#a3dbb0d5b7634f77ade9d80ccbb1a94f3">subst::Z</a></div><div class="ttdeci">int Z</div><div class="ttdoc">Заряд ядра атома вещества. </div><div class="ttdef"><b>Definition:</b> physics.h:12</div></div>
+<div class="ttc" id="physics_8cpp_html_ad2b9b72cfeab025da76b25242368fb7b"><div class="ttname"><a href="physics_8cpp.html#ad2b9b72cfeab025da76b25242368fb7b">crsec</a></div><div class="ttdeci">double crsec(double theta, subst_t s, double E)</div><div class="ttdoc">Возвращает дифференциальное сечение рассеяния в аналитическом методе: </div><div class="ttdef"><b>Definition:</b> physics.cpp:160</div></div>
+<div class="ttc" id="structapprox_html"><div class="ttname"><a href="structapprox.html">approx</a></div><div class="ttdef"><b>Definition:</b> physics.h:33</div></div>
+<div class="ttc" id="structsubst_html_ad9f58517d3a976f74d0a5e2a559c963e"><div class="ttname"><a href="structsubst.html#ad9f58517d3a976f74d0a5e2a559c963e">subst::atom</a></div><div class="ttdeci">char atom[30]</div><div class="ttdoc">Строка для обозначения атома. </div><div class="ttdef"><b>Definition:</b> physics.h:19</div></div>
+<div class="ttc" id="structparticle_html_ac4cfc2a718c7040d66a5c941c3f6d389"><div class="ttname"><a href="structparticle.html#ac4cfc2a718c7040d66a5c941c3f6d389">particle::phi</a></div><div class="ttdeci">double phi</div><div class="ttdoc">Угол между проекцией направления движения частицы на плоскость  и осью . </div><div class="ttdef"><b>Definition:</b> physics.h:51</div></div>
+<div class="ttc" id="structparticle_html_a407a03ee46ba45246dedcf4280909ebe"><div class="ttname"><a href="structparticle.html#a407a03ee46ba45246dedcf4280909ebe">particle::theta</a></div><div class="ttdeci">double theta</div><div class="ttdoc">Угол между направлением движения частицы и осью . </div><div class="ttdef"><b>Definition:</b> physics.h:50</div></div>
+<div class="ttc" id="structapprox_html_a2935abff899ee1d908dcb8885ac4b669"><div class="ttname"><a href="structapprox.html#a2935abff899ee1d908dcb8885ac4b669">approx::d1_i</a></div><div class="ttdeci">double * d1_i</div><div class="ttdoc">Аппроксимирующий коэффициент . </div><div class="ttdef"><b>Definition:</b> physics.h:38</div></div>
+<div class="ttc" id="structsubst_html_a6ba8dcd2063646cae8d237c8a1832b4b"><div class="ttname"><a href="structsubst.html#a6ba8dcd2063646cae8d237c8a1832b4b">subst::U0</a></div><div class="ttdeci">double U0</div><div class="ttdoc">Работа выхода электрона из вещества . </div><div class="ttdef"><b>Definition:</b> physics.h:15</div></div>
+<div class="ttc" id="structsubst_html_ad2af56760ab524f9fa7f8de1deca7d5d"><div class="ttname"><a href="structsubst.html#ad2af56760ab524f9fa7f8de1deca7d5d">subst::M</a></div><div class="ttdeci">double M</div><div class="ttdoc">Молярная масса вещества . </div><div class="ttdef"><b>Definition:</b> physics.h:14</div></div>
+<div class="ttc" id="structapprox_html_a69c58e6ccdc34cb048d5c4f20b03a222"><div class="ttname"><a href="structapprox.html#a69c58e6ccdc34cb048d5c4f20b03a222">approx::R0_i</a></div><div class="ttdeci">double * R0_i</div><div class="ttdoc">Аппроксимирующий коэффициент . </div><div class="ttdef"><b>Definition:</b> physics.h:39</div></div>
+<div class="ttc" id="structparticle_html_adf124f2f4b2d0a90306893c2889fb1a6"><div class="ttname"><a href="structparticle.html#adf124f2f4b2d0a90306893c2889fb1a6">particle::x</a></div><div class="ttdeci">double x</div><div class="ttdoc">Координата  . </div><div class="ttdef"><b>Definition:</b> physics.h:47</div></div>
+<div class="ttc" id="structparticle_html_ae2c5eee37a8e02552bcb2760909d1646"><div class="ttname"><a href="structparticle.html#ae2c5eee37a8e02552bcb2760909d1646">particle::E</a></div><div class="ttdeci">double E</div><div class="ttdoc">Энергия частицы </div><div class="ttdef"><b>Definition:</b> physics.h:52</div></div>
+<div class="ttc" id="structsubst_html_aabc90be08708aca99344aa3af2e0ce12"><div class="ttname"><a href="structsubst.html#aabc90be08708aca99344aa3af2e0ce12">subst::shell</a></div><div class="ttdeci">char shell[30]</div><div class="ttdoc">Строка для обозначения оболочек, с которых летят Оже-электроны. </div><div class="ttdef"><b>Definition:</b> physics.h:20</div></div>
+<div class="ttc" id="structsubst_html_a060b904246fdbda38621cb189d44a5db"><div class="ttname"><a href="structsubst.html#a060b904246fdbda38621cb189d44a5db">subst::rho</a></div><div class="ttdeci">double rho</div><div class="ttdoc">Плотность вещества . </div><div class="ttdef"><b>Definition:</b> physics.h:13</div></div>
+<div class="ttc" id="physics_8cpp_html_a78e865ab8237a4d12b9c5204f97df28f"><div class="ttname"><a href="physics_8cpp.html#a78e865ab8237a4d12b9c5204f97df28f">J</a></div><div class="ttdeci">double J(int Z)</div><div class="ttdoc">Возвращает средний ионизационный потенциал </div><div class="ttdef"><b>Definition:</b> physics.cpp:25</div></div>
+<div class="ttc" id="physics_8cpp_html_a24c9d32198c7f00b213ca6e4c3f32826"><div class="ttname"><a href="physics_8cpp.html#a24c9d32198c7f00b213ca6e4c3f32826">reflection</a></div><div class="ttdeci">bool reflection(double E, double theta, double U0)</div><div class="ttdoc">Вычисляет произошло или не произошло отражение в методе Монте-Карло: </div><div class="ttdef"><b>Definition:</b> physics.cpp:205</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>

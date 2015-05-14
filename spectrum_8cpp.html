@@ -1,0 +1,635 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Файл src/spectrum.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл spectrum.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &quot;physics.h&quot;</code><br />
+<code>#include &quot;calculations.h&quot;</code><br />
+<code>#include &quot;parse.h&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:af450b78eebe245ef94c19147b1b4a6eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#af450b78eebe245ef94c19147b1b4a6eb">check_data</a> (int Z, <a class="el" href="structsubst.html">subst_t</a> s)</td></tr>
+<tr class="memdesc:af450b78eebe245ef94c19147b1b4a6eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Выводит данные в консоль, проверяет, что всё загружено правильно.  <a href="#af450b78eebe245ef94c19147b1b4a6eb">Подробнее...</a><br /></td></tr>
+<tr class="separator:af450b78eebe245ef94c19147b1b4a6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a413c5c990f8479e06fe292dbe386ab4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#a413c5c990f8479e06fe292dbe386ab4d">solve</a> (<a class="el" href="structsubst.html">subst_t</a> s, int N, double *z, int M, double *E, double *ltrs, double *epss, double *I1s, double *I2s, double *fs)</td></tr>
+<tr class="memdesc:a413c5c990f8479e06fe292dbe386ab4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Решает задачу методом решения дифференциального уравнения на заданной сетке.  <a href="#a413c5c990f8479e06fe292dbe386ab4d">Подробнее...</a><br /></td></tr>
+<tr class="separator:a413c5c990f8479e06fe292dbe386ab4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee4c0410e30bcabecd2ed22adb671ced"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#aee4c0410e30bcabecd2ed22adb671ced">analytical</a> (int Z, int M, int N, double l, double Emin)</td></tr>
+<tr class="memdesc:aee4c0410e30bcabecd2ed22adb671ced"><td class="mdescLeft">&#160;</td><td class="mdescRight">Проводит расчёт коэффициентов аналитическим методом, решает уравнение и готовит данные для последующей обработки.  <a href="#aee4c0410e30bcabecd2ed22adb671ced">Подробнее...</a><br /></td></tr>
+<tr class="separator:aee4c0410e30bcabecd2ed22adb671ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a742041cc60685bfe8af215eeb4f6ef3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#a742041cc60685bfe8af215eeb4f6ef3a">table</a> (int Z, int M, int N, double l, double Emin)</td></tr>
+<tr class="memdesc:a742041cc60685bfe8af215eeb4f6ef3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Проводит расчёт коэффициентов с помощью данных из таблиц института Иоффе, решает уравнение и готовит данные для последующей обработки.  <a href="#a742041cc60685bfe8af215eeb4f6ef3a">Подробнее...</a><br /></td></tr>
+<tr class="separator:a742041cc60685bfe8af215eeb4f6ef3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8afe868ce6c78d8e82b61dc4c2e21eb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#a8afe868ce6c78d8e82b61dc4c2e21eb7">approximation</a> (int Z, int M, int N, double l, double Emin)</td></tr>
+<tr class="memdesc:a8afe868ce6c78d8e82b61dc4c2e21eb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Проводит расчёт коэффициентов с помощью аппроксимирующих формул для данных из таблиц института Иоффе, решает уравнение и готовит данные для последующей обработки.  <a href="#a8afe868ce6c78d8e82b61dc4c2e21eb7">Подробнее...</a><br /></td></tr>
+<tr class="separator:a8afe868ce6c78d8e82b61dc4c2e21eb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2283bdb81a16263cee30c616c4405633"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#a2283bdb81a16263cee30c616c4405633">quit_function</a> (int Z, int M, int N, double l, double Emin)</td></tr>
+<tr class="memdesc:a2283bdb81a16263cee30c616c4405633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Рассчитывает интегральную функцию выхода </p><p class="formulaDsp">
+\[ K(t) \]
+</p>
+<p>.  <a href="#a2283bdb81a16263cee30c616c4405633">Подробнее...</a><br /></td></tr>
+<tr class="separator:a2283bdb81a16263cee30c616c4405633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc1441a4fc4696456b571e22cb106433"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spectrum_8cpp.html#acc1441a4fc4696456b571e22cb106433">monte_carlo</a> (int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)</td></tr>
+<tr class="memdesc:acc1441a4fc4696456b571e22cb106433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Реализация метода Монте-Карло. Функция рассчитывает число частиц с энергией в данной ячейке сетки по энергиям, покинувшим образец и число частиц с данным пробегом, покинувшим образец.  <a href="#acc1441a4fc4696456b571e22cb106433">Подробнее...</a><br /></td></tr>
+<tr class="separator:acc1441a4fc4696456b571e22cb106433"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Содержит функции для поиска необходимых массивов для последующего построения графиков и обработки. </p>
+</div><h2 class="groupheader">Функции</h2>
+<a class="anchor" id="aee4c0410e30bcabecd2ed22adb671ced"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void analytical </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Emin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Проводит расчёт коэффициентов аналитическим методом, решает уравнение и готовит данные для последующей обработки. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Число узлов сетки по \( E \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число узлов сетки по \( z \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>Максимальная длина промежутка \( z_{max} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Emin</td><td>Минимальная энергия (ограничение требуется, так как коэффициенты ведут себя неадекватно при \( E \to 0 \)) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8afe868ce6c78d8e82b61dc4c2e21eb7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void approximation </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Emin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Проводит расчёт коэффициентов с помощью аппроксимирующих формул для данных из таблиц института Иоффе, решает уравнение и готовит данные для последующей обработки. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Число узлов сетки по \( E \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число узлов сетки по \( z \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>Максимальная длина промежутка \( z_{max} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Emin</td><td>Минимальная энергия </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="af450b78eebe245ef94c19147b1b4a6eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void check_data </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Выводит данные в консоль, проверяет, что всё загружено правильно. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Структура с данными по веществу </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="acc1441a4fc4696456b571e22cb106433"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void monte_carlo </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nparticles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ntimes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Emin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Smax</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lmax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Реализация метода Монте-Карло. Функция рассчитывает число частиц с энергией в данной ячейке сетки по энергиям, покинувшим образец и число частиц с данным пробегом, покинувшим образец. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nparticles</td><td>Число частиц </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ntimes</td><td>Число столкновений </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число узлов сетки по энергиям </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Emin</td><td>Минимальная энергия </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Smax</td><td>Максимальный пройденный путь до выхода из образца необходим для сетки по \( S \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lmax</td><td>Образец представляет собой куб со стороной \( l_{max} \)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Функция использует следующие результаты теории вероятностей. Пусть известна плотность распределения \( f(x) \), и мы можем получить величину \( y \) равномерно распределённую в промежутке \( [0, l] \). Если определить функцию \( G \), такую что: </p><p class="formulaDsp">
+\[ G : y \in [0, l] \rightarrow x \in [-\infty, \infty], \]
+</p>
+<p> то этой функцией будет: </p><p class="formulaDsp">
+\[ x = G(y) = F^{-1}(y), \]
+</p>
+<p> где \(F(x)\) - первообразная функции \(f(x)\), обладающая следующими свойствами: </p><p class="formulaDsp">
+\[ F(-\infty) = 0, \]
+</p>
+ <p class="formulaDsp">
+\[ F(\infty) = l. \]
+</p>
+<p> Очевидно, что \( F(x) = lP(x) \), где \( P(x) \) - функция распределения величины \( x \) </p><p class="formulaDsp">
+\[ P(x) = \int\limits_{-\infty}^x f(\xi) d\xi. \]
+</p>
+<p>Будем считать что электроны, появивишиеся в результате Оже-процессов, двигаются прямолинейно и равномерно до столкновения. В качестве длины пути такого электрона с энергией \( E \) будем использовать длину \( \lambda \): </p><p class="formulaDsp">
+\[ \lambda^{-1} = \lambda_{el}^{-1} + \lambda_{in}^{-1}. \]
+</p>
+<p> Также полагаем, что в результате упругих столкновений энергия электрона не меняется, но меняется направление движения, а в результате неупругих столкновений направление движения не меняется, но меняется энергия и эти процессы протекают независимо друг от друга. После упругого столкновения случайными величинами являются два угла: угол \( \theta&#39; \) между новым направлением движения и старым направлением движения и угол \( \varphi&#39; \) между проекцией нового направления движения на плоскость перпендикулярную старому направлению движения и проекцией оси \( x \) на эту же плоскость. Сечение упругого рассеяния зависит только от \( \theta&#39; \) и \( E \). Как следствие функция распределения угла \( \varphi&#39; \) равномерна на участке от \( 0 \) до \( 2\pi \). Функция распределения по \( \theta&#39; \): </p><p class="formulaDsp">
+\[ P(\theta&#39;, E) = \frac{\int\limits_0^{\theta&#39;} \sigma(\theta, E) d\theta} {\int\limits_0^{\pi} \sigma(\theta, E) d\theta}. \]
+</p>
+<p> Выражаем её приближённо: </p><p class="formulaDsp">
+\[ P(\theta&#39;, E) \approx \frac{2}{\pi} \arctan (\alpha(E) \theta&#39;). \]
+</p>
+<p> И для угла: </p><p class="formulaDsp">
+\[ \theta&#39; = \frac{1}{\alpha(E)} \tan \left( \frac{\pi X}{2} \right), \]
+</p>
+<p> здесь \( X \) - равномерно-распределённая величина на промежутке \( [0, 1] \). Функция распределения по энергиям неупругого рассеяния \( Q \): </p><p class="formulaDsp">
+\[ P(Q, E) = \frac{\int\limits_0^{Q} \frac{d\lambda^{-1}_{in}}{d Q} dQ} {\int\limits_0^{E/2} \frac{d\lambda^{-1}_{in}}{d Q} dQ} \approx \frac{2}{\pi} \arctan \left(\beta(E) \frac{Q}{E}\right). \]
+</p>
+<p> и </p><p class="formulaDsp">
+\[ Q = \frac{E}{\beta(E)} \tan \left( \frac{\pi X}{2} \right). \]
+</p>
+<p> Параметры \( \alpha(E) \) и \( \beta(E) \) находятся по данным из таблиц Иоффе. Требовалось также учесть отражение на границе. Для этого использовалась функция reflection. Существует ненулевая работа выхода из образца \( U_0 \). Если энергия частицы \( E \cos^2 \theta &lt; U_0 \), то частица образец не покинет, в противном случае, можно рассматривать отражение частицы, как отражение от барьера высотой \( U_0 \). В этом случае действуют вероятностные законы. Которые и используются в функции reflection. Осталось только привести формулы, по которым можно рассчитать новые углы \( \theta_n \) и \( \varphi_n \), по известным старым углам \( \theta \) и \( \varphi \) и новым углам относительно старых \( \theta&#39; \) и \( \varphi&#39; \): </p><p class="formulaDsp">
+\[ \tan \varphi_n = \frac{ \sin (\theta) \sin (\varphi) \cos (\theta&#39;) - \cos (\varphi) \sin (\theta&#39;) \cos (\varphi&#39;) + \cos(\theta) \sin(\varphi) \sin(\theta&#39;) \sin(\varphi&#39;) } { \sin(\theta) \cos(\varphi) \cos(\theta&#39;) + \sin(\varphi) \sin(\theta&#39;) \cos(\varphi&#39;) + \cos(\theta) \cos(\varphi) \sin(\theta&#39;) \sin(\varphi&#39;) } \]
+</p>
+ <p class="formulaDsp">
+\[ \cos \theta_n = \cos(\theta&#39;) \cos(\theta) - \sin(\theta&#39;) \sin(\theta) \sin(\varphi&#39;) \]
+</p>
+<p> В чём возможные ошибки метода?</p><ol type="1">
+<li>Неправильно выбрана аппроксимирующая функция для вероятностей (углы \( \theta \) лежат в промежутке от 0 до \( \pi \), а при данной аппроксимации от 0 до \( \infty \), анлогично и для энергий).</li>
+<li>Не учитывается форма распределений по пробегам (а логарифм (log(rand)), вообще говоря, использовать нельзя).</li>
+<li>Соотношения для отражений не проверялись, а взяты как есть из статьи. </li>
+</ol>
+
+</div>
+</div>
+<a class="anchor" id="a2283bdb81a16263cee30c616c4405633"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void quit_function </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Emin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Рассчитывает интегральную функцию выхода </p><p class="formulaDsp">
+\[ K(t) \]
+</p>
+<p>. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Число узлов сетки по \( E \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число узлов сетки по \( z \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>Максимальная длина промежутка \( z_{max} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Emin</td><td>Минимальная энергия </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a413c5c990f8479e06fe292dbe386ab4d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void solve </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>E</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>ltrs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>epss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>I1s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>I2s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>fs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Решает задачу методом решения дифференциального уравнения на заданной сетке. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Информация о веществе </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер сетки по координате \( z \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>Массив, содержащий сетку по \( z \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Размер сетки по энергии \( E \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">E</td><td>Сетка по \( E \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ltrs</td><td>Массив \( \lambda_{tr}(E) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">epss</td><td>Массив \( \bar{\varepsilon} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">I1s</td><td>Массив интегралов из граничных условий \( I_1(E) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">I2s</td><td>Массив интегралов из граничных условий \( I_2(E) \) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fs</td><td>Рассчитанный спектр \( f(E) \)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Решается дифференциальное уравнение следующего вида: </p><p class="formulaDsp">
+\[ \frac{\partial f}{\partial E} = - \frac{\lambda_{tr}(E)}{3\bar{\varepsilon}(E)} \frac{\partial^2 f}{\partial z^2} - \sum\limits_{i = 1}^N P_i \delta(E - E_i) \]
+</p>
+<p> При граничных условиях: </p><p class="formulaDsp">
+\begin{align*} &amp; \frac{I_1(E)}{2 - 3I_2(E)} f - \frac{\lambda_{tr}}{3} \frac{\partial f}{\partial z} \Bigg|_{z = 0} = 0 \\ &amp; f \Bigg|_{z = \infty} = 0 \end{align*}
+</p>
+<p> Так как численным методом без преобразований использовать бесконечность невозможно, схема решает уравнение от 0 до некоторого \( z_{max} \). Следует понимать, что выбор \( z_{max} \) один из самых трудных вопросов задачи. При большом \( z_{max} \) шаг сетки оказывается слишком большим, коэффициенты велики и метод даёт большую ошибку. При малом \( z_{max} \) мы не можем утверждать, что \( z_{max} \approx \infty \), то есть решается совершенно другая задача не эквивалентная первой. В этом состоит ограничение метода конечных разностей. \( z_{max} \) нужно выбирать таким, чтобы при его небольшом увеличении решение не меняло своего характера. В данной работе выбор \( z_{max} \) не проводился. Было выбрано значение, при котором результаты похожи на правду.</p>
+<p>Вторая проблема, которая возникла в ходе работы, - это использование \( \delta \)-функций. Сингулярности \( \delta \)-функций приводят к тому, что, заменяя \( \delta \)-функцию её приближённым значением, требования к сетке сильно возрастают, и с её уплотнением начинает расти решение \( f \). Чтобы избежать таких эффектов, использовался стандартный метод решения задач с \( \delta \)-функциями. Точное решение задачи без источников можно искать на участках \( (E_i, E_{i+1}) \). Источник в форме \( \delta \)-функции удет приводить к тому, что при пересечении \( E_i \) функция испытывает разрыв. Величина разрыва: </p><p class="formulaDsp">
+\begin{gather*} \lim\limits_{\eta \to 0} \Big[ f(E_i + \eta) - f(E_i - \eta) \Big] = \lim\limits_{\eta \to 0} \int\limits_{E_i - \eta}^{E_i + \eta} \Bigg[- \frac{\lambda_{tr}(E)}{3\bar{\varepsilon}(E)} \frac{\partial^2 f}{\partial z^2} - \sum\limits_{j = 1}^N P_j \delta(E - E_j) \Bigg] dE = \\ = - \frac{\lambda_{tr}(E_i)}{3\bar{\varepsilon}(E_i)} \frac{\partial^2 f(E_i, z)}{\partial z^2} \lim\limits_{\eta \to 0} 2\eta - P_i = - P_i \end{gather*}
+</p>
+<p> Массив энергий E[i] упорядочен по убыванию. Поэтому в точках разрыва </p><p class="formulaDsp">
+\[ \lim\limits_{\eta \to 0} \Big[ f(E_i - \eta) - f(E_i + \eta) \Big] = P_i \]
+</p>
+ <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;for (int k = 0; k &lt; s.N; k++)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;{</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    if (fabs(E[i] - s.E[k]) &lt; fabs(dE/2))</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;        for (int j = 0; j &lt; N; j++) u[j] += s.P[k];</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    }</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a742041cc60685bfe8af215eeb4f6ef3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void table </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>Emin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Проводит расчёт коэффициентов с помощью данных из таблиц института Иоффе, решает уравнение и готовит данные для последующей обработки. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Число узлов сетки по \( E \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число узлов сетки по \( z \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>Максимальная длина промежутка \( z_{max} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Emin</td><td>Минимальная энергия </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>

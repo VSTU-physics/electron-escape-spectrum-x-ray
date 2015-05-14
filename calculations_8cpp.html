@@ -1,0 +1,676 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Файл src/calculations.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл calculations.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &quot;calculations.h&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a89db6dfd6a627cd16c241854ce994547"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="calculations_8cpp.html#a89db6dfd6a627cd16c241854ce994547">spe</a> (double *f, double *f_prev, double *z, int N, double dt, double pt, double gt, double a_1t, double b_1t, double c_1t, double a_2t, double b_2t, double c_2t)</td></tr>
+<tr class="memdesc:a89db6dfd6a627cd16c241854ce994547"><td class="mdescLeft">&#160;</td><td class="mdescRight">spe решает уравнение: </p><p class="formulaDsp">
+\[ \frac{\partial f}{\partial t} = p(t) \frac{\partial^2 f}{\partial z^2} + g(t), \]
+</p>
+<p> при граничных условиях: </p><p class="formulaDsp">
+\[ a_1(t) f + b_1(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_1} = c_1(t), \]
+</p>
+ <p class="formulaDsp">
+\[ a_2(t) f + b_2(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = c_2(t), \]
+</p>
+<p> и произвольных начальных условиях неявным методом на одном шаге \([t, t+dt]\).  <a href="#a89db6dfd6a627cd16c241854ce994547">Подробнее...</a><br /></td></tr>
+<tr class="separator:a89db6dfd6a627cd16c241854ce994547"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a147c4ef66852d022124b97e1b3203b74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="calculations_8cpp.html#a147c4ef66852d022124b97e1b3203b74">cubic_spline</a> (double *x, double *y, int N, double *a, double *b, double *c, double *d)</td></tr>
+<tr class="memdesc:a147c4ef66852d022124b97e1b3203b74"><td class="mdescLeft">&#160;</td><td class="mdescRight">cubic_spline ищет коэффициенты сплайна: </p><p class="formulaDsp">
+\[ S_i(x) = a_i + b_i (x - x_i) + \frac{1}{2} c_i (x - x_i)^2 + \frac{1}{6} d_i (x - x_i)^3 \quad x\in[x_i, x_{i+1}]. \]
+</p>
+  <a href="#a147c4ef66852d022124b97e1b3203b74">Подробнее...</a><br /></td></tr>
+<tr class="separator:a147c4ef66852d022124b97e1b3203b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf57ee714f1a6ab4f9a30807f70f77c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="calculations_8cpp.html#abf57ee714f1a6ab4f9a30807f70f77c1">eval_cubic_spline</a> (double *xs, double *ys, int M, double *x, double *y, int N)</td></tr>
+<tr class="memdesc:abf57ee714f1a6ab4f9a30807f70f77c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">eval_cubic_spline ищет значения функции \(y(x&#39;_i)\), интерполированное кубическим сплайном, в промежуточных точках \( x&#39;_i \) основного массива \( x_i \).  <a href="#abf57ee714f1a6ab4f9a30807f70f77c1">Подробнее...</a><br /></td></tr>
+<tr class="separator:abf57ee714f1a6ab4f9a30807f70f77c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95579c9d9616b4993dc7af8dbd02c2d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="calculations_8cpp.html#ad95579c9d9616b4993dc7af8dbd02c2d">int_cubic_spline</a> (double la, double lb, double *x, double *y, int N)</td></tr>
+<tr class="memdesc:ad95579c9d9616b4993dc7af8dbd02c2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">int_cubic_spline ищет интеграл от \( l_a \) до \( l_b\) от функции \( f(x) \), заданной на промежутке таблицей значений \( (x_i, y_i) \), приближая её кубическими сплайнами.  <a href="#ad95579c9d9616b4993dc7af8dbd02c2d">Подробнее...</a><br /></td></tr>
+<tr class="separator:ad95579c9d9616b4993dc7af8dbd02c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5052a0ca9f8d8532089e06be6eff7f6e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="calculations_8cpp.html#a5052a0ca9f8d8532089e06be6eff7f6e">random</a> (double l)</td></tr>
+<tr class="memdesc:a5052a0ca9f8d8532089e06be6eff7f6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">random возвращает случайное число с равномерным распределением на полуинтервале \( (0, l] \).  <a href="#a5052a0ca9f8d8532089e06be6eff7f6e">Подробнее...</a><br /></td></tr>
+<tr class="separator:a5052a0ca9f8d8532089e06be6eff7f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce903bbe748ee6206c62c5d985e5863"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="calculations_8cpp.html#a6ce903bbe748ee6206c62c5d985e5863">linterp</a> (double x, double x1, double y1, double x2, double y2)</td></tr>
+<tr class="memdesc:a6ce903bbe748ee6206c62c5d985e5863"><td class="mdescLeft">&#160;</td><td class="mdescRight">linterp возвращает значение функции в случае линейной интерполяции.  <a href="#a6ce903bbe748ee6206c62c5d985e5863">Подробнее...</a><br /></td></tr>
+<tr class="separator:a6ce903bbe748ee6206c62c5d985e5863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Файл содержит вспомогательные математические функции. </p>
+</div><h2 class="groupheader">Функции</h2>
+<a class="anchor" id="a147c4ef66852d022124b97e1b3203b74"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cubic_spline </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>cubic_spline ищет коэффициенты сплайна: </p><p class="formulaDsp">
+\[ S_i(x) = a_i + b_i (x - x_i) + \frac{1}{2} c_i (x - x_i)^2 + \frac{1}{6} d_i (x - x_i)^3 \quad x\in[x_i, x_{i+1}]. \]
+</p>
+ </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>Точки \( x_i \), в которых нам известны значения функции \( y_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>Массив \( y_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер массивов </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">a</td><td>Массив коэффициентов \( a_i \) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">b</td><td>Массив коэффициентов \( b_i \) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">c</td><td>Массив коэффициентов \( c_i \) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">d</td><td>Массив коэффициентов \( d_i \)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Решение задачи сводится к решению системы линейных уравнений с трёхдиагональной матрицей относительно вектора \( c_i \). Код: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;double A[N-2], B[N-2], C[N-2], D[N-2];</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;double dx[N-1], dydx[N-1];</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;c[0] = 0;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;c[N-1] = 0;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;dx[0] = x[1] - x[0];</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;dydx[0] = (y[1] - y[0])/dx[0];</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;for (int i = 0; i&lt;(N-2); i++)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    dx[i+1] = x[i+2] - x[i+1];</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    dydx[i+1] = (y[i+2] - y[i+1])/dx[i+1];</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    A[i+1] = dx[i];</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    B[i] = 2*(dx[i] + dx[i+1]);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    C[i] = dx[i];</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    D[i] = 6*(dydx[i+1] - dydx[i]);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;for (int i = 1; i&lt;N-2; i++)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    B[i] -= A[i]/B[i-1]*C[i];</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    D[i] -= A[i]/B[i-1]*D[i-1];</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;c[N-2] = D[N-3]/B[N-3];</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;for (int i = N-4; i&gt;=0; i--)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    c[i+1] = (D[i] - C[i] * c[i+2])/B[i];</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+</div><!-- fragment --><p> Остальные значения коэффициентов могут быть найдены как линейные комбинации \( c_i \), что реализует следующий код: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;for (int i = 0; i&lt;N-1; i++)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;{</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    a[i] = y[i];</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    b[i] = dydx[i] - c[i]*dx[i]/3 - c[i+1]*dx[i]/6;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    d[i] = (c[i+1] - c[i])/dx[i];</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;}</div>
+</div><!-- fragment --><p> Обратите внимание 3 коэффициента остаются произвольными и их выбор связан с тем, как мы задаём приближение на концах. В данном случае они выбраны следующими: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;d[N-1] = 0;</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;b[N-1] = 0;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;a[N-1] = y[N-1];</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="abf57ee714f1a6ab4f9a30807f70f77c1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eval_cubic_spline </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>xs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>ys</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>eval_cubic_spline ищет значения функции \(y(x&#39;_i)\), интерполированное кубическим сплайном, в промежуточных точках \( x&#39;_i \) основного массива \( x_i \). </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">xs</td><td>Точки, в которых требуется найти значения функции \(y(x&#39;_i)\) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ys</td><td>Массив, искомых значений </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>Число элементов массивов xs, ys </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>Заданные точки \( x_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>Заданные точки \( y_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число элементов массивов \( x_i \), \( y_i \)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Сначала упорядочиваем массив элементов xs и находим коэффициенты сплайна </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;int *in = new int[M];</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;for (int i=0; i&lt;M; i++) in[i] = i;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;std::sort(in, in + M, [&amp;xs](int&amp; a, int&amp; b){return (xs[a] &lt; xs[b]);});</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;cubic_spline(x, y, N, a, b, c, d);</div>
+</div><!-- fragment --><p> Код: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;for (int i = 0; i&lt;M; i++)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;{</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    if (xs[in[i]]&lt;x[0])</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;        h = xs[in[i]] - x[0];</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        ys[in[i]] = a[0] + b[0]*h + c[0]*h*h/2 + d[0]*h*h*h/6;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    }</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    if (xs[in[i]]&gt;x[N-1])</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        h = xs[in[i]] - x[N-1];</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        ys[in[i]] = a[N-1] + b[N-1]*h + c[N-1]*h*h/2 + d[N-1]*h*h*h/6;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    }</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    if ((xs[in[i]]&gt;=x[0])&amp;&amp;(xs[in[i]]&lt;x[N-1]))</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        while (!((xs[in[i]]&lt;x[j+1])&amp;&amp;(xs[in[i]]&gt;=x[j]))&amp;&amp;(j&lt;N))</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            j++;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        }</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        h = xs[in[i]] - x[j];</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        ys[in[i]] = a[j] + b[j]*h + c[j]*h*h/2 + d[j]*h*h*h/6;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    if (xs[in[i]] == x[N-1])</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        ys[in[i]] = y[N-1];</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+</div><!-- fragment --><p> находит значения функции \( y(x&#39;_i) \). </p>
+
+</div>
+</div>
+<a class="anchor" id="ad95579c9d9616b4993dc7af8dbd02c2d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double int_cubic_spline </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>la</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>int_cubic_spline ищет интеграл от \( l_a \) до \( l_b\) от функции \( f(x) \), заданной на промежутке таблицей значений \( (x_i, y_i) \), приближая её кубическими сплайнами. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">la</td><td>Нижний предел интегрирования </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lb</td><td>Верхний предел интегрирования </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>Заданные точки \( x_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>Заданные точки \( y_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число элементов массивов \( x_i \), \( y_i \)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Проверяем, что промежуток интегрирования внутри промежутка, на котором задана функция: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;if ((la&gt;=x[0])&amp;&amp;(la&lt;=x[N-1])&amp;&amp;(lb&gt;=x[0])&amp;&amp;(lb&lt;=x[N-1]))</div>
+</div><!-- fragment --><p> Интегрируем: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;double a[N], b[N], c[N], d[N], h;</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cubic_spline(x, y, N, a, b, c, d);</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;double result = 0.;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;for (int j = 1; j&lt;N-1; j++)</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    if (la&lt;x[0])</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        h = x[0] - la;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        result+=a[0]*h + b[0]*h*h/2 + c[0]*h*h*h/6 + d[0]*h*h*h*h/24;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    }</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    if (lb&gt;x[N-1])</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        h = lb - x[N-1];</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        result+=a[N-1]*h + b[N-1]*h*h/2 + c[N-1]*h*h*h/6 + d[N-1]*h*h*h*h/24;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    if ((la&lt;=x[j])&amp;&amp;(lb&gt;=x[j+1]))</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        h = x[j+1] - x[j];</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    if ((la&gt;x[j])&amp;&amp;(la&lt;x[j+1]))</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        h = x[j+1] - la;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    if ((lb&gt;x[j])&amp;&amp;(lb&lt;x[j+1]))</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        h = lb - x[j];</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        result+=a[j]*h + b[j]*h*h/2 + c[j]*h*h*h/6 + d[j]*h*h*h*h/24;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a6ce903bbe748ee6206c62c5d985e5863"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double linterp </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>linterp возвращает значение функции в случае линейной интерполяции. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>точка в которой ищем значении функции </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x1</td><td>первая точка, в которой известно значение функции </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y1</td><td>значение функции в точке \( x_1 \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x2</td><td>вторая точка, в которой известно значение функции </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y2</td><td>значение функции в точке \( x_2 \) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5052a0ca9f8d8532089e06be6eff7f6e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double random </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>random возвращает случайное число с равномерным распределением на полуинтервале \( (0, l] \). </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>Длина промежутка</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>0 исключается. </p>
+
+</div>
+</div>
+<a class="anchor" id="a89db6dfd6a627cd16c241854ce994547"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void spe </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>f_prev</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a_1t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>b_1t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>c_1t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a_2t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>b_2t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>c_2t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>spe решает уравнение: </p><p class="formulaDsp">
+\[ \frac{\partial f}{\partial t} = p(t) \frac{\partial^2 f}{\partial z^2} + g(t), \]
+</p>
+<p> при граничных условиях: </p><p class="formulaDsp">
+\[ a_1(t) f + b_1(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_1} = c_1(t), \]
+</p>
+ <p class="formulaDsp">
+\[ a_2(t) f + b_2(t) \frac{\partial f}{\partial z} \Bigg|_{z = z_2} = c_2(t), \]
+</p>
+<p> и произвольных начальных условиях неявным методом на одном шаге \([t, t+dt]\). </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">f</td><td>Содержит новый результат решения уравнения на одном шаге </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f_prev</td><td>Содержит предыдущий результат решения уравнения на одном шаге </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>Массив узлов, над которыми решается уравнение </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Число узлов </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>Шаг по времени (энергии) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pt</td><td>Параметр \(p(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gt</td><td>Параметр \(g(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a_1t</td><td>Параметр \(a_1(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b_1t</td><td>Параметр \(b_1(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">c_1t</td><td>Параметр \(c_1(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a_2t</td><td>Параметр \(a_2(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b_2t</td><td>Параметр \(b_2(t)\) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">c_2t</td><td>Параметр \(c_2(t)\)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Код: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;A[0] = 0;</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;B[0] = a_1t - b_1t/(z[1] - z[0]);</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;C[0] = b_1t/(z[1] - z[0]);</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;D[0] = c_1t;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;for (int i = 1; i &lt; N - 1; i++)</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    double dz1, dz2, dza;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    dz1 = z[i] - z[i-1];</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    dz2 = z[i+1] - z[i];</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    dza = (dz1 + dz2)*0.5;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    A[i] = dt*pt/dz1/dza;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    B[i] = - 1 - 2*pt/dz1/dz2*dt;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    C[i] = dt*pt/dz2/dza;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    D[i] = - gt*dt - f_prev[i];</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;A[N-1] = - b_2t/(z[N-1] - z[N-2]);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;B[N-1] = a_2t + b_2t/(z[N-1] - z[N-2]);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;C[N-1] = 0;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;D[N-1] = c_2t;</div>
+</div><!-- fragment --><p> задаёт трёхдиагональную матрицу и правую часть уравнения. A, B, C &ndash; диагонали матрицы нижняя, собственно диагональ, верхняя. D &ndash; правая часть уравнения. Код: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;for (int i = 1; i&lt;N; i++)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;{</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    B[i] -= A[i]/B[i-1]*C[i-1];</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    D[i] -= A[i]/B[i-1]*D[i-1];</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;f[N-1] = D[N-1]/B[N-1];</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;for (int i = N-2; i&gt;=0; i--)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    //if (fabs(f_prev[i]) &gt; 0) printf(&quot;%e %e\n&quot;, f[i], f_prev[i]);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    f[i] = (D[i] - C[i] * f[i+1])/B[i];</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+</div><!-- fragment --><p> Реализует метод прогонки решения систем линейных уравнений с трёхдиагональными матрицами. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>

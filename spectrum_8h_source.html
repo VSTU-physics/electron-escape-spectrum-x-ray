@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Исходный файл src/spectrum.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">spectrum.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keywordtype">void</span> <a class="code" href="spectrum_8cpp.html#aee4c0410e30bcabecd2ed22adb671ced">analytical</a>(<span class="keywordtype">int</span> Z, <span class="keywordtype">int</span> M, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> l, <span class="keywordtype">double</span> Emin);</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keywordtype">void</span> <a class="code" href="spectrum_8cpp.html#a742041cc60685bfe8af215eeb4f6ef3a">table</a>(<span class="keywordtype">int</span> Z, <span class="keywordtype">int</span> M, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> l, <span class="keywordtype">double</span> Emin);</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keywordtype">void</span> <a class="code" href="spectrum_8cpp.html#a8afe868ce6c78d8e82b61dc4c2e21eb7">approximation</a>(<span class="keywordtype">int</span> Z, <span class="keywordtype">int</span> M, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> l, <span class="keywordtype">double</span> Emin);</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordtype">void</span> <a class="code" href="spectrum_8cpp.html#a2283bdb81a16263cee30c616c4405633">quit_function</a>(<span class="keywordtype">int</span> Z, <span class="keywordtype">int</span> M, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> l, <span class="keywordtype">double</span> Emin);</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keywordtype">void</span> <a class="code" href="spectrum_8cpp.html#acc1441a4fc4696456b571e22cb106433">monte_carlo</a>(<span class="keywordtype">int</span> Z, <span class="keywordtype">int</span> nparticles, <span class="keywordtype">int</span> ntimes, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> Emin = 5, <span class="keywordtype">double</span> Smax = 1, <span class="keywordtype">double</span> lmax = 1);</div>
+<div class="ttc" id="spectrum_8cpp_html_a8afe868ce6c78d8e82b61dc4c2e21eb7"><div class="ttname"><a href="spectrum_8cpp.html#a8afe868ce6c78d8e82b61dc4c2e21eb7">approximation</a></div><div class="ttdeci">void approximation(int Z, int M, int N, double l, double Emin)</div><div class="ttdoc">Проводит расчёт коэффициентов с помощью аппроксимирующих формул для данных из таблиц института Иоффе...</div><div class="ttdef"><b>Definition:</b> spectrum.cpp:358</div></div>
+<div class="ttc" id="spectrum_8cpp_html_aee4c0410e30bcabecd2ed22adb671ced"><div class="ttname"><a href="spectrum_8cpp.html#aee4c0410e30bcabecd2ed22adb671ced">analytical</a></div><div class="ttdeci">void analytical(int Z, int M, int N, double l, double Emin)</div><div class="ttdoc">Проводит расчёт коэффициентов аналитическим методом, решает уравнение и готовит данные для последующе...</div><div class="ttdef"><b>Definition:</b> spectrum.cpp:197</div></div>
+<div class="ttc" id="spectrum_8cpp_html_a742041cc60685bfe8af215eeb4f6ef3a"><div class="ttname"><a href="spectrum_8cpp.html#a742041cc60685bfe8af215eeb4f6ef3a">table</a></div><div class="ttdeci">void table(int Z, int M, int N, double l, double Emin)</div><div class="ttdoc">Проводит расчёт коэффициентов с помощью данных из таблиц института Иоффе, решает уравнение и готовит ...</div><div class="ttdef"><b>Definition:</b> spectrum.cpp:276</div></div>
+<div class="ttc" id="spectrum_8cpp_html_acc1441a4fc4696456b571e22cb106433"><div class="ttname"><a href="spectrum_8cpp.html#acc1441a4fc4696456b571e22cb106433">monte_carlo</a></div><div class="ttdeci">void monte_carlo(int Z, int nparticles, int ntimes, int N, double Emin, double Smax, double lmax)</div><div class="ttdoc">Реализация метода Монте-Карло. Функция рассчитывает число частиц с энергией в данной ячейке сетки по ...</div><div class="ttdef"><b>Definition:</b> spectrum.cpp:606</div></div>
+<div class="ttc" id="spectrum_8cpp_html_a2283bdb81a16263cee30c616c4405633"><div class="ttname"><a href="spectrum_8cpp.html#a2283bdb81a16263cee30c616c4405633">quit_function</a></div><div class="ttdeci">void quit_function(int Z, int M, int N, double l, double Emin)</div><div class="ttdoc">Рассчитывает интегральную функцию выхода . </div><div class="ttdef"><b>Definition:</b> spectrum.cpp:439</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>

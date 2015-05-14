@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Исходный файл src/calculations.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">calculations.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordtype">void</span> <a class="code" href="calculations_8cpp.html#a89db6dfd6a627cd16c241854ce994547">spe</a>(<span class="keywordtype">double</span> *f,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;         <span class="keywordtype">double</span> *f_prev,</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;         <span class="keywordtype">double</span> *z,</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;         <span class="keywordtype">int</span> N,</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;         <span class="keywordtype">double</span> dt,</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;         <span class="keywordtype">double</span> pt,</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;         <span class="keywordtype">double</span> gt,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;         <span class="keywordtype">double</span> a_1t,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;         <span class="keywordtype">double</span> b_1t,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;         <span class="keywordtype">double</span> c_1t,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;         <span class="keywordtype">double</span> a_2t,</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;         <span class="keywordtype">double</span> b_2t,</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;         <span class="keywordtype">double</span> c_2t);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">void</span> <a class="code" href="calculations_8cpp.html#abf57ee714f1a6ab4f9a30807f70f77c1">eval_cubic_spline</a>(<span class="keywordtype">double</span> *xs, <span class="keywordtype">double</span> *ys, <span class="keywordtype">int</span> M, <span class="keywordtype">double</span> *x, <span class="keywordtype">double</span> *y, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">double</span> <a class="code" href="calculations_8cpp.html#ad95579c9d9616b4993dc7af8dbd02c2d">int_cubic_spline</a>(<span class="keywordtype">double</span> la, <span class="keywordtype">double</span> lb, <span class="keywordtype">double</span> *x, <span class="keywordtype">double</span> *y, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">void</span> <a class="code" href="calculations_8cpp.html#a147c4ef66852d022124b97e1b3203b74">cubic_spline</a>(<span class="keywordtype">double</span> *x, <span class="keywordtype">double</span> *y, <span class="keywordtype">int</span> N, <span class="keywordtype">double</span> *a, <span class="keywordtype">double</span> *b, <span class="keywordtype">double</span> *c, <span class="keywordtype">double</span> *d);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">double</span> <a class="code" href="calculations_8cpp.html#a5052a0ca9f8d8532089e06be6eff7f6e">random</a>(<span class="keywordtype">double</span> l);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">double</span> <a class="code" href="calculations_8cpp.html#a6ce903bbe748ee6206c62c5d985e5863">linterp</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1, <span class="keywordtype">double</span> x2, <span class="keywordtype">double</span> y2);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">void</span> test_spe();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> test_spline();</div>
+<div class="ttc" id="calculations_8cpp_html_a5052a0ca9f8d8532089e06be6eff7f6e"><div class="ttname"><a href="calculations_8cpp.html#a5052a0ca9f8d8532089e06be6eff7f6e">random</a></div><div class="ttdeci">double random(double l)</div><div class="ttdoc">random возвращает случайное число с равномерным распределением на полуинтервале . ...</div><div class="ttdef"><b>Definition:</b> calculations.cpp:433</div></div>
+<div class="ttc" id="calculations_8cpp_html_a6ce903bbe748ee6206c62c5d985e5863"><div class="ttname"><a href="calculations_8cpp.html#a6ce903bbe748ee6206c62c5d985e5863">linterp</a></div><div class="ttdeci">double linterp(double x, double x1, double y1, double x2, double y2)</div><div class="ttdoc">linterp возвращает значение функции в случае линейной интерполяции. </div><div class="ttdef"><b>Definition:</b> calculations.cpp:449</div></div>
+<div class="ttc" id="calculations_8cpp_html_abf57ee714f1a6ab4f9a30807f70f77c1"><div class="ttname"><a href="calculations_8cpp.html#abf57ee714f1a6ab4f9a30807f70f77c1">eval_cubic_spline</a></div><div class="ttdeci">void eval_cubic_spline(double *xs, double *ys, int M, double *x, double *y, int N)</div><div class="ttdoc">eval_cubic_spline ищет значения функции , интерполированное кубическим сплайном, в промежуточных точк...</div><div class="ttdef"><b>Definition:</b> calculations.cpp:288</div></div>
+<div class="ttc" id="calculations_8cpp_html_a89db6dfd6a627cd16c241854ce994547"><div class="ttname"><a href="calculations_8cpp.html#a89db6dfd6a627cd16c241854ce994547">spe</a></div><div class="ttdeci">void spe(double *f, double *f_prev, double *z, int N, double dt, double pt, double gt, double a_1t, double b_1t, double c_1t, double a_2t, double b_2t, double c_2t)</div><div class="ttdoc">spe решает уравнение:  при граничных условиях:   и произвольных начальных условиях неявным методом на...</div><div class="ttdef"><b>Definition:</b> calculations.cpp:84</div></div>
+<div class="ttc" id="calculations_8cpp_html_a147c4ef66852d022124b97e1b3203b74"><div class="ttname"><a href="calculations_8cpp.html#a147c4ef66852d022124b97e1b3203b74">cubic_spline</a></div><div class="ttdeci">void cubic_spline(double *x, double *y, int N, double *a, double *b, double *c, double *d)</div><div class="ttdoc">cubic_spline ищет коэффициенты сплайна:  </div><div class="ttdef"><b>Definition:</b> calculations.cpp:195</div></div>
+<div class="ttc" id="calculations_8cpp_html_ad95579c9d9616b4993dc7af8dbd02c2d"><div class="ttname"><a href="calculations_8cpp.html#ad95579c9d9616b4993dc7af8dbd02c2d">int_cubic_spline</a></div><div class="ttdeci">double int_cubic_spline(double la, double lb, double *x, double *y, int N)</div><div class="ttdoc">int_cubic_spline ищет интеграл от  до  от функции , заданной на промежутке таблицей значений ...</div><div class="ttdef"><b>Definition:</b> calculations.cpp:381</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>

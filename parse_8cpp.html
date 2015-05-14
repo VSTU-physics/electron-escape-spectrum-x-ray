@@ -1,0 +1,572 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.9.1"/>
+<title>electron-escape-spectrum-x-ray: Файл src/parse.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+    TeX: { equationNumbers: { autoNumber: "AMS" } },
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">electron-escape-spectrum-x-ray
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.9.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл parse.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;parse.h&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a9b586e88dc9aa13eaa8bbec91e34fcc5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#a9b586e88dc9aa13eaa8bbec91e34fcc5">load_subst</a> (int Z, const char *ch, <a class="el" href="structsubst.html">subst_t</a> &amp;subs)</td></tr>
+<tr class="memdesc:a9b586e88dc9aa13eaa8bbec91e34fcc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Загружает параметры вещества из файла вида:  <a href="#a9b586e88dc9aa13eaa8bbec91e34fcc5">Подробнее...</a><br /></td></tr>
+<tr class="separator:a9b586e88dc9aa13eaa8bbec91e34fcc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a150100061392501f528fe49e46a1ebc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#a150100061392501f528fe49e46a1ebc9">load_ltr</a> (double *ltr, double *E, int N, const char *ch, <a class="el" href="structsubst.html">subst_t</a> s)</td></tr>
+<tr class="memdesc:a150100061392501f528fe49e46a1ebc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Находит в нужных точках \( E_i \) обратную транспортную длину для упругих столкновений, интерполируя табличные данные из файла вида:  <a href="#a150100061392501f528fe49e46a1ebc9">Подробнее...</a><br /></td></tr>
+<tr class="separator:a150100061392501f528fe49e46a1ebc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a725806b06db2b374b32410dcc2e0b9ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#a725806b06db2b374b32410dcc2e0b9ab">load_eave</a> (double *eave, double *E, int N, const char *ch, <a class="el" href="structsubst.html">subst_t</a> s)</td></tr>
+<tr class="separator:a725806b06db2b374b32410dcc2e0b9ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac668992c483c270d279dee84b9004754"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#ac668992c483c270d279dee84b9004754">load_approx</a> (int Z, const char *ch, <a class="el" href="structapprox.html">approx_t</a> &amp;app)</td></tr>
+<tr class="memdesc:ac668992c483c270d279dee84b9004754"><td class="mdescLeft">&#160;</td><td class="mdescRight">Читаем данные из файла для метода аппроксимации.  <a href="#ac668992c483c270d279dee84b9004754">Подробнее...</a><br /></td></tr>
+<tr class="separator:ac668992c483c270d279dee84b9004754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7e324bc2fb62a627ad65113908a7ef2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#aa7e324bc2fb62a627ad65113908a7ef2">le_approx</a> (double *ltr, double *<a class="el" href="physics_8cpp.html#a39965cb6ebe3ec08b8a09e31ad4f7c93">eps</a>, double *E, int N, <a class="el" href="structapprox.html">approx_t</a> ap, <a class="el" href="structsubst.html">subst_t</a> s)</td></tr>
+<tr class="memdesc:aa7e324bc2fb62a627ad65113908a7ef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Аппроксимация \( \lambda_{tr} \) и \( \bar{\varepsilon} \) на промежутках \( (E_{i+1}, E_i]\).  <a href="#aa7e324bc2fb62a627ad65113908a7ef2">Подробнее...</a><br /></td></tr>
+<tr class="separator:aa7e324bc2fb62a627ad65113908a7ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82097571b1ae33acec990e3a5b1031c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#a82097571b1ae33acec990e3a5b1031c5">load_mc_elastic</a> (double *alpha, double *E, int N, double &amp;inv_lambda_el, const char *ch, <a class="el" href="structsubst.html">subst_t</a> s)</td></tr>
+<tr class="memdesc:a82097571b1ae33acec990e3a5b1031c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция используется в методе Монте-Карло, ищет параметры \( \alpha(E_i) \) и \( \lambda^{-1}_{el} \).  <a href="#a82097571b1ae33acec990e3a5b1031c5">Подробнее...</a><br /></td></tr>
+<tr class="separator:a82097571b1ae33acec990e3a5b1031c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a782993875ae2e555bf3d142d9008542e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#a782993875ae2e555bf3d142d9008542e">load_mc_inelastic</a> (double *beta, double *E, int N, double *inv_lambda_in, const char *ch, <a class="el" href="structsubst.html">subst_t</a> s)</td></tr>
+<tr class="memdesc:a782993875ae2e555bf3d142d9008542e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция используется в методе Монте-Карло, ищет параметры \( \beta(E_i) \) и \( \lambda^{-1}_{in}(E_i) \).  <a href="#a782993875ae2e555bf3d142d9008542e">Подробнее...</a><br /></td></tr>
+<tr class="separator:a782993875ae2e555bf3d142d9008542e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Файл содержит функции для обработки файлов данных. </p>
+</div><h2 class="groupheader">Функции</h2>
+<a class="anchor" id="aa7e324bc2fb62a627ad65113908a7ef2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void le_approx </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>ltr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>eps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>E</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structapprox.html">approx_t</a>&#160;</td>
+          <td class="paramname"><em>ap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Аппроксимация \( \lambda_{tr} \) и \( \bar{\varepsilon} \) на промежутках \( (E_{i+1}, E_i]\). </p>
+<p>Аппроксимация на промежутке \( (E_{i+1}, E_i] \) проводится по законам: </p><p class="formulaDsp">
+\[ \bar{\varepsilon}(E&#39;) = \frac{E_i}{\alpha_i R_{0i}} \left( \frac{E&#39;}{E_i} \right)^{1 - \alpha_i} \]
+</p>
+ <p class="formulaDsp">
+\[ \lambda_{tr}(E&#39;) = \frac{R_{0i}}{d_{1i}} \left( \frac{E&#39;}{E_i} \right)^{\alpha_i} \]
+</p>
+ <dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ltr</td><td>Массив \( \lambda_{tr}(E&#39;_i) \) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">eps</td><td>Массив \( \bar{\varepsilon}(E&#39;_i) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">E</td><td>Массив \( E&#39;_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер массивов \( E&#39;_i \), \( \lambda_{tr}(E&#39;_i) \), \( \bar{\varepsilon}(E&#39;_i) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ap</td><td>Содержит параметры аппроксимации </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Содержит параметры вещества </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ac668992c483c270d279dee84b9004754"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_approx </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structapprox.html">approx_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>app</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Читаем данные из файла для метода аппроксимации. </p>
+<p>Файл имеет вид: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;#Z,N,E[],alphai[],d1i[],R0i[nm]</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;32 3 [7.90 6.83 1.16] [1.366 1.290 1.2541] [5.79 5.96 17.3] [726.1 606.1 37] Ge</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;14 3 [7.90 6.20 1.60] [1.652 1.6257 1.4236] [2.1972 2.1516 1.5023] [878.8 587.93 71.16] Si</div>
+</div><!-- fragment --><p> Первая строка не должна содержать пробелов. Вторая строка содержит последовательно данные по Оже электронам: номер элемента в периодической системе, число Оже-электронов, энергии Оже-электронов, коэффициенты для аппроксимации \( \bar{\varepsilon} \). </p><dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента в периодической системе </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>Имя файла </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">app</td><td>Структура, в которую считываем данные </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a725806b06db2b374b32410dcc2e0b9ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_eave </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>eave</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>E</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Находит массив значений потерь энергии на единице длины \( \bar{\varepsilon}(E_i) \), интерполируя их из файла.</p>
+<p>Файл имеет вид: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;E(eV)</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;Q(eV)</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;dlambda(Q)**(-1)/dQ(cm*eV)**(-1)</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;.5000E+01</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;.1000E-01 .1030E-01 ... .4630E+01</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;.1546E+04 .1693E+04 ... .0000E+00</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;.1000E+02</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;.1000E-01 .1030E-01 ... .9630E+01</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;.8384E+03 .9191E+03 ... .0000E+00</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;...</div>
+</div><!-- fragment --><p> Первый ряд представляет собой энергию. Второй ряд - потери энергии. Третий ряд плотность вероятности потери энергии на единице длины. </p><p class="formulaDsp">
+\[ \bar{\varepsilon} = \int\limits_0^{E/2} Q \frac{d \lambda^{-1}(Q)}{d Q}\, dQ \]
+</p>
+ <dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">eave</td><td>Искомый массив \( \bar{\varepsilon}(E_i) \) . </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">E</td><td>Энергии, в которых мы ищем \( \bar{\varepsilon} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер массива энергий. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>Имя файла (из директории запуска), из которого берём данные для обработки. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Структура, содержащая параметры вещества. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a150100061392501f528fe49e46a1ebc9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_ltr </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>ltr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>E</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Находит в нужных точках \( E_i \) обратную транспортную длину для упругих столкновений, интерполируя табличные данные из файла вида: </p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;33 theta-points</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;49 E-points</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;.1 .5 1.0 2.0 3.0 ... 180.0</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;E[eV],Differential_cross_section[cm**2/str],Total_cross_section[cm**2]</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;.3000E+05 .5231E-14 .4612E-14 .3225E-14 ... |.2074E-16</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;.2900E+05 .5210E-14 .4612E-14 .3255E-14 ... |.2130E-16</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;...</div>
+</div><!-- fragment --><p>В первой и второй строке должны присутствовать слова theta-points и E-points и после них не должно быть пробелов. В четвёртой строке также не должно быть пробелов. 33 в данном случае означает количество углов \( \theta_i \) {.1, .5, 1.0, 2.0, 3.0, ..., 180.0}. 49 означает размер массива энергий \( E_i \) {.3000E+05, .2900E+05, ...}. Полное сечение (|.2074E-16, |.2130E-16 и т. д.) не используется. </p><p class="formulaDsp">
+\[ \lambda^{-1}_{tr} = \frac{2 \pi N_a \rho}{M} \int\limits_0^\pi \sigma(\theta) (1 - \cos \theta) \sin \theta \, d\theta \]
+</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ltr</td><td>Искомый массив транспортной длины \( \lambda_{tr} (E_i) \) . </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">E</td><td>Энергии, в которых мы ищем \( \lambda_{tr} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер массива энергий. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>Имя файла (из директории запуска), из которого берём данные для обработки. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Структура, содержащая параметры вещества. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a82097571b1ae33acec990e3a5b1031c5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_mc_elastic </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>alpha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>E</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>inv_lambda_el</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Функция используется в методе Монте-Карло, ищет параметры \( \alpha(E_i) \) и \( \lambda^{-1}_{el} \). </p>
+<p>Так как массивы данных велики, хранить их в памяти, выполнять многомерную интерполяцию неудобно, поэтому использовалась аппроксимация вероятности упругого рассеяния в углы \( (0, \theta) \) выражением: </p><p class="formulaDsp">
+\[ P = 1/\Sigma\int\limits_0^\theta \sigma(\theta) d\theta \approx \frac{2}{\pi} \arctan (\alpha \theta) \]
+</p>
+<p> В этом случае задача свелась к поиску \( \alpha(E_i) \). Построив график по опытным данным, можно выбрать точку, для которой погрешности минимальны в широком диапазоне углов. Методом научного тыка было установлено, что эта точка приходится на \( P \approx 0.8 \). Таким образом, в функции проводится поиск полного сечения \( \Sigma(E_i) \) и частичных сечений \( \Sigma(E_i, \theta_k) \), по полному сечению определяется </p><p class="formulaDsp">
+\[ \lambda^{-1}_{el} = \frac{2 \pi \rho N_a \Sigma}{M} \]
+</p>
+<p> Затем для данного сечения проводится поиск \( \alpha(E_i) \).</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">alpha</td><td>Массив значений \( \alpha(E_i) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">E</td><td>Массив \( E_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер массивов </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">inv_lambda_el</td><td>\( \lambda^{-1}_{el} \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>Имя файла </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Информация о веществе </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a782993875ae2e555bf3d142d9008542e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_mc_inelastic </td>
+          <td>(</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>beta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>E</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>inv_lambda_in</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Функция используется в методе Монте-Карло, ищет параметры \( \beta(E_i) \) и \( \lambda^{-1}_{in}(E_i) \). </p>
+<p>Аппроксимация вероятности неупругого рассеяния в углы \( (0, \theta) \) выражением: </p><p class="formulaDsp">
+\[ P(E_i, Q) = \frac{\int\limits_0^{Q} \frac{d\lambda^{-1}_{in}}{d Q} dQ} {\int\limits_0^{E/2} \frac{d\lambda^{-1}_{in}}{d Q} dQ} \approx \frac{2}{\pi} \arctan \left(\beta \frac{Q}{E_i}\right) \]
+</p>
+<p> Задача сводится к поиску \( \beta(Q_j) \). Построив график по опытным данным, можно выбрать точку, для которой погрешности минимальны в широком диапазоне углов ( \( P \approx 0.8 \)).</p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">beta</td><td>Массив значений \( \beta(Q_i) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">E</td><td>Массив \( E_i \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>Размер массивов </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">inv_lambda_in</td><td>Массив \( \lambda^{-1}_{in}(E_i) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>Имя файла </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>Информация о веществе </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a9b586e88dc9aa13eaa8bbec91e34fcc5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_subst </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsubst.html">subst_t</a> &amp;&#160;</td>
+          <td class="paramname"><em>subs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Загружает параметры вещества из файла вида: </p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;#Z,label,M,rho,U0,N,energies,probabilities</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;14 Si 28.090 2.3210 18.470 3 [7.90 6.20 1.60] [0.08 0.92 0.88]</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;32 Ge 72.600 5.3500 12.500 3 [7.90 6.83 1.16] [0.12 0.88 0.86]</div>
+</div><!-- fragment --><dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">Z</td><td>Номер элемента в периодической системе. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>Имя файла из директории запуска. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">subs</td><td>Структура в которую записываем параметры вещества.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Первая строка файла пропускается </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;fscanf(fd, &quot;%s\n&quot;, chrm);</div>
+</div><!-- fragment --><p> В первой строке не должно быть пробелов! Остальные строки последовательно считываются в структуру subs, пока не будет найден нужный элемент. Если элемент не найден на стандартный поток ввода-вывода (консоль) подаётся сигнал, что элемент не найден. </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по electron-escape-spectrum-x-ray. Последние изменения: Чт 14 Май 2015 10:27:57. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.9.1
+</small></address>
+</body>
+</html>
