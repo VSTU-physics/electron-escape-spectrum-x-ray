@@ -16,3 +16,5 @@
 7. Запустить скомпилированные программы: `./analytics` или `./monte-carlo`
 
 Графики выводятся в окнах gnuplot.
+
+[Документация](http://vstu-physics.github.io/electron-escape-spectrum-x-ray)
