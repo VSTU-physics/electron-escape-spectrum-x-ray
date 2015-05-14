@@ -80,7 +80,7 @@
     \end{gathered}
     \f}
 
-    \b По неизвестной причине мы выкидываем \f$\vec{\Omega}\times(\vec{\Omega}\times\nabla)\f$. \b
+    <b> По неизвестной причине мы выкидываем \f$\vec{\Omega}\times(\vec{\Omega}\times\nabla)\f$. </b>
 
     Направление \f$\vec{\Omega}\f$ произвольно, поэтому из линейной независимости в \f$\eqref{eq:P1is}\f$ следует:
     \f{align}{
@@ -93,6 +93,179 @@
         \frac{\partial(\bar{\varepsilon}F_0)}{\partial E} + \sum_{i} P_i\delta(E - E_i) = -\frac{\lambda_{tr}}{3}\Delta F_0
     \f}
 
+    \section bound Граничные условия
+
+    Физический смысл \f$\vec{F}_1\f$ -- поток. В результате поток через границу в точке с нормалью \f$\vec{n}_\Gamma\f$ и коэффициентом пропускания \f$k_D\f$ будет равен:
+    \f{equation}{
+        \vec{n}_\Gamma \cdot \vec{F}_1 =
+        \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}) \vec{n}_\Gamma \cdot \vec{\Omega} F(\vec{r}, \vec{\Omega}, E) d\Omega = \frac{1}{4\pi} \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}, \vec{n}_\Gamma) \vec{n}_\Gamma \cdot \vec{\Omega} [F_0(\vec{r}, E) + 3\vec{\Omega}\cdot\vec{F}_1(\vec{r}, E)]d\Omega
+    \f}
+
+    \f$k_D\f$ зависит только от угла между векторами \f$\vec{\Omega}\f$, \f$\vec{n}_\Gamma\f$. Пусть этот угол -- \f$\theta\f$, тогда
+    \f{equation}{
+        k_D(\theta, E) =
+        \begin{cases}
+            0,  & \arcsin\sqrt{1 - U_0/E} \leq \theta \leq \pi/2; \\
+            1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 - U_0/(E  \cos^2 \theta)}}\Bigg)^2, & 0 \leq \theta < \arcsin\sqrt{1 - U_0/E}
+        \end{cases}
+    \f}
+
+    \f{equation}{
+    \begin{gathered}
+        \frac{1}{4\pi} \int\limits_{\vec{n}_\Gamma \cdot \vec{\Omega}>0} k_D(\vec{\Omega}, \vec{n}_\Gamma) \vec{n}_\Gamma \cdot \vec{\Omega} [F_0(\vec{r}, E) + 3\vec{\Omega}\cdot\vec{F}_1(\vec{r}, E)]d\Omega = \\
+        =
+        \frac{1}{4\pi}
+        \int\limits_{0}^{2\pi}
+        \int\limits_{0}^{\pi/2}
+         k_D(\theta, E) \cos \theta [F_0(\vec{r}, E) + 3(\cos \theta \vec{n}_\Gamma + \vec{\Omega}_\perp)\cdot \vec{F}_1(\vec{r}, E)]
+         \sin \theta d\theta d\phi = \\
+         =
+         [\text{интеграл по }\phi~=~2\pi] =
+         \frac{1}{2}
+         \int\limits_{0}^{\pi/2}
+         k_D(\theta, E) \cos \theta [F_0(\vec{r}, E) + 3 \cos \theta \vec{n}_\Gamma \cdot \vec{F}_1(\vec{r}, E)]
+         \sin \theta d\theta
+    \end{gathered}
+    \f}
+
+    Найдём интегралы:
+    \f{equation}{
+    \begin{gathered}
+        I_1 =
+        \int\limits_{0}^{\theta_{max}}
+        \left(1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 -
+        U_0/(E  \cos^2 \theta)}}\Bigg)^2\right) \cos \theta \sin \theta d\theta,\\
+        I_2 =
+        \int\limits_{0}^{\theta_{max}}
+        \left(1 - \Bigg(\cfrac{1 - \sqrt{1 - U_0/(E  \cos^2 \theta)}}{1 + \sqrt{1 -
+        U_0/(E  \cos^2 \theta)}}\Bigg)^2\right) \cos^2 \theta \sin \theta d\theta.
+    \end{gathered}
+    \f}
+
+    Произведём в них замену переменной \f$ x=\cos\theta \f$ и введём обозначение
+    \f$ \varepsilon = \sqrt{U_0/E} \f$:
+
+    \f{equation}{
+    \begin{gathered}
+        I_1 =
+        \int\limits_{\varepsilon}^{1}
+        \left(1 - \Bigg(\cfrac{1 - \sqrt{1 - \varepsilon^2/x^2}}{1 + \sqrt{1 -
+        \varepsilon^2 / x^2}}\Bigg)^2\right) x dx,\\
+        I_2 =
+        \int\limits_{\varepsilon}^{1}
+        \left(1 - \Bigg(\cfrac{1 - \sqrt{1 - \varepsilon^2/x^2}}{1 + \sqrt{1 -
+        \varepsilon^2 / x^2}}\Bigg)^2\right) x^2 dx.\\
+    \end{gathered}
+    \f}
+
+    Теперь упростим выражение в больших скобках:
+
+    \f{equation}{
+    \begin{gathered}
+        1 - \Bigg(\cfrac{1 - \sqrt{1 - \varepsilon^2/x^2}}{1 + \sqrt{1 - \varepsilon^2 /
+        x^2}}\Bigg)^2 =
+        \cfrac{4\sqrt{1 - \varepsilon^2 / x^2}}{(1 + \sqrt{1 - \varepsilon^2 / x^2})^2}=\\
+        =\cfrac{4\sqrt{1 - \varepsilon^2 / x^2}(1 - \sqrt{1 - \varepsilon^2 / x^2})^2}
+        {[1 - (1 - \varepsilon^2 / x^2)]^2}= \frac{4x\sqrt{x^2-\varepsilon^2}}{\varepsilon^4}
+        \left(x^2 - 2x\sqrt{x^2-\varepsilon^2} + x^2 - \varepsilon^2\right)=\\
+        =\frac{4x(2x^2-\varepsilon^2)\sqrt{x^2-\varepsilon^2}-8(x^4-\varepsilon^2x^2)}{\varepsilon^4}.
+    \end{gathered}
+    \f}
+
+    Подставим и проинтегрируем:
+
+    \f{equation}{
+    \begin{gathered}
+        I_1 = \frac{1}{\varepsilon^4}\int\limits_\varepsilon^1
+        [4x^2(2x^2-\varepsilon^2)\sqrt{x^2-\varepsilon^2}-8(x^5-\varepsilon^2x^3)]dx,\\
+        \int 4x^2(2x^2-\varepsilon^2)\sqrt{x^2-\varepsilon^2} dx =
+        2\int (2x^2-\varepsilon^2)\sqrt{x^4-\varepsilon^2x^2} d(x^2) =
+        2\int \sqrt{x^4-\varepsilon^2x^2} d(x^4-\varepsilon^2x^2) =\\=
+        \frac{4}{3}(x^4-\varepsilon^2x^2)^\frac{3}{2},\quad
+        \int 8(x^5-\varepsilon^2x^3)dx = \frac{4}{3}x^6 - 2\varepsilon^2x^4,\\
+        I_1 = \frac{4}{3\varepsilon^4}(1-\varepsilon^2)^\frac{3}{2} -
+        \frac{4}{3}\frac{1-\varepsilon^6}{\varepsilon^4} + 2\frac{1-\varepsilon^4}{\varepsilon^2}=
+        -\frac{4}{3\varepsilon^4}+\frac{2}{\varepsilon^2}-\frac{2\varepsilon^2}{3}+\frac{4(1-\varepsilon^2)^\frac{3}{2}}{3\varepsilon^4}.
+    \end{gathered}
+    \f}
+
+    \f{equation}{
+    \begin{gathered}
+        I_2 = \frac{1}{\varepsilon^4}\int\limits_\varepsilon^1
+        [4x^3(2x^2-\varepsilon^2)\sqrt{x^2-\varepsilon^2}-8(x^6-\varepsilon^2x^4)]dx,
+        \\
+        \int 4x^3(2x^2-\varepsilon^2)\sqrt{x^2-\varepsilon^2} dx =
+        2\int x(2x^2-\varepsilon^2)\sqrt{x^4-\varepsilon^2x^2} d(x^2) =
+        2\int x\sqrt{x^4-\varepsilon^2x^2} d(x^4-\varepsilon^2x^2) =\\=
+        \frac{4}{3}x(x^4-\varepsilon^2x^2)^\frac{3}{2}-\frac{2}{3}\int
+        x^2(x^2-\varepsilon^2)^\frac{3}{2} d(x^2-\varepsilon^2)=
+        \frac{4}{3}x^4(x^2-\varepsilon^2)^\frac{3}{2}-
+        \frac{2}{3}\frac{2}{7}(x^2-\varepsilon^2)^\frac{7}{2} -
+        \frac{2}{3}\frac{2}{5}(x^2-\varepsilon^2)^\frac{5}{2}\varepsilon^2,
+        \\
+        \int 8(x^6-\varepsilon^2x^4)dx = \frac{8}{7}x^7 - \frac{8}{5}\varepsilon^2x^5,
+        \\
+        I_2 = \frac{4}{3}\frac{(1-\varepsilon^2)^\frac{3}{2}}{\varepsilon^4}-
+        \frac{4}{21}\frac{(1-\varepsilon^2)^\frac{7}{2}}{\varepsilon^4} -
+        \frac{4}{15}\frac{(1-\varepsilon^2)^\frac{5}{2}}{\varepsilon^2} -
+        \frac{8(1-\varepsilon^7)}{7\varepsilon^4} +
+        \frac{8(1-\varepsilon^5)}{5\varepsilon^2}.
+    \end{gathered}
+    \f}
+
+    <b> Сравним с тем, что в программе Давидяна </b>
+    \f{gather*}{
+    I_1 =
+    \frac{1}{2} (\varepsilon + 1/\varepsilon) - 1 +
+    \frac{1}{4} (1 - 2/\varepsilon)\sqrt{1 - \varepsilon} -
+    \frac{\varepsilon}{8} \ln \frac{\varepsilon}{2 - \varepsilon + 2 \sqrt{1 - \varepsilon}}
+    \end{gather*}
+    \begin{gather*}
+    I_2 =
+    \frac{2}{3} (1 -\varepsilon^{3/2})
+    + \frac{2}{3} (1 -\varepsilon)^{3/2}
+    - \frac{2}{5 \varepsilon} (1 -\varepsilon^{5/2})
+    + \frac{2}{5 \varepsilon} (1 -\varepsilon)^{5/2}
+    \f}
+
+    Тогда граничное условие:
+    \f{equation}{
+        \vec{n}_\Gamma \cdot \vec{F}_1 \left(1 - \frac{3}{2} I_2 \right) = \frac{1}{2} I_1 F_0
+    \f}
+
+    В диффузионном приближении:
+    \f{equation}{
+        \frac{1}{2} \frac{I_1}{1 - 3 I_2/2} F_0 = -\frac{\lambda_{tr}}{3}
+        (\vec{n}_\Gamma \cdot \nabla) F_0
+    \f}
+
+    \section final Уравнения, с которыми работает программа
+
+    Уравнение записывается относительно плотности:
+    \f{equation}{
+        n = \bar{\varepsilon} F_0
+    \f}
+
+    Уравнение:
+    \f{equation}{
+        \frac{\partial n}{\partial E} = - \frac{\lambda_{tr}}{3\bar{\varepsilon}}\frac{\partial^2 n}{\partial z^2} - \sum_{i} P_i\delta(E - E_i).
+    \f}
+
+    Граничные:
+    \f{gather}{
+        \frac{1}{2} \frac{I_1}{1 - 3 I_2/2} n - \frac{\lambda_{tr}}{3} \frac{\partial n}{\partial z} \Bigg|_{z = 0} = 0 \\
+        n\Bigg|_{z = l} = 0
+    \f}
+
+    Начальные условия:
+    \f{equation}{
+        n(E_0) =
+        \begin{cases}
+            0 & \text{ для } E_0 > E_{max} \\
+            P_1 \eta (z) & \text{ для } E_0 = E_{max}
+        \end{cases}
+    \f}
+    \f$E_{max}\f$ -- максимальная энергия Оже-электронов.
 
     \section analitics Аналитический метод
 
