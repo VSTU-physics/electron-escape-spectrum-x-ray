@@ -22,7 +22,7 @@ int main()
     int M = 5000;
 
     int z;
-    bool A = false, P = false, T = false;
+    bool A = false, P = false, T = false, K = false;
     z = reader.GetInteger("analytical", "z", 0);
     if (z)
     {
@@ -50,6 +50,19 @@ int main()
         P = true;
     }
 
+    z = reader.GetInteger("quit", "z", 0);
+    if (z)
+    {
+        double l = reader.GetReal("quit", "l", 0.001);
+        double ecut = reader.GetReal("quit", "ecut", 400);
+        quit_function(z, M, N, l, ecut);
+        K = true;
+    }
+
     plot_analytics(A, P, T);
+
+    if (K)
+        plot_k();
+
     return 0;
 }

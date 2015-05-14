@@ -427,7 +427,7 @@ void approximation(int Z, int M, int N, double l, double Emin)
 }
 
 /*!
-    \brief Рассчитывает функцию выхода.
+    \brief Рассчитывает интегральную функцию выхода \f[ K(t) \f].
 
     \param[in] Z Номер элемента
     \param[in] M Число узлов сетки по \f$ E \f$
@@ -483,6 +483,7 @@ void quit_function(int Z, int M, int N, double l, double Emin)
     }
 
     FILE* fd = fopen("Kt.dat", "w");
+    fprintf(fd, "%f %f\n", .0, .0);
     for (int k = 0; k<L; k++)
         fprintf(fd, "%f %f\n", l*(k+1)/L, Kt[k] / Kt[L-1]);
     fclose(fd);
