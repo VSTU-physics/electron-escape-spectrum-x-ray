@@ -5,6 +5,10 @@
 спектр, решая уравнение в частных производных, а вторая -- используя метод
 Монте-Карло.
 
+
+Компиляция и запуск
+-------------------
+
 Для запуска программ необходимо сделать следующее:
 
 1. Установить git: `sudo apt-get install git`
@@ -17,4 +21,16 @@
 
 Графики выводятся в окнах gnuplot.
 
-[Документация](http://vstu-physics.github.io/electron-escape-spectrum-x-ray)
+
+
+Документация
+------------
+
+Документация доступна на [сайте](http://vstu-physics.github.io/electron-escape-spectrum-x-ray).
+
+Также документацию можно собрать самостоятельно в pdf при помощи doxygen и latex:
+
+1. Установить `doxygen`: `sudo apt-get install doxygen`
+2. Выполнить в корне репозитория `doxygen`
+3. Собрать документацию: `make -C doc/latex`
+4. `cp doc/latex/refman.pdf ./`
