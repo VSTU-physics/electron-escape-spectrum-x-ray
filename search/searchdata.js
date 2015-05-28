@@ -1,27 +1,24 @@
 var indexSectionsWithContent =
 {
-  0: "acdeijlmnpqrstuxyz",
-  1: "aps",
-  2: "cps",
-  3: "aceijlmpqrst",
-  4: "ademnprstuxyz"
+  0: "aceijlmpqrstÐ",
+  1: "cps",
+  2: "aceijlmpqrst",
+  3: "Ð"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "classes",
-  2: "files",
-  3: "functions",
-  4: "variables"
+  1: "files",
+  2: "functions",
+  3: "pages"
 };
 
 var indexSectionLabels =
 {
   0: "Указатель",
-  1: "Классы",
-  2: "Файлы",
-  3: "Функции",
-  4: "Переменные"
+  1: "Файлы",
+  2: "Функции",
+  3: "Страницы"
 };
 
